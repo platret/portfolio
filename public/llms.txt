@@ -1,0 +1,17 @@
+# Alex Platret
+
+> Junior Frontend Developer, 17, based in Zurich. Software developer apprentice studying at BZZ Horgen. Builds polished web and desktop apps with a focus on frontend craft, real engines, and honest engineering. Placed 4th in Zurich and 11th in Switzerland at the Regional ICT Championships 2026.
+
+## Projects
+
+- [ChipStack](https://platret.github.io/chipstack/): browser arcade with a guideline-grade Tetris engine (fixed 60Hz, SRS, 7-bag, DAS/ARR/SDF) and a play-money casino. React 19, TypeScript, Canvas 2D, no backend.
+- [KillerSudoku](https://github.com/platret/killer-sudoku): keyboard-first Killer Sudoku desktop app. Electron, React, TypeScript, better-sqlite3, solver-verified unique puzzles, 54 tests.
+- [Smartii](https://platret.github.io/Smartii/): browser AI assistant that screenshots the page and answers across 7 providers. No backend.
+- [Smartii for Mac](https://platret.github.io/Smartii-Mac/): native macOS menu-bar AI assistant in AppKit.
+- [sentiero-alpino](https://platret.github.io/sentiero-alpino/): vanilla-JS frontend on a live Swiss hiking REST API. Role-gated CRUD, trilingual, 30/30 tests.
+
+## Contact
+
+- Email: platret.alex@gmail.com
+- GitHub: https://github.com/platret
+- X: https://x.com/jacknos_
