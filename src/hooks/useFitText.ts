@@ -1,6 +1,6 @@
 import { useLayoutEffect, type RefObject } from 'react'
 
-export function useFitText(containerRef: RefObject<HTMLElement | null>, textRef: RefObject<HTMLElement | null>, max = 400) {
+export function useFitText(containerRef: RefObject<HTMLElement | null>, textRef: RefObject<HTMLElement | null>, content: string, max = 400) {
   useLayoutEffect(() => {
     const container = containerRef.current
     const text = textRef.current
@@ -20,5 +20,5 @@ export function useFitText(containerRef: RefObject<HTMLElement | null>, textRef:
     ro.observe(container)
     document.fonts.ready.then(fit)
     return () => ro.disconnect()
-  }, [containerRef, textRef, max])
+  }, [containerRef, textRef, content, max])
 }

@@ -7,7 +7,7 @@ import { useFitText } from '../hooks/useFitText'
 export function Footer() {
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLAnchorElement>(null)
-  useFitText(containerRef, textRef)
+  useFitText(containerRef, textRef, site.email)
 
   return (
     <footer className="relative overflow-hidden px-5 pb-6 pt-[18vh] md:px-12 md:pb-10 md:pt-[24vh]">
