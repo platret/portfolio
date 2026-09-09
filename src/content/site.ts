@@ -25,7 +25,7 @@ export const site = {
   role: 'Frontend developer',
   employer: 'Apprentice at UBS',
   location: 'Zurich, CH',
-  email: 'hey@alex.ch',
+  email: 'platret.alex@gmail.com',
   intro:
     'I build interfaces that feel considered: typography first, motion that earns its place, and code that stays readable a year later. Currently an apprentice at UBS in Zurich, shipping React and TypeScript by day and side projects by night.',
   projects: [
@@ -88,7 +88,7 @@ export const site = {
     { label: 'National finalist', value: 2027, note: 'ICT Skills' },
     { label: 'Languages', list: ['TypeScript', 'Java'] },
     { label: 'Tools', list: ['React', 'Spring Boot'] },
-    { label: 'Off hours', list: ['DJ'] },
+    { label: 'Off hours', list: ['Gym', 'Gaming', 'DJ'] },
   ] as Fact[],
   links: [
     { label: 'GitHub', href: GITHUB_URL },
