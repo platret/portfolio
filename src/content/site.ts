@@ -48,7 +48,7 @@ export const site = {
     { label: 'Off hours', list: ['DJ'] },
   ] as Fact[],
   links: [
-    { label: 'GitHub', href: 'https://github.com/platreta' },
+    { label: 'GitHub', href: 'https://github.com/ia24b-platreta' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
   ],
 }
