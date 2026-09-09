@@ -65,10 +65,3 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
-.strip-scroll {
-  scrollbar-width: none;
-}
-
-.strip-scroll::-webkit-scrollbar {
-  display: none;
-}

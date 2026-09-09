@@ -7,6 +7,19 @@ export type Project = {
   href?: string
 }
 
+export type NowItem = {
+  label: string
+  value: string
+  clock?: string
+}
+
+export type PathItem = {
+  year: string
+  title: string
+  detail: string
+  upcoming?: boolean
+}
+
 export type Fact = {
   label: string
   value?: number
@@ -71,14 +84,14 @@ export const site = {
       description: 'Traced and fixed a state-layer bug in the Cider Stream Deck plugin where album art painted onto a hidden button state.',
     },
   ] as Project[],
-  strip: [
-    { src: '/images/strip-1.png', alt: 'Halftone study' },
-    { src: '/images/strip-2.png', alt: 'Disc study' },
-    { src: '/images/strip-3.png', alt: 'Diagonal study' },
-    { src: '/images/strip-4.png', alt: 'Wave study' },
-    { src: '/images/strip-5.png', alt: 'Grid study' },
-    { src: '/images/strip-6.png', alt: 'Eclipse study' },
-  ],
+  portrait: { src: '/images/portrait.png', alt: 'Portrait of Alex' },
+  now: [
+    { label: 'Location', value: 'Zurich, CH', clock: 'Europe/Zurich' },
+    { label: 'Currently', value: 'Apprentice at UBS' },
+    { label: 'Building', value: 'Listen Together' },
+    { label: 'Next', value: 'ICT Skills national final, 2027' },
+    { label: 'Off hours', value: 'Gym, gaming, DJ sets' },
+  ] as NowItem[],
   about: {
     heading: ['Frontend,', 'mostly.'],
     text: 'Apprentice at UBS in Zurich. I care about the last ten percent: the easing curve, the letter-spacing, the empty state nobody tests. Off hours I play records.',
@@ -90,6 +103,20 @@ export const site = {
     { label: 'Tools', list: ['React', 'Spring Boot'] },
     { label: 'Off hours', list: ['Gym', 'Gaming', 'DJ'] },
   ] as Fact[],
+  path: [
+    { year: '2025', title: 'SentieroAlpino, ConcertAPI', detail: 'Two backend projects shipped. Hiking route API, then a Spring Boot concert service with JWT auth.' },
+    { year: '2026', title: 'ICT Skills Battle, winner', detail: 'First place. Killer Sudoku desktop app built under time pressure.' },
+    { year: '2026', title: 'Listen Together', detail: 'Cider plugin syncing Apple Music playback across listeners. Plus a multi-agent build pipeline on Claude Code.' },
+    { year: '2027', title: 'National final', detail: 'ICT Skills national finalist. Up next.', upcoming: true },
+  ] as PathItem[],
+  sections: [
+    { id: 'intro', label: 'Intro' },
+    { id: 'work', label: 'Work' },
+    { id: 'now', label: 'Now' },
+    { id: 'about', label: 'About' },
+    { id: 'path', label: 'Path' },
+    { id: 'contact', label: 'Contact' },
+  ],
   links: [
     { label: 'GitHub', href: GITHUB_URL },
     { label: 'LinkedIn', href: LINKEDIN_URL },

@@ -14,6 +14,8 @@ export const fragment = `
 precision highp float;
 uniform sampler2D tMap;
 uniform float uVelocity;
+uniform float uHover;
+uniform vec2 uMouse;
 uniform float uPlaneAspect;
 uniform float uImageAspect;
 varying vec2 vUv;
@@ -29,18 +31,18 @@ vec2 cover(vec2 uv) {
 }
 
 void main() {
-  vec2 uv = cover(vUv);
-  float v = uVelocity;
-  float split = v * 0.035;
-  float smear = abs(v) * 0.12;
+  vec2 d = vUv - uMouse;
+  vec2 da = vec2(d.x * uPlaneAspect, d.y);
+  float r = length(da);
+  float bulge = uHover * 0.14 * exp(-r * r * 10.0);
+  vec2 warped = vUv - d * bulge;
+  vec2 smear = vec2(0.0, uVelocity * 0.05);
   vec3 col = vec3(0.0);
-  for (int i = 0; i < 16; i++) {
-    float t = (float(i) / 15.0 - 0.5) * smear;
-    col.r += texture2D(tMap, uv + vec2(t + split, 0.0)).r;
-    col.g += texture2D(tMap, uv + vec2(t, 0.0)).g;
-    col.b += texture2D(tMap, uv + vec2(t - split, 0.0)).b;
+  for (int i = 0; i < 10; i++) {
+    float t = float(i) / 9.0 - 0.5;
+    col += texture2D(tMap, cover(warped + smear * t)).rgb;
   }
-  col /= 16.0;
+  col /= 10.0;
   gl_FragColor = vec4(col, 1.0);
 }
 `

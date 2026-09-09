@@ -10,9 +10,9 @@ export function Footer() {
   useFitText(containerRef, textRef, site.email)
 
   return (
-    <footer className="relative overflow-hidden px-5 pb-6 pt-[18vh] md:px-12 md:pb-10 md:pt-[24vh]">
+    <footer id="contact" className="relative overflow-hidden px-5 pb-6 pt-[18vh] md:px-12 md:pb-10 md:pt-[24vh]">
       <div className="mb-10 flex items-end justify-between text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-14 md:text-xs">
-        <span>05 / Contact</span>
+        <span>06 / Contact</span>
         <span>Say hi</span>
       </div>
 

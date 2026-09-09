@@ -39,7 +39,7 @@ export function Intro() {
   }, [reduced])
 
   return (
-    <section className="relative px-5 py-[22vh] md:px-12 md:py-[28vh]">
+    <section id="intro" className="relative px-5 py-[22vh] md:px-12 md:py-[28vh]">
       <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:absolute md:left-12 md:top-[28vh] md:mb-0 md:text-xs">
         01 / Intro
       </p>

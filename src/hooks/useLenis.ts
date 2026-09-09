@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import { gsap, ScrollTrigger } from '../lib/gsap'
+import { scroll } from '../lib/scroll'
 
 export function useLenis(enabled: boolean) {
   useEffect(() => {
@@ -8,6 +9,7 @@ export function useLenis(enabled: boolean) {
 
     const lenis = new Lenis({ lerp: 0.08, smoothWheel: true })
     lenis.on('scroll', ScrollTrigger.update)
+    scroll.lenis = lenis
 
     const tick = (time: number) => lenis.raf(time * 1000)
     gsap.ticker.add(tick)
@@ -18,6 +20,7 @@ export function useLenis(enabled: boolean) {
     return () => {
       gsap.ticker.remove(tick)
       lenis.destroy()
+      scroll.lenis = null
     }
   }, [enabled])
 }
