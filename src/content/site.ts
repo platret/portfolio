@@ -3,6 +3,7 @@ export type Project = {
   year: string
   stack: string
   image: string
+  description?: string
   href?: string
 }
 
@@ -12,6 +13,11 @@ export type Fact = {
   note?: string
   list?: string[]
 }
+
+export const GITHUB_URL = 'https://github.com/platret'
+export const LINKEDIN_URL = 'TODO'
+
+const repo = (slug: string) => `${GITHUB_URL}/${slug}`
 
 export const site = {
   name: 'Alex',
@@ -24,9 +30,46 @@ export const site = {
     'I build interfaces that feel considered: typography first, motion that earns its place, and code that stays readable a year later. Currently an apprentice at UBS in Zurich, shipping React and TypeScript by day and side projects by night.',
   projects: [
     { title: 'Listen Together', year: '2026', stack: 'Cider plugin · Apple Music sync engine', image: '/images/preview-1.png' },
-    { title: 'SentieroAlpino', year: '2025', stack: 'Hiking route API', image: '/images/preview-2.png' },
+    { title: 'SentieroAlpino', year: '2025', stack: 'Hiking route API', image: '/images/preview-2.png', href: repo('sentiero-alpino') },
     { title: 'ConcertAPI', year: '2025', stack: 'Spring Boot · JWT', image: '/images/preview-3.png' },
     { title: 'Multi-agent build pipeline', year: '2026', stack: 'Claude Code orchestration', image: '/images/preview-4.png' },
+  ] as Project[],
+  moreProjects: [
+    {
+      title: 'AthliTrack',
+      year: '2025',
+      stack: 'React · TypeScript',
+      image: '/images/preview-5.png',
+      description: 'Workout and progression tracker. Session logging, volume tracking and personal record detection.',
+    },
+    {
+      title: 'SwissFlow AI',
+      year: '2026',
+      stack: 'Concept · Automation',
+      image: '/images/preview-6.png',
+      description: 'Automation agency concept for Swiss SMBs. Scoped, priced and pitched. Shelved before launch, kept here because the research was the point.',
+    },
+    {
+      title: 'LottoAPI',
+      year: '2026',
+      stack: 'Java · Spring Boot · Jersey',
+      image: '/images/preview-7.png',
+      description: 'Stateless JAX-RS lottery service. Tip submission, draw generation and hit evaluation, no persistence layer.',
+    },
+    {
+      title: 'MVC Converter',
+      year: '2026',
+      stack: 'Java · Servlets · JSP · JUnit',
+      image: '/images/preview-8.png',
+      description: 'Classic MVC web app doing decimal to binary conversion. Client and server side validation, logic covered by unit tests.',
+    },
+    {
+      title: 'CiderDeck Fix',
+      year: '2026',
+      stack: 'JavaScript · Stream Deck SDK',
+      image: '/images/preview-9.png',
+      description: 'Traced and fixed a state-layer bug in the Cider Stream Deck plugin where album art painted onto a hidden button state.',
+    },
   ] as Project[],
   strip: [
     { src: '/images/strip-1.png', alt: 'Halftone study' },
@@ -48,7 +91,7 @@ export const site = {
     { label: 'Off hours', list: ['DJ'] },
   ] as Fact[],
   links: [
-    { label: 'GitHub', href: 'https://github.com/ia24b-platreta' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
+    { label: 'GitHub', href: GITHUB_URL },
+    { label: 'LinkedIn', href: LINKEDIN_URL },
   ],
 }

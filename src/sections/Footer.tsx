@@ -38,9 +38,13 @@ export function Footer() {
         <ul className="flex gap-6">
           {site.links.map((link) => (
             <li key={link.label}>
-              <a href={link.href} target="_blank" rel="noreferrer" className="transition-colors duration-[600ms] ease-out-expo hover:text-accent">
-                {link.label}
-              </a>
+              {link.href.startsWith('http') ? (
+                <a href={link.href} target="_blank" rel="noreferrer" className="transition-colors duration-[600ms] ease-out-expo hover:text-accent">
+                  {link.label}
+                </a>
+              ) : (
+                <span className="text-paper/40">{link.label}</span>
+              )}
             </li>
           ))}
         </ul>
