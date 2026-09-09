@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Departure Mono";
+  src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-paper: #f2f0eb;
+  --color-accent: #ff4a17;
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-mono: "Departure Mono", ui-monospace, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  color-scheme: dark;
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html, a, button {
+    cursor: none;
+  }
+}
+
+.font-display {
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+}
+
+.hairline {
+  border-color: color-mix(in srgb, var(--color-paper) 18%, transparent);
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.strip-scroll {
+  scrollbar-width: none;
+}
+
+.strip-scroll::-webkit-scrollbar {
+  display: none;
+}
