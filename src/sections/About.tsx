@@ -26,7 +26,7 @@ export function About() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="relative grid grid-cols-1 gap-x-8 px-5 py-[18vh] md:grid-cols-12 md:px-12 md:py-[24vh]">
+    <section id="about" className="relative grid grid-cols-1 gap-x-8 px-5 py-16 md:grid-cols-12 md:px-12 md:py-[24vh]">
       <div className="md:col-span-5">
         <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:text-xs">04 / About</p>
         <MaskedLines

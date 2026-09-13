@@ -8,7 +8,7 @@ export function Hero() {
   const reduced = useReducedMotion()
 
   return (
-    <section className="relative h-[100svh] min-h-[540px] overflow-hidden">
+    <section className="relative h-[60svh] min-h-[400px] max-h-[480px] overflow-hidden md:h-[100svh] md:min-h-[540px] md:max-h-none">
       <div className="absolute right-5 top-5 text-right md:right-12 md:top-8">
         <MaskedLines
           as="p"
@@ -29,14 +29,14 @@ export function Hero() {
 
       <motion.div
         aria-hidden="true"
-        className="absolute left-0 right-0 top-[56%] h-px origin-left bg-paper/30"
+        className="absolute left-0 right-0 top-[34%] md:top-[56%] h-px origin-left bg-paper/30"
         initial={reduced ? { opacity: 0 } : { scaleX: 0 }}
         animate={reduced ? { opacity: 1 } : { scaleX: 1 }}
         transition={{ duration: DUR.slow, ease: EASE_OUT, delay: 0.5 }}
       />
 
       <motion.p
-        className="absolute left-5 top-[56%] mt-4 max-w-[26ch] text-[0.7rem] leading-[1.7] text-paper/60 md:left-12 md:text-xs"
+        className="absolute left-5 top-[34%] md:top-[56%] mt-4 max-w-[26ch] text-[0.7rem] leading-[1.7] text-paper/60 md:left-12 md:text-xs"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: DUR.base, ease: EASE_OUT, delay: 1.5 }}
@@ -47,7 +47,7 @@ export function Hero() {
       <MaskedLines
         as="h1"
         lines={site.nameLines}
-        className="absolute bottom-0 left-[-0.045em] font-display text-[28vw] leading-[0.78] md:text-[clamp(15vw,18vw,20vw)] tracking-[-0.03em] text-paper"
+        className="absolute bottom-0 left-[-0.045em] font-display text-[62vw] leading-[0.78] md:text-[clamp(15vw,18vw,20vw)] tracking-[-0.03em] text-paper"
         delay={0.2}
       />
     </section>

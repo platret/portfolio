@@ -10,7 +10,7 @@ export function WorkList() {
   const touch = useIsTouch()
 
   return (
-    <section id="work" className="relative px-5 pb-[18vh] md:px-12" onPointerLeave={() => setHovered(null)}>
+    <section id="work" className="relative px-5 pb-16 md:px-12 md:pb-[18vh]" onPointerLeave={() => setHovered(null)}>
       <div className="mb-10 flex items-end justify-between text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-16 md:text-xs">
         <span>02 / Selected work</span>
         <span>2025 — 2026</span>

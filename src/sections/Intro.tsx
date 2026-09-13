@@ -2,15 +2,17 @@ import { useEffect, useMemo, useRef } from 'react'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 import { site } from '../content/site'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { useIsTouch } from '../hooks/useIsTouch'
 
 export function Intro() {
   const ref = useRef<HTMLParagraphElement>(null)
   const reduced = useReducedMotion()
+  const touch = useIsTouch()
   const words = useMemo(() => site.intro.split(' '), [])
 
   useEffect(() => {
     const el = ref.current
-    if (!el || reduced) return
+    if (!el || reduced || touch) return
 
     const spans = el.querySelectorAll<HTMLSpanElement>('[data-word]')
     const ctx = gsap.context(() => {
@@ -36,10 +38,10 @@ export function Intro() {
       ctx.revert()
       ScrollTrigger.refresh()
     }
-  }, [reduced])
+  }, [reduced, touch])
 
   return (
-    <section id="intro" className="relative px-5 py-[22vh] md:px-12 md:py-[28vh]">
+    <section id="intro" className="relative px-5 py-16 md:px-12 md:py-[28vh]">
       <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:absolute md:left-12 md:top-[28vh] md:mb-0 md:text-xs">
         01 / Intro
       </p>
@@ -48,7 +50,7 @@ export function Intro() {
         className="max-w-[60ch] font-display text-[clamp(1.75rem,3.4vw,3.6rem)] leading-[1.12] tracking-[-0.01em] md:ml-[26vw]"
       >
         {words.map((word, i) => (
-          <span key={i} data-word className="inline-block" style={reduced ? undefined : { opacity: 0.15 }}>
+          <span key={i} data-word className="inline-block" style={reduced || touch ? undefined : { opacity: 0.15 }}>
             {word}
             {i < words.length - 1 ? ' ' : ''}
           </span>
