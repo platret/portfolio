@@ -36,18 +36,19 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`
 export const site = {
   name: 'Alex',
   nameLines: ['Alex'],
-  role: 'Frontend developer',
+  role: 'Full-stack developer',
   employer: 'Apprentice at UBS',
   location: 'Zurich, CH',
   email: 'platret.alex@gmail.com',
   intro:
-    'I build interfaces that feel considered: typography first, motion that earns its place, and code that stays readable a year later. Currently an apprentice at UBS in Zurich, shipping React and TypeScript by day and side projects by night.',
+    'Frontend is where I spend most of my time. I build considered interfaces in React and TypeScript, and take projects from the first screen to the backend behind it. Currently an apprentice at UBS in Zurich, building apps and exploring AI workflows on the side.',
   projects: [
     {
       title: 'Lernspur',
       year: '2026',
       stack: 'SwiftUI · Local learning journal',
       image: asset('images/lernspur.png'),
+      description: 'A local learning journal for capturing progress and turning it into reports.',
       href: 'https://lernspur.alexplatret.com',
     },
     {
@@ -55,6 +56,7 @@ export const site = {
       year: '2026',
       stack: 'SwiftUI · Recommendations & widgets',
       image: asset('images/whatwasthat.svg'),
+      description: 'Keep recommendations and remember who shared them, with quick access through widgets.',
       href: 'https://whatwasthat.alexplatret.com',
     },
     {
@@ -62,29 +64,29 @@ export const site = {
       year: '2026',
       stack: 'SwiftUI · Rain radar & widgets',
       image: asset('images/isitraining.png'),
+      description: 'A focused answer to one question: will it rain here in the next 90 minutes?',
       href: 'https://isitraining.alexplatret.com',
     },
-    { title: 'Listen Together', year: '2026', stack: 'Cider plugin · Apple Music sync engine', image: asset('images/preview-1.png') },
-    { title: 'SentieroAlpino', year: '2025', stack: 'Hiking route API', image: asset('images/preview-2.png'), href: repo('sentiero-alpino') },
+    { title: 'SentieroAlpino', year: '2026', stack: 'Hiking route API', image: asset('images/preview-2.png'), description: 'A hiking project that taught me to design the API before writing the implementation.', href: repo('sentiero-alpino') },
   ] as Project[],
   portrait: { src: asset('images/portrait.png'), alt: 'Portrait of Alex' },
   now: [
     { label: 'Location', value: 'Zurich, CH', clock: 'Europe/Zurich' },
     { label: 'Currently', value: 'Entrepreneur at Youngpreneurs' },
     { label: 'Day job', value: 'Apprentice at UBS' },
-    { label: 'Building', value: 'Listen Together' },
+    { label: 'Building', value: 'iOS apps & AI workflows' },
     { label: 'Next', value: 'ICT Skills national final, 2027' },
     { label: 'Off hours', value: 'Gym, gaming, DJ sets' },
   ] as NowItem[],
   about: {
     heading: ['Frontend,', 'mostly.'],
-    text: 'Apprentice at UBS in Zurich. I care about the last ten percent: the easing curve, the letter-spacing, the empty state nobody tests. Off hours I play records.',
+    text: 'I care about how an interface feels, down to the easing curve and the empty state. I also dabble in full-stack: Java backends, native iOS apps, AI agent pipelines and automated workflows. I like building the whole application and figuring out how the pieces fit together. Off hours I play records.',
   },
   facts: [
     { label: 'ICT Skills Battle', value: 2026, note: 'Winner' },
     { label: 'National finalist', value: 2027, note: 'ICT Skills' },
-    { label: 'Languages', list: ['TypeScript', 'Java'] },
-    { label: 'Tools', list: ['React', 'Spring Boot'] },
+    { label: 'Languages', list: ['TypeScript', 'Java', 'Swift'] },
+    { label: 'Tools', list: ['React', 'Spring Boot', 'SwiftUI'] },
     { label: 'Off hours', list: ['Gym', 'Gaming', 'DJ'] },
   ] as Fact[],
   path: [
@@ -99,7 +101,7 @@ export const site = {
       detail: 'Started the application development apprenticeship in Zurich. Frontend work in React and TypeScript, backend in Java and Spring Boot, real teams, real reviews.',
     },
     {
-      year: '2025',
+      year: '2026',
       title: 'SentieroAlpino',
       detail: 'Built a hiking route API. Learned to design an API before writing it.',
     },
@@ -107,11 +109,6 @@ export const site = {
       year: '2026',
       title: 'ICT Skills Battle, winner',
       detail: 'First place. A Killer Sudoku desktop app in Electron, React and SQLite built under competition time pressure.',
-    },
-    {
-      year: '2026',
-      title: 'Listen Together',
-      detail: 'Cider plugin syncing Apple Music playback across listeners.',
     },
     {
       year: '2026',

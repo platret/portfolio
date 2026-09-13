@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import type { Project } from '../content/site'
 import { EASE_OUT, EASE_OUT_CSS, DUR } from '../lib/motion'
 
@@ -14,6 +15,7 @@ type Props = {
 }
 
 export function WorkRow({ project, index, order, hovered, interactive, compact = false, onEnter, onLeave }: Props) {
+  const reducedMotion = useReducedMotion()
   const isHover = hovered === index
   const isAbove = hovered === index + 1
   const isBelow = hovered === index - 1
@@ -41,7 +43,7 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
       onPointerLeave={interactive ? onLeave : undefined}
     >
       <motion.div
-        initial={{ opacity: 0, y: 32 }}
+        initial={reducedMotion ? false : { opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '0px 0px -10% 0px' }}
         transition={{ duration: DUR.slow, ease: EASE_OUT, delay: order * 0.1 }}
@@ -50,7 +52,7 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
           href={project.href}
           target={project.href ? '_blank' : undefined}
           rel={project.href ? 'noreferrer' : undefined}
-          className={rowClass}
+          className={`${rowClass} group focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent`}
           style={{
             transform,
             opacity: dim ? 0.3 : 1,
@@ -66,9 +68,12 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
           </span>
           <span className={titleClass}>{project.title}</span>
           <span className="col-start-2 mt-3 flex flex-col gap-y-1 text-[0.7rem] leading-[1.6] text-paper/60 md:col-start-3 md:mt-0 md:max-w-[34ch] md:items-end md:text-right md:text-xs">
-            <span>{project.year}</span>
+            <span className="flex items-center gap-3">
+              {project.year}
+              {project.href && <span aria-hidden="true" className="inline-block text-paper/60 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-focus-visible:translate-x-0.5 motion-safe:group-focus-visible:-translate-y-0.5">↗</span>}
+            </span>
             <span>{project.stack}</span>
-            {project.description && <span className="mt-1 text-paper/40">{project.description}</span>}
+            {project.description && <span className="mt-1 max-w-[38ch] text-paper/60">{project.description}</span>}
           </span>
         </Tag>
       </motion.div>
