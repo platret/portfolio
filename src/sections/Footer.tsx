@@ -26,7 +26,7 @@ export function Footer() {
           <a
             ref={textRef}
             href={`mailto:${site.email}`}
-            className="block w-max origin-left whitespace-nowrap font-display leading-[0.85] tracking-[-0.03em] transition-transform duration-[800ms] ease-out-expo hover:-skew-x-6 hover:translate-x-[1vw]"
+            className="flex min-h-11 w-max items-center origin-left whitespace-nowrap font-display leading-[0.85] tracking-[-0.03em] transition-transform duration-[800ms] ease-out-expo hover:-skew-x-6 hover:translate-x-[1vw]"
             data-cursor="hover"
           >
             {site.email}
@@ -34,12 +34,12 @@ export function Footer() {
         </motion.div>
       </div>
 
-      <div className="hairline mt-12 flex items-baseline justify-between border-t pt-5 text-[0.7rem] md:mt-16 md:text-xs">
+      <div className="hairline mt-12 flex flex-col items-start gap-4 border-t pt-5 sm:flex-row sm:items-baseline sm:justify-between text-[0.7rem] md:mt-16 md:text-xs">
         <ul className="flex gap-6">
           {site.links.map((link) => (
             <li key={link.label}>
               {link.href.startsWith('http') ? (
-                <a href={link.href} target="_blank" rel="noreferrer" className="transition-colors duration-[600ms] ease-out-expo hover:text-accent">
+                <a href={link.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition-colors duration-[600ms] ease-out-expo hover:text-accent md:min-h-0">
                   {link.label}
                 </a>
               ) : (

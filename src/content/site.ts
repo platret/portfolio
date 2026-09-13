@@ -66,45 +66,6 @@ export const site = {
     },
     { title: 'Listen Together', year: '2026', stack: 'Cider plugin · Apple Music sync engine', image: asset('images/preview-1.png') },
     { title: 'SentieroAlpino', year: '2025', stack: 'Hiking route API', image: asset('images/preview-2.png'), href: repo('sentiero-alpino') },
-    { title: 'ConcertAPI', year: '2025', stack: 'Spring Boot · JWT', image: asset('images/preview-3.png') },
-    { title: 'Multi-agent build pipeline', year: '2026', stack: 'Claude Code orchestration', image: asset('images/preview-4.png') },
-  ] as Project[],
-  moreProjects: [
-    {
-      title: 'AthliTrack',
-      year: '2025',
-      stack: 'React · TypeScript',
-      image: asset('images/preview-5.png'),
-      description: 'Workout and progression tracker. Session logging, volume tracking and personal record detection.',
-    },
-    {
-      title: 'SwissFlow AI',
-      year: '2026',
-      stack: 'Concept · Automation',
-      image: asset('images/preview-6.png'),
-      description: 'Automation agency concept for Swiss SMBs. Scoped, priced and pitched. Shelved before launch, kept here because the research was the point.',
-    },
-    {
-      title: 'LottoAPI',
-      year: '2026',
-      stack: 'Java · Spring Boot · Jersey',
-      image: asset('images/preview-7.png'),
-      description: 'Stateless JAX-RS lottery service. Tip submission, draw generation and hit evaluation, no persistence layer.',
-    },
-    {
-      title: 'MVC Converter',
-      year: '2026',
-      stack: 'Java · Servlets · JSP · JUnit',
-      image: asset('images/preview-8.png'),
-      description: 'Classic MVC web app doing decimal to binary conversion. Client and server side validation, logic covered by unit tests.',
-    },
-    {
-      title: 'CiderDeck Fix',
-      year: '2026',
-      stack: 'JavaScript · Stream Deck SDK',
-      image: asset('images/preview-9.png'),
-      description: 'Traced and fixed a state-layer bug in the Cider Stream Deck plugin where album art painted onto a hidden button state.',
-    },
   ] as Project[],
   portrait: { src: asset('images/portrait.png'), alt: 'Portrait of Alex' },
   now: [
@@ -139,8 +100,8 @@ export const site = {
     },
     {
       year: '2025',
-      title: 'SentieroAlpino, ConcertAPI',
-      detail: 'Two backend projects shipped. A hiking route API, then a Spring Boot concert service with JWT auth. Learned to design an API before writing it.',
+      title: 'SentieroAlpino',
+      detail: 'Built a hiking route API. Learned to design an API before writing it.',
     },
     {
       year: '2026',
@@ -150,12 +111,12 @@ export const site = {
     {
       year: '2026',
       title: 'Listen Together',
-      detail: 'Cider plugin syncing Apple Music playback across listeners. Alongside it, a multi-agent build pipeline orchestrated with Claude Code.',
+      detail: 'Cider plugin syncing Apple Music playback across listeners.',
     },
     {
       year: '2026',
       title: 'Youngpreneurs',
-      detail: 'Joined Youngpreneurs as an entrepreneur. Scoping products, pricing them, pitching them. SwissFlow AI was the first concept out of it.',
+      detail: 'Joined Youngpreneurs as an entrepreneur. Scoping products, pricing them, pitching them.',
     },
     {
       year: '2027',
