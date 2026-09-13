@@ -43,6 +43,27 @@ export const site = {
   intro:
     'I build interfaces that feel considered: typography first, motion that earns its place, and code that stays readable a year later. Currently an apprentice at UBS in Zurich, shipping React and TypeScript by day and side projects by night.',
   projects: [
+    {
+      title: 'Lernspur',
+      year: '2026',
+      stack: 'SwiftUI · Local learning journal',
+      image: asset('images/lernspur.png'),
+      href: 'https://lernspur.alexplatret.com',
+    },
+    {
+      title: 'What Was That?',
+      year: '2026',
+      stack: 'SwiftUI · Recommendations & widgets',
+      image: asset('images/whatwasthat.svg'),
+      href: 'https://whatwasthat.alexplatret.com',
+    },
+    {
+      title: 'Is it raining on me?',
+      year: '2026',
+      stack: 'SwiftUI · Rain radar & widgets',
+      image: asset('images/isitraining.png'),
+      href: 'https://isitraining.alexplatret.com',
+    },
     { title: 'Listen Together', year: '2026', stack: 'Cider plugin · Apple Music sync engine', image: asset('images/preview-1.png') },
     { title: 'SentieroAlpino', year: '2025', stack: 'Hiking route API', image: asset('images/preview-2.png'), href: repo('sentiero-alpino') },
     { title: 'ConcertAPI', year: '2025', stack: 'Spring Boot · JWT', image: asset('images/preview-3.png') },
