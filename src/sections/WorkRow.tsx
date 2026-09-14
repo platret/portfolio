@@ -31,8 +31,8 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
 
   const Tag = project.href ? 'a' : 'div'
   const rowClass = compact
-    ? 'hairline grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 border-t py-5 pr-5 md:grid-cols-[5rem_1fr_auto] md:gap-x-8 md:py-[1.7vw] md:pr-12'
-    : 'hairline grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 border-t py-6 pr-5 md:grid-cols-[5rem_1fr_auto] md:gap-x-8 md:py-[2.6vw] md:pr-12'
+    ? 'hairline grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-x-4 border-t py-5 pr-5 md:grid-cols-[5rem_minmax(0,1fr)_auto] md:gap-x-8 md:py-[1.7vw] md:pr-12'
+    : 'hairline grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-x-4 border-t py-6 pr-5 md:grid-cols-[5rem_minmax(0,1fr)_auto] md:gap-x-8 md:py-[2.6vw] md:pr-12'
   const titleClass = compact
     ? 'font-display text-[5.5vw] leading-[0.95] tracking-[-0.02em] md:text-[clamp(1.4rem,3vw,3.9rem)]'
     : 'font-display text-[9vw] leading-[0.95] tracking-[-0.02em] md:text-[clamp(2.2rem,5vw,6.5rem)]'
@@ -61,10 +61,12 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
           data-cursor={project.href ? 'hover' : undefined}
         >
           <span
-            className="text-[0.7rem] md:text-xs"
+            className="pt-1 text-[0.7rem] md:text-xs"
             style={{ color: isHover ? '#FF4A17' : 'rgba(242,240,235,0.5)', transition: `color ${DUR.fast}s ${EASE_OUT_CSS}` }}
           >
-            {String(index + 1).padStart(2, '0')}
+            {project.icon ? (
+              <img src={project.icon} alt="" width={80} height={80} loading="lazy" decoding="async" className="aspect-square w-12 rounded-[22%] object-cover md:w-20" />
+            ) : String(index + 1).padStart(2, '0')}
           </span>
           <span className={titleClass}>{project.title}</span>
           <span className="col-start-2 mt-3 flex flex-col gap-y-1 text-[0.7rem] leading-[1.6] text-paper/60 md:col-start-3 md:mt-0 md:max-w-[34ch] md:items-end md:text-right md:text-xs">

@@ -3,6 +3,7 @@ export type Project = {
   year: string
   stack: string
   image: string
+  icon?: string
   description?: string
   href?: string
 }
@@ -45,6 +46,7 @@ export const site = {
   projects: [
     {
       title: 'Lernspur',
+      icon: asset('images/apps/lernspur.png'),
       year: '2026',
       stack: 'SwiftUI · Local learning journal',
       image: asset('images/lernspur.png'),
@@ -53,6 +55,7 @@ export const site = {
     },
     {
       title: 'What Was That?',
+      icon: asset('images/apps/whatwasthat.png'),
       year: '2026',
       stack: 'SwiftUI · Recommendations & widgets',
       image: asset('images/whatwasthat.svg'),
@@ -61,6 +64,7 @@ export const site = {
     },
     {
       title: 'Is it raining on me?',
+      icon: asset('images/apps/isitraining.png'),
       year: '2026',
       stack: 'SwiftUI · Rain radar & widgets',
       image: asset('images/isitraining.png'),
@@ -69,7 +73,7 @@ export const site = {
     },
     { title: 'SentieroAlpino', year: '2026', stack: 'Hiking route API', image: asset('images/preview-2.png'), description: 'A hiking project that taught me to design the API before writing the implementation.', href: repo('sentiero-alpino') },
   ] as Project[],
-  portrait: { src: asset('images/portrait.png'), alt: 'Portrait of Alex' },
+  portrait: { src: asset('images/portrait.png'), alt: 'Illustrated halftone portrait' },
   now: [
     { label: 'Location', value: 'Zurich, CH', clock: 'Europe/Zurich' },
     { label: 'Currently', value: 'Entrepreneur at Youngpreneurs' },

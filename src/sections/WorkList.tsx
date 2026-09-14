@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { site } from '../content/site'
 import { useIsTouch } from '../hooks/useIsTouch'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { FeaturedProject } from './FeaturedProject'
 import { WorkRow } from './WorkRow'
 
 const projects = site.projects
@@ -17,6 +18,8 @@ export function WorkList() {
         <span>02 / Selected work</span>
         <span>2026</span>
       </div>
+
+      <FeaturedProject />
 
       <ul className="-mr-5 md:-mr-12">
         {projects.map((project, i) => (
