@@ -41,7 +41,7 @@ export function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: DUR.base, ease: EASE_OUT, delay: 1.5 }}
       >
-        Interfaces with weight. Motion that earns its place.
+        Interfaces first. Everything behind them, too.
       </motion.p>
 
       <MaskedLines

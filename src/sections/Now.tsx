@@ -63,7 +63,7 @@ export function Now() {
           />
           {webgl && <PortraitCanvas frameRef={frameRef} src={site.portrait.src} onReady={onReady} />}
         </div>
-        <p className="mt-4 text-[0.7rem] text-paper/40 md:text-xs">{touch ? 'Portrait' : 'Portrait. Move over it.'}</p>
+        <p className="mt-4 text-[0.7rem] text-paper/40 md:text-xs">Away from the screen: DJ sets, the gym and a good game.</p>
       </motion.div>
 
       <div className="mt-16 md:col-span-6 md:col-start-7 md:mt-[18vh]">
