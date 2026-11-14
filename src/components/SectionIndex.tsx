@@ -26,7 +26,7 @@ export function SectionIndex() {
                 type="button"
                 onClick={() => scrollToId(s.id)}
                 className="flex items-baseline gap-3 text-[0.65rem] uppercase tracking-[0.1em]"
-                style={{ color: on ? '#FF4A17' : 'rgba(242,240,235,0.4)', transition: `color ${DUR.fast}s ${EASE_OUT_CSS}` }}
+                style={{ color: on ? 'var(--color-accent)' : 'rgba(242,240,235,0.4)', transition: `color ${DUR.fast}s ${EASE_OUT_CSS}` }}
               >
                 <span
                   className="overflow-hidden whitespace-nowrap"

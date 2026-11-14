@@ -21,6 +21,29 @@ export type PathItem = {
   upcoming?: boolean
 }
 
+export type Screen = {
+  label: string
+  file: string
+  caption: string
+  alt: string
+}
+
+export type Feature = {
+  id: string
+  kicker: string
+  title: string[]
+  lede: string
+  built: string
+  choice: string
+  status?: string
+  href: string
+  cta: string
+  frame: 'phone' | 'browser'
+  domain?: string
+  note: string
+  screens: Screen[]
+}
+
 export type Fact = {
   label: string
   value?: number
@@ -41,9 +64,28 @@ export const site = {
   employer: 'Apprentice at UBS',
   location: 'Zurich, CH',
   email: 'platret.alex@gmail.com',
+  status: { label: 'Now building', value: 'Sponsuno', href: 'https://sponsuno.ch' },
   intro:
-    'Frontend is where I spend most of my time. I build considered interfaces in React and TypeScript, and take projects from the first screen to the backend behind it. Currently an apprentice at UBS in Zurich, building apps and exploring AI workflows on the side.',
+    'Frontend is where I spend most of my time. I build considered interfaces in React and TypeScript, and take projects from the first screen to the backend behind it. Apprentice at UBS in Zurich by day; on the side I am building a startup, shipping iOS apps and pitching hackathon prototypes.',
   projects: [
+    {
+      title: 'Sponsuno',
+      icon: asset('images/apps/sponsuno.png'),
+      year: '2026',
+      stack: 'Startup · React, Vite, Cloudflare',
+      image: asset('images/sponsuno/home.jpg'),
+      description: 'Matching athletes and clubs in sport and culture with sponsors from their own region.',
+      href: 'https://sponsuno.ch',
+    },
+    {
+      title: 'ROCHADE',
+      icon: asset('images/apps/rochade.png'),
+      year: '2026',
+      stack: 'ZentralHack · Expo, Supabase',
+      image: asset('images/rochade/web.jpg'),
+      description: 'Built in 24 hours: temporary-flat planning for housing cooperatives that renovate.',
+      href: 'https://roschade.alexplatret.com',
+    },
     {
       title: 'Lernspur',
       icon: asset('images/apps/lernspur.png'),
@@ -73,11 +115,78 @@ export const site = {
     },
     { title: 'SentieroAlpino', year: '2026', stack: 'Hiking route API', image: asset('images/preview-2.png'), description: 'A hiking project that taught me to design the API before writing the implementation.', href: repo('sentiero-alpino') },
   ] as Project[],
+  features: [
+    {
+      id: 'sponsuno',
+      kicker: 'In focus / Sponsuno',
+      title: ['Sponsoring', 'that fits.'],
+      lede: 'Clubs and athletes in sport and culture spend weeks writing to companies that were never a match. Sponsuno is the startup I am building with a team of four in the Youngpreneurs programme: it pairs them with sponsors from their own region, starting in German-speaking Switzerland.',
+      built: 'The whole public side: sponsuno.ch, a clickable product preview, the AI sponsoring-manager concept, SEO guide pages and the deploy pipeline on Cloudflare.',
+      choice: 'Honest by design. The platform is not live yet, so every screen is labelled as a preview with example data and the waitlist is the only promise.',
+      status: 'Pre-launch · Waitlist open',
+      href: 'https://sponsuno.ch',
+      cta: 'Visit sponsuno.ch',
+      frame: 'browser',
+      domain: 'sponsuno.ch',
+      note: 'Live site, in German · Example data',
+      screens: [
+        { label: 'Landing', file: 'sponsuno/home.jpg', caption: 'Two audiences, one match: clubs looking for support and local companies that want to give it.', alt: 'Sponsuno homepage: “Sponsoring, das zusammenpasst” with matched athlete and sponsor cards' },
+        { label: 'Preview', file: 'sponsuno/demo.jpg', caption: 'A clickable preview of the athlete dashboard, running on example data in the browser.', alt: 'Sponsuno preview dashboard greeting an example athlete with partnerships and upcoming dates' },
+        { label: 'AI manager', file: 'sponsuno/ki.jpg', caption: 'The AI manager drafts requests and reminders. Nothing goes out before you approve it.', alt: 'Sponsuno AI manager page with a drafted sponsoring request' },
+      ],
+    },
+    {
+      id: 'lernspur',
+      kicker: 'Also in focus / Lernspur',
+      title: ['Small moments.', 'A visible learning path.'],
+      lede: 'An apprenticeship is full of things worth remembering. Lernspur gives those small moments a home, from a quick note to a learning report.',
+      built: 'A native SwiftUI app for capturing notes, revisiting learning and writing structured reports, with PDF export.',
+      choice: 'Save first, organise later. The journal lives locally in SQLite, so capturing a thought does not depend on a server.',
+      href: 'https://lernspur.alexplatret.com',
+      cta: 'Explore Lernspur',
+      frame: 'phone',
+      note: 'Native app screenshot · Example content',
+      screens: [
+        { label: 'Capture', file: 'lernspur/capture.png', caption: 'Save a thought, photo or voice memo. Organise it later.', alt: 'Lernspur capture screen with a note field, photo and voice memo controls' },
+        { label: 'Practice', file: 'lernspur/cards.png', caption: 'Turn what you learn into cards you can come back to.', alt: 'Lernspur practice screen showing a database JOIN question and its answer' },
+        { label: 'Reports', file: 'lernspur/report.png', caption: 'Reflect on the work, then export a structured learning report.', alt: 'Lernspur learning report with reflection sections and a PDF export button' },
+      ],
+    },
+  ] as Feature[],
+  hackathon: {
+    event: 'ZentralHack 2026',
+    track: 'EntrepreneurSkills Challenge · SDG 11',
+    month: 'October 2026',
+    team: 'With Francesco Rocca',
+    name: 'ROCHADE',
+    title: ['Renovate without', 'evicting anyone.'],
+    text: 'When a housing cooperative renovates, residents move into temporary flats for months. ROCHADE works out who moves where and when, rebuilds the plan the moment a construction phase shifts, and says exactly what is missing when no plan fits.',
+    beats: [
+      { label: 'Problem', detail: 'Renovations push tenants out. Cooperatives juggle the temporary flats by hand.' },
+      { label: 'Solver', detail: 'An allocation solver that replans in place and explains every conflict.' },
+      { label: 'Two apps', detail: 'An iPhone app for residents and a web dashboard for the cooperative.' },
+      { label: 'Live sync', detail: 'Shift a phase on the dashboard; about two seconds later the resident’s phone updates.' },
+      { label: 'Pitch', detail: 'Two minutes on stage, a working MVP, and 24 passing tests behind it.' },
+    ],
+    stack: ['Expo', 'React 19', 'Supabase realtime', 'TypeScript', 'Vite 8'],
+    links: [
+      { label: 'Live site', href: 'https://roschade.alexplatret.com' },
+      { label: 'Code', href: `${GITHUB_URL}/ROCHADE` },
+    ],
+    shots: {
+      web: { file: 'rochade/web.jpg', alt: 'ROCHADE website: “Sanieren, ohne jemanden rauszuwerfen” above a live plan of three houses' },
+      phones: [
+        { file: 'rochade/mein-umzug.jpg', alt: 'ROCHADE iPhone app: a resident’s move with status, dates and checklist' },
+        { file: 'rochade/siedlung.jpg', alt: 'ROCHADE iPhone app: the estate view with the renovation phases as a timeline' },
+      ],
+    },
+  },
   portrait: { src: asset('images/portrait.png'), alt: 'Illustrated halftone portrait' },
   now: [
     { label: 'Location', value: 'Zurich, CH', clock: 'Europe/Zurich' },
-    { label: 'Currently', value: 'Entrepreneur at Youngpreneurs' },
+    { label: 'Currently', value: 'Building Sponsuno at Youngpreneurs' },
     { label: 'Day job', value: 'Apprentice at UBS' },
+    { label: 'Latest', value: 'ZentralHack 2026, ROCHADE' },
     { label: 'Building', value: 'iOS apps & AI workflows' },
     { label: 'Next', value: 'ICT Skills national final, 2027' },
     { label: 'Off hours', value: 'Gym, gaming, DJ sets' },
@@ -89,6 +198,7 @@ export const site = {
   facts: [
     { label: 'ICT Skills Battle', value: 2026, note: 'Winner' },
     { label: 'National finalist', value: 2027, note: 'ICT Skills' },
+    { label: 'ZentralHack', value: 24, note: 'hours to an MVP' },
     { label: 'Languages', list: ['TypeScript', 'Java', 'Swift'] },
     { label: 'Tools', list: ['React', 'Spring Boot', 'SwiftUI'] },
     { label: 'Off hours', list: ['Gym', 'Gaming', 'DJ'] },
@@ -120,6 +230,16 @@ export const site = {
       detail: 'Joined Youngpreneurs as an entrepreneur. Scoping products, pricing them, pitching them.',
     },
     {
+      year: '2026',
+      title: 'Sponsuno',
+      detail: 'Started a sponsoring startup with a team of four. Built sponsuno.ch, the product preview and the pipeline that ships it.',
+    },
+    {
+      year: '2026',
+      title: 'ZentralHack, ROCHADE',
+      detail: '24 hours, one housing problem. Shipped a solver, an iPhone app and a live dashboard, then pitched it in two minutes.',
+    },
+    {
       year: '2027',
       title: 'National final',
       detail: 'ICT Skills national finalist. Up next.',
@@ -129,6 +249,7 @@ export const site = {
   sections: [
     { id: 'intro', label: 'Intro' },
     { id: 'work', label: 'Work' },
+    { id: 'hackathon', label: 'Hackathon' },
     { id: 'now', label: 'Now' },
     { id: 'about', label: 'About' },
     { id: 'path', label: 'Path' },

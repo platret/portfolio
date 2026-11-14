@@ -19,7 +19,9 @@ export function WorkList() {
         <span>2026</span>
       </div>
 
-      <FeaturedProject />
+      {site.features.map((feature, i) => (
+        <FeaturedProject key={feature.id} feature={feature} flip={i % 2 === 1} />
+      ))}
 
       <ul className="-mr-5 md:-mr-12">
         {projects.map((project, i) => (

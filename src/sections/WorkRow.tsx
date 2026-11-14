@@ -62,7 +62,7 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
         >
           <span
             className="pt-1 text-[0.7rem] md:text-xs"
-            style={{ color: isHover ? '#FF4A17' : 'rgba(242,240,235,0.5)', transition: `color ${DUR.fast}s ${EASE_OUT_CSS}` }}
+            style={{ color: isHover ? 'var(--color-accent)' : 'rgba(242,240,235,0.5)', transition: `color ${DUR.fast}s ${EASE_OUT_CSS}` }}
           >
             {project.icon ? (
               <img src={project.icon} alt="" width={80} height={80} loading="lazy" decoding="async" className="aspect-square w-12 rounded-[22%] object-cover md:w-20" />

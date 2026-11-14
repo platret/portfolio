@@ -45,7 +45,7 @@ export function Now() {
 
   return (
     <section id="now" className="relative grid grid-cols-1 gap-x-8 px-5 py-16 md:grid-cols-12 md:px-12 md:py-[22vh]">
-      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:col-span-12 md:mb-16 md:text-xs">03 / Now</p>
+      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:col-span-12 md:mb-16 md:text-xs">04 / Now</p>
 
       <motion.div
         className="md:col-span-5 md:-ml-12"

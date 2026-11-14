@@ -36,7 +36,7 @@ export function Path() {
 
   return (
     <section id="path" className="relative overflow-x-clip px-5 py-16 md:px-12 md:py-[22vh]">
-      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-16 md:text-xs">05 / Path</p>
+      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-16 md:text-xs">06 / Path</p>
 
       <MaskedLines
         as="h2"
