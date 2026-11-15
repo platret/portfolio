@@ -3,6 +3,7 @@ import { AppIcon } from '../components/apps/AppIcon'
 import { AppPager } from '../components/apps/AppPager'
 import { LinkLedger } from '../components/apps/LinkLedger'
 import { ShotStrip } from '../components/apps/ShotStrip'
+import { Breadcrumb } from '../components/Breadcrumb'
 import { MaskedLines } from '../components/MaskedLines'
 import { PageHead } from '../components/PageHead'
 import { KIND_LABEL, type AppShot } from '../content/apps'
@@ -12,7 +13,6 @@ import { DUR, EASE_OUT } from '../lib/motion'
 import { Link } from '../router/router'
 import type { Params } from '../router/routes'
 
-const CRUMB = 'relative -my-3 inline-block py-3 transition-colors duration-[600ms] ease-out-expo hover:text-paper'
 const LABEL = 'text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:text-xs'
 const FACT = 'hairline grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-6 border-t py-4 text-[0.75rem] md:text-sm'
 
@@ -45,21 +45,12 @@ export default function AppDetail({ params }: { params: Params }) {
     <article aria-labelledby="app-name">
       <PageHead
         left={
-          <nav aria-label="Breadcrumb">
-            <ol className="flex gap-2">
-              <li>
-                <Link to="/apps" data-cursor="hover" className={CRUMB}>
-                  Apps
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li>
-                <Link to={`/apps?kind=${shelf.id}`} data-cursor="hover" className={CRUMB}>
-                  {shelf.label}
-                </Link>
-              </li>
-            </ol>
-          </nav>
+          <Breadcrumb
+            items={[
+              { label: 'Apps', to: '/apps' },
+              { label: shelf.label, to: `/apps?kind=${shelf.id}` },
+            ]}
+          />
         }
         right={app.year}
       />
@@ -78,7 +69,7 @@ export default function AppDetail({ params }: { params: Params }) {
               className="mt-8 text-balance font-display text-[clamp(2.7rem,5.7vw,6.8rem)] leading-[0.98] tracking-[-0.03em] outline-none md:mt-10"
             />
             <motion.p
-              className="mt-6 max-w-[30ch] font-display text-[clamp(1.375rem,2vw,1.875rem)] leading-[1.15] text-paper/85"
+              className="mt-6 max-w-[30ch] text-pretty font-display text-[clamp(1.375rem,2vw,1.875rem)] leading-[1.15] text-paper/85"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: DUR.base, ease: EASE_OUT, delay: 0.3 }}
@@ -87,7 +78,7 @@ export default function AppDetail({ params }: { params: Params }) {
             </motion.p>
           </div>
           <motion.div
-            className="md:col-span-5 md:col-start-8 xl:col-span-4 xl:col-start-9"
+            className="md:col-span-5 md:col-start-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: DUR.base, ease: EASE_OUT, delay: 0.3 }}

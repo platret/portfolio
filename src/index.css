@@ -41,6 +41,12 @@
   :where([id]) {
     scroll-margin-top: calc(var(--header-h) + 1.5rem);
   }
+
+  /* Headings and anchor targets take focus after a navigation so the next Tab continues from them.
+     They are not controls, so they get no ring. */
+  :where([tabindex="-1"]):focus {
+    outline: none;
+  }
 }
 
 html {
@@ -267,13 +273,22 @@ html.lenis, html.lenis body {
   width: 86vw;
 }
 
+/* Below 48rem wide frames share a width, not a height, so they hang from the top:
+   bottom aligned, a shorter frame would leave an empty band under the strip's label. */
+@media (max-width: 47.99rem) {
+  .strip > figure > .shot--wide {
+    align-self: start;
+  }
+}
+
 @media (min-width: 48rem) {
   .shot--phone {
     width: clamp(200px, 16.5vw, 248px);
   }
 
   .shot--wide {
-    --shot-h: min(calc(var(--shot-w) * var(--strip-ratio, 0.625)), 40rem);
+    /* --shot-h-fit is set by ShotStrip when the strip would only just overflow. */
+    --shot-h: min(calc(var(--shot-w) * var(--strip-ratio, 0.625)), 40rem, var(--shot-h-fit, 40rem));
     width: calc(var(--shot-h) * var(--shot-aspect, 1.6));
   }
 

@@ -1,12 +1,11 @@
 import { useEffect } from 'react'
 import { AppRow } from '../components/apps/AppRow'
+import { Breadcrumb } from '../components/Breadcrumb'
 import { KindFilter } from '../components/apps/KindFilter'
 import { PageHead } from '../components/PageHead'
 import { apps } from '../content/apps'
 import { appsOf, orderedApps, shelfById, shelves } from '../lib/apps'
-import { Link, navigate, prefetch, useRoute } from '../router/router'
-
-const CRUMB = 'relative -my-3 inline-block py-3 transition-colors duration-[600ms] ease-out-expo hover:text-paper'
+import { navigate, prefetch, useRoute } from '../router/router'
 
 // The first icons on the page load at once, the rest when they scroll near.
 const EAGER = 6
@@ -35,29 +34,13 @@ export default function Apps() {
     <>
       <PageHead
         left={
-          current ? (
-            <nav aria-label="Breadcrumb">
-              <ol className="flex gap-2">
-                <li>
-                  <Link to="/apps" replace scroll={false} data-cursor="hover" className={CRUMB}>
-                    Apps
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li aria-current="page" className="text-paper">
-                  {current.label}
-                </li>
-              </ol>
-            </nav>
-          ) : (
-            'Apps'
-          )
+          current ? <Breadcrumb items={[{ label: 'Apps', to: '/apps', replace: true, scroll: false }, { label: current.label }]} /> : 'Apps'
         }
         right={current ? `${appsOf(current).length} of ${apps.length}` : apps.length}
-        title={['Apps,', 'all of them.']}
+        title={['Apps,', 'most of them.']}
         lead={
-          <p className="max-w-[46ch] text-xs leading-[1.9] text-paper/70 md:text-sm">
-            Everything I have shipped, prototyped or built over a weekend. Finished and rough sit side by side, and each page says which is which.
+          <p className="max-w-[46ch] text-pretty text-xs leading-[1.9] text-paper/70 md:text-sm">
+            What I have shipped, prototyped or built over a weekend. Finished and rough sit side by side, and each page says which is which.
           </p>
         }
       />
@@ -69,6 +52,7 @@ export default function Apps() {
           {shown.map((shelf) => {
             const list = appsOf(shelf)
             const odd = list.length % 2 === 1
+            const mixed = new Set(list.map((app) => app.kind)).size > 1
             return (
               <section key={shelf.id} aria-labelledby={`shelf-${shelf.id}`} className="xl:grid xl:grid-cols-[12rem_minmax(0,1fr)]">
                 <h2
@@ -84,7 +68,7 @@ export default function Apps() {
                 </h2>
                 <ul className="shelf grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
                   {list.map((app) => (
-                    <AppRow key={app.slug} app={app} eager={eager.has(app.slug)} />
+                    <AppRow key={app.slug} app={app} eager={eager.has(app.slug)} showKind={mixed} />
                   ))}
                   {/* Closing rules. In two columns an odd count leaves the last cell empty:
                       it gets the rule that closes the row above it and nothing underneath. */}

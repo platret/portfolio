@@ -21,7 +21,7 @@ export const orderedApps: App[] = shelves.flatMap(appsOf)
 /** The icons of the home page's Apps row, in the order their `featured` numbers give. */
 export const featuredApps: App[] = apps
   .filter((app) => app.featured !== undefined)
-  .sort((a, b) => a.featured! - b.featured!)
+  .sort((a, b) => (a.featured ?? 0) - (b.featured ?? 0))
   .slice(0, 8)
 
 /** The apps before and after this one in index order. Wraps around at both ends. */

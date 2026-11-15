@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type FocusEvent } from 'react'
 import type { App, AppShot } from '../../content/apps'
 import { useIsTouch } from '../../hooks/useIsTouch'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
@@ -19,16 +19,36 @@ type Props = {
   column?: boolean
 }
 
+// aria-disabled instead of disabled: a disabled button drops keyboard focus to <body>
+// the moment the strip reaches its end.
 const BUTTON =
-  'inline-flex h-11 w-11 items-center justify-center rounded-full border border-paper/15 text-sm text-paper/70 transition-colors duration-[600ms] ease-out-expo hover:border-paper/40 hover:text-paper disabled:opacity-30 disabled:hover:border-paper/15 disabled:hover:text-paper/70'
+  'inline-flex h-11 w-11 items-center justify-center rounded-full border border-paper/15 text-sm text-paper/70 transition-colors duration-[600ms] ease-out-expo hover:border-paper/40 hover:text-paper aria-disabled:opacity-30 aria-disabled:hover:border-paper/15 aria-disabled:hover:text-paper/70'
+
+/** A transparent pixel. Frames far to the right of the visible part of a strip wait with this
+ *  until a sideways scroll brings them near; the box keeps its size from width, height and aspect-ratio. */
+const PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+
+// A strip that would overflow by less than one gap and a fifth of a frame is shrunk to fit instead,
+// so a nudge of a few pixels never needs arrow buttons.
+const FIT_SLACK = 0.2
 
 /** A row of framed screenshots that scrolls sideways natively. Every shot is in the DOM and visible:
  *  no carousel, no slides, no tabs. */
 export function ShotStrip({ app, shots, label, priority = false, column = false }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const [edges, setEdges] = useState({ overflow: false, start: true, end: false })
+  // Frames up to this index get their real image. The first two always do.
+  const [reach, setReach] = useState(1)
+  const [fitHeight, setFitHeight] = useState<number | null>(null)
   const touch = useIsTouch()
   const reduced = useReducedMotion()
+
+  const wide = shots[0].frame !== 'phone'
+  const alone = wide && shots.length === 1
+  // Wide frames share one height from 768 px: the height of the flattest shot at full width.
+  const ratio = Math.min(...shots.map((shot) => shotSize(shot).height / shotSize(shot).width))
+  const aspects = shots.reduce((sum, shot) => sum + shotSize(shot).width / shotSize(shot).height, 0)
+  const widest = Math.max(...shots.map((shot) => shotSize(shot).width / shotSize(shot).height))
 
   // Arrow buttons only when there is something to scroll to.
   useEffect(() => {
@@ -49,18 +69,67 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
     }
   }, [])
 
+  // Wide frames from 768 px: the same sizes index.css computes, worked out here to see whether the
+  // strip only just overflows. The natural sizes are used, so shrinking never feeds back into the test.
+  useEffect(() => {
+    const el = ref.current
+    if (!el || !wide || alone) return
+    const fit = () => {
+      const style = getComputedStyle(el)
+      const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+      const vw = window.innerWidth / 100
+      if (window.innerWidth < 48 * rem) return setFitHeight(null)
+      const gap = Number.parseFloat(style.columnGap) || 0
+      const available = el.clientWidth - (Number.parseFloat(style.paddingLeft) || 0) - (Number.parseFloat(style.paddingRight) || 0)
+      const shotWidth = column ? Math.min(44 * rem, 46 * vw) : Math.min(60 * rem, 74 * vw)
+      const height = Math.min(shotWidth * ratio, 40 * rem)
+      const gaps = gap * (shots.length - 1)
+      const overflow = height * aspects + gaps - available
+      setFitHeight(overflow > 0 && overflow < gap + FIT_SLACK * height * widest ? Math.floor((available - gaps) / aspects) : null)
+    }
+    fit()
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [wide, alone, column, ratio, aspects, widest, shots.length])
+
+  // Load a frame's image once a sideways scroll brings it within half a strip of view.
+  useEffect(() => {
+    const el = ref.current
+    if (!el || reach >= shots.length - 1) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const near = entries.filter((entry) => entry.isIntersecting).map((entry) => Number((entry.target as HTMLElement).dataset.index))
+        if (near.length) setReach((prev) => Math.max(prev, ...near.map((i) => i + 1)))
+      },
+      { root: el, rootMargin: '0px 50% 0px 0px' },
+    )
+    el.querySelectorAll('figure').forEach((figure) => observer.observe(figure))
+    return () => observer.disconnect()
+  }, [reach, shots.length])
+
   function step(direction: 1 | -1) {
     const el = ref.current
     const frame = el?.querySelector('figure')
     if (!el || !frame) return
+    if ((direction === -1 && edges.start) || (direction === 1 && edges.end)) return
     const gap = Number.parseFloat(getComputedStyle(el).columnGap) || 0
     el.scrollBy({ left: direction * (frame.getBoundingClientRect().width + gap), behavior: reduced ? 'auto' : 'smooth' })
   }
 
-  const wide = shots[0].frame !== 'phone'
-  const alone = wide && shots.length === 1
-  // Wide frames share one height from 768 px: the height of the flattest shot at full width.
-  const ratio = Math.min(...shots.map((shot) => shotSize(shot).height / shotSize(shot).width))
+  /** Tabbing onto a frame that is only partly in view scrolls the strip to it. */
+  function reveal(event: FocusEvent<HTMLElement>) {
+    const el = ref.current
+    const figure = event.currentTarget.closest('figure')
+    if (!el || !figure) return
+    const strip = el.getBoundingClientRect()
+    const frame = figure.getBoundingClientRect()
+    const style = getComputedStyle(el)
+    const left = strip.left + (Number.parseFloat(style.scrollPaddingLeft) || 0)
+    const right = strip.right - (Number.parseFloat(style.scrollPaddingRight) || 0)
+    if (frame.left >= left - 1 && frame.right <= right + 1) return
+    el.scrollBy({ left: frame.left - left, behavior: reduced ? 'auto' : 'smooth' })
+  }
+
   const buttons = edges.overflow && !touch
 
   return (
@@ -75,10 +144,10 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
       )}
       {buttons && (
         <div className={`absolute right-0 hidden gap-2 md:flex ${label || column ? 'top-0' : '-top-16'}`}>
-          <button type="button" aria-label="Previous screenshot" disabled={edges.start} onClick={() => step(-1)} data-cursor="hover" className={BUTTON}>
+          <button type="button" aria-label="Previous screenshot" aria-disabled={edges.start} onClick={() => step(-1)} data-cursor="hover" className={BUTTON}>
             <span aria-hidden="true">←</span>
           </button>
-          <button type="button" aria-label="Next screenshot" disabled={edges.end} onClick={() => step(1)} data-cursor="hover" className={BUTTON}>
+          <button type="button" aria-label="Next screenshot" aria-disabled={edges.end} onClick={() => step(1)} data-cursor="hover" className={BUTTON}>
             <span aria-hidden="true">→</span>
           </button>
         </div>
@@ -92,14 +161,14 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
         data-lenis-prevent-horizontal
         data-cursor="hover"
         className={`strip -outline-offset-2 ${column ? 'strip--column' : ''}`}
-        style={{ '--strip-ratio': ratio } as CSSProperties}
+        style={{ '--strip-ratio': ratio, ...(fitHeight ? { '--shot-h-fit': `${fitHeight}px` } : {}) } as CSSProperties}
       >
         {shots.map((shot, i) => {
           const { width, height } = shotSize(shot)
           const first = priority && i === 0
           const image = (
             <img
-              src={asset(shot.file)}
+              src={i <= reach ? asset(shot.file) : PLACEHOLDER}
               alt={shot.alt}
               width={width}
               height={height}
@@ -112,7 +181,7 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
           )
 
           return (
-            <figure key={shot.file}>
+            <figure key={shot.file} data-index={i}>
               {shot.frame === 'phone' ? (
                 <div className="shot--phone">
                   <PhoneFrame>{image}</PhoneFrame>
@@ -123,7 +192,8 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
                   target="_blank"
                   rel="noreferrer"
                   data-cursor="hover"
-                  className={`shot--wide relative block ${alone ? 'shot--alone' : ''}`}
+                  onFocus={reveal}
+                  className={`shot--wide relative block -outline-offset-2 ${alone ? 'shot--alone' : ''}`}
                   style={{ '--shot-aspect': width / height } as CSSProperties}
                 >
                   {/* The link is named by this prefix and the image's alt text. The link is positioned
