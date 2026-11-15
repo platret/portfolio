@@ -62,16 +62,16 @@ export const site = {
   projects: [
     {
       title: 'Sponsuno',
-      icon: 'images/apps/sponsuno.png',
+      icon: 'images/apps/sponsuno/icon.png',
       year: '2026',
       stack: 'Startup · React, Vite, Cloudflare',
-      image: 'images/sponsuno/home.jpg',
+      image: 'images/apps/sponsuno/01-home.jpg',
       description: 'Matching athletes and clubs in sport and culture with sponsors from their own region.',
       href: 'https://sponsuno.ch',
     },
     {
       title: 'ROCHADE',
-      icon: 'images/apps/rochade.png',
+      icon: 'images/apps/rochade/icon.png',
       year: '2026',
       stack: 'ZentralHack · Expo, Supabase',
       image: 'images/rochade/web.jpg',
@@ -80,7 +80,7 @@ export const site = {
     },
     {
       title: 'Lernspur',
-      icon: 'images/apps/lernspur.png',
+      icon: 'images/apps/lernspur/icon.png',
       year: '2026',
       stack: 'SwiftUI · Local learning journal',
       image: 'images/lernspur.png',
@@ -89,7 +89,7 @@ export const site = {
     },
     {
       title: 'What Was That?',
-      icon: 'images/apps/whatwasthat.png',
+      icon: 'images/apps/what-was-that/icon.png',
       year: '2026',
       stack: 'SwiftUI · Recommendations & widgets',
       image: 'images/whatwasthat.svg',
@@ -98,7 +98,7 @@ export const site = {
     },
     {
       title: 'Is it raining on me?',
-      icon: 'images/apps/isitraining.png',
+      icon: 'images/apps/is-it-raining-on-me/icon.png',
       year: '2026',
       stack: 'SwiftUI · Rain radar & widgets',
       image: 'images/isitraining.png',
@@ -122,9 +122,9 @@ export const site = {
       domain: 'sponsuno.ch',
       note: 'Live site, in German · Example data',
       screens: [
-        { label: 'Landing', file: 'sponsuno/home.jpg', caption: 'Two audiences, one match: clubs looking for support and local companies that want to give it.', alt: 'Sponsuno homepage: “Sponsoring, das zusammenpasst” with matched athlete and sponsor cards' },
-        { label: 'Preview', file: 'sponsuno/demo.jpg', caption: 'A clickable preview of the athlete dashboard, running on example data in the browser.', alt: 'Sponsuno preview dashboard greeting an example athlete with partnerships and upcoming dates' },
-        { label: 'AI manager', file: 'sponsuno/ki.jpg', caption: 'The AI manager drafts requests and reminders. Nothing goes out before you approve it.', alt: 'Sponsuno AI manager page with a drafted sponsoring request' },
+        { label: 'Landing', file: 'apps/sponsuno/01-home.jpg', caption: 'Two audiences, one match: clubs looking for support and local companies that want to give it.', alt: 'Sponsuno homepage: “Sponsoring, das zusammenpasst” with matched athlete and sponsor cards' },
+        { label: 'Preview', file: 'apps/sponsuno/02-demo.jpg', caption: 'A clickable preview of the athlete dashboard, running on example data in the browser.', alt: 'Sponsuno preview dashboard greeting an example athlete with partnerships and upcoming dates' },
+        { label: 'AI manager', file: 'apps/sponsuno/03-ki-manager.jpg', caption: 'The AI manager drafts requests and reminders. Nothing goes out before you approve it.', alt: 'Sponsuno AI manager page with a drafted sponsoring request' },
       ],
     },
     {
@@ -139,9 +139,9 @@ export const site = {
       frame: 'phone',
       note: 'Native app screenshot · Example content',
       screens: [
-        { label: 'Capture', file: 'lernspur/capture.png', caption: 'Save a thought, photo or voice memo. Organise it later.', alt: 'Lernspur capture screen with a note field, photo and voice memo controls' },
-        { label: 'Practice', file: 'lernspur/cards.png', caption: 'Turn what you learn into cards you can come back to.', alt: 'Lernspur practice screen showing a database JOIN question and its answer' },
-        { label: 'Reports', file: 'lernspur/report.png', caption: 'Reflect on the work, then export a structured learning report.', alt: 'Lernspur learning report with reflection sections and a PDF export button' },
+        { label: 'Capture', file: 'apps/lernspur/01-capture.png', caption: 'Save a thought, photo or voice memo. Organise it later.', alt: 'Lernspur capture screen with a note field, photo and voice memo controls' },
+        { label: 'Practice', file: 'apps/lernspur/02-cards.png', caption: 'Turn what you learn into cards you can come back to.', alt: 'Lernspur practice screen showing a database JOIN question and its answer' },
+        { label: 'Reports', file: 'apps/lernspur/03-report.png', caption: 'Reflect on the work, then export a structured learning report.', alt: 'Lernspur learning report with reflection sections and a PDF export button' },
       ],
     },
   ] as Feature[],
