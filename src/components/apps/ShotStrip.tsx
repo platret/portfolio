@@ -22,7 +22,7 @@ type Props = {
 // aria-disabled instead of disabled: a disabled button drops keyboard focus to <body>
 // the moment the strip reaches its end.
 const BUTTON =
-  'inline-flex h-11 w-11 items-center justify-center rounded-full border border-paper/15 text-sm text-paper/70 transition-colors duration-[600ms] ease-out-expo hover:border-paper/40 hover:text-paper aria-disabled:opacity-30 aria-disabled:hover:border-paper/15 aria-disabled:hover:text-paper/70'
+  'inline-flex h-11 w-11 items-center justify-center rounded-full border border-paper/15 text-sm text-paper/70 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper/40 hover:text-paper aria-disabled:opacity-30 aria-disabled:hover:border-paper/15 aria-disabled:hover:text-paper/70'
 
 /** A transparent pixel. Frames far to the right of the visible part of a strip wait with this
  *  until a sideways scroll brings them near; the box keeps its size from width, height and aspect-ratio. */

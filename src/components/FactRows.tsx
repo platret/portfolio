@@ -53,7 +53,7 @@ export function FactRows({ rows, className }: { rows: FactRow[]; className?: str
           >
             {row.to ? (
               <Link to={row.to} data-cursor="hover" className={`${ROW} group -outline-offset-2`}>
-                <span className="text-paper/55 transition-colors duration-[600ms] ease-out-expo group-hover:text-paper">{row.label}</span>
+                <span className="text-paper/55 transition-[color,border-color] duration-[600ms] ease-out-expo group-hover:text-paper">{row.label}</span>
                 {value}
               </Link>
             ) : (

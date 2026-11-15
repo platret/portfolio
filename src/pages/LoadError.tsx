@@ -1,7 +1,7 @@
 import { PageHead } from '../components/PageHead'
 import { Link } from '../router/router'
 
-const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper'
+const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper'
 
 /** Shown in place of a page whose code did not arrive (offline, a blocked file, a deploy in between)
  *  or that failed to render. Ships in the entry chunk, so it can always be drawn. */

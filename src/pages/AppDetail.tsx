@@ -152,7 +152,7 @@ export default function AppDetail({ params }: { params: Params }) {
                     <Link
                       to={`/competitions#${competition.id}`}
                       data-cursor="hover"
-                      className="border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper"
+                      className="border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper"
                     >
                       {competition.name}
                     </Link>

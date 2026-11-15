@@ -1,7 +1,7 @@
 import { PageHead } from '../components/PageHead'
 import { Link, useRoute } from '../router/router'
 
-const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper'
+const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper'
 
 /** Rendered in place for unknown paths: the URL is kept. */
 export default function NotFound() {

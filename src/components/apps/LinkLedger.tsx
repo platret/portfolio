@@ -8,7 +8,7 @@ function LinkRow({ label, value, href, wrap = false }: { label: string; value: s
   return (
     <li>
       <a href={href} target="_blank" rel="noreferrer" title={href} data-cursor="hover" className={`${ROW} group -outline-offset-2`}>
-        <span className={`${LABEL} transition-colors duration-[600ms] ease-out-expo group-hover:text-paper`}>{label}</span>
+        <span className={`${LABEL} transition-[color,border-color] duration-[600ms] ease-out-expo group-hover:text-paper`}>{label}</span>
         <span className="flex min-w-0 items-baseline justify-end gap-2 text-right text-paper">
           <span className={wrap ? 'min-w-0 text-balance' : 'min-w-0 truncate'}>{value}</span>
           <span aria-hidden="true" className="flex-none text-accent transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5">

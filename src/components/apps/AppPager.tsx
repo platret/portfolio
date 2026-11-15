@@ -40,7 +40,7 @@ export function AppPager({ slug }: { slug: string }) {
         <Link
           to="/apps"
           data-cursor="hover"
-          className="inline-flex min-h-12 items-center text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 transition-colors duration-[600ms] ease-out-expo hover:text-paper md:text-xs"
+          className="inline-flex min-h-12 items-center text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-paper md:text-xs"
         >
           All apps
         </Link>

@@ -33,7 +33,7 @@ function NowRow({ item, index }: { item: NowItem; index: number }) {
       <span className="text-paper/55">{item.label}</span>
       <span className="flex items-baseline gap-3 text-right">
         {item.to ? (
-          <Link to={item.to} data-cursor="hover" className="border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper">
+          <Link to={item.to} data-cursor="hover" className="border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper">
             {item.value}
           </Link>
         ) : (

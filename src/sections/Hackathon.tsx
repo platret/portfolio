@@ -92,12 +92,12 @@ export function Hackathon() {
               return (
                 <li key={beat.label} className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-x-3 text-[0.75rem] leading-[1.6] md:text-xs">
                   <span className={`pt-px tabular-nums transition-colors duration-500 ${on ? 'text-accent' : 'text-paper/50'}`}>{String(i + 1).padStart(2, '0')}</span>
-                  <span className={`transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-60'}`}>
+                  <span className={`transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-75'}`}>
                     <span className="flex items-center gap-2 text-paper">
                       {beat.label}
                       {current && !reduced && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent motion-safe:animate-pulse" />}
                     </span>
-                    <span className="mt-0.5 block max-w-[40ch] text-paper/55">{beat.detail}</span>
+                    <span className="mt-0.5 block max-w-[40ch] text-paper/70">{beat.detail}</span>
                   </span>
                 </li>
               )
@@ -163,7 +163,7 @@ export function Hackathon() {
             </ul>
             <ul className="flex shrink-0 flex-wrap gap-x-6 text-xs">
               <li>
-                <Link to={`/apps/${hack.app}`} data-cursor="hover" className="inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper">
+                <Link to={`/apps/${hack.app}`} data-cursor="hover" className="inline-flex min-h-11 items-center border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper">
                   {hack.name}, the app
                 </Link>
               </li>

@@ -2,7 +2,7 @@ import { apps } from '../../content/apps'
 import { appsOf, shelves, type ShelfDef } from '../../lib/apps'
 import { Link } from '../../router/router'
 
-const ITEM = 'flex min-h-12 items-center gap-2 border-b-2 px-2 text-[0.7rem] uppercase tracking-[0.08em] -outline-offset-2 transition-colors duration-[600ms] ease-out-expo md:px-4'
+const ITEM = 'flex min-h-12 items-center gap-2 border-b-2 px-2 text-[0.7rem] uppercase tracking-[0.08em] -outline-offset-2 transition-[color,border-color] duration-[600ms] ease-out-expo md:px-4'
 
 /** All, then one link per shelf that holds apps. A filter change replaces the URL:
  *  no history entry, no scroll, no focus move. */

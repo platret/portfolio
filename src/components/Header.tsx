@@ -10,7 +10,7 @@ import { copyText, isMac, openPalette, ROUTE_EVENT } from '../lib/ui'
 import { Link, usePending, useRoute } from '../router/router'
 
 const LABEL = 'text-[0.7rem] uppercase tracking-[0.08em] md:text-xs'
-const ITEM = 'inline-flex min-h-11 items-center transition-colors duration-[600ms] ease-out-expo hover:text-paper'
+const ITEM = 'inline-flex min-h-11 items-center transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-paper'
 // Wait for the menu or the palette to release the scroll lock before scrolling.
 const AFTER_CLOSE = 60
 const shortcut = `${isMac ? '⌘' : 'Ctrl'} K`
@@ -83,7 +83,7 @@ export function Header() {
   useEffect(() => {
     const sentinel = document.getElementById('top-sentinel')
     if (!sentinel) return
-    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting))
+    const observer = new IntersectionObserver(([entry]) => setScrolled(entry.intersectionRatio < 1), { threshold: [1] })
     observer.observe(sentinel)
     return () => observer.disconnect()
   }, [])
@@ -183,7 +183,7 @@ export function Header() {
           </a>
           {!touch && (
             <button type="button" onClick={openPalette} aria-label={`Open command menu, ${shortcut}`} className="group inline-flex min-h-11 items-center">
-              <kbd className="rounded border border-paper/20 px-1.5 py-0.5 text-[0.65rem] text-paper/80 transition-colors duration-[600ms] ease-out-expo group-hover:border-paper/50 group-hover:text-paper">
+              <kbd className="rounded border border-paper/20 px-1.5 py-0.5 text-[0.65rem] text-paper/80 transition-[color,border-color] duration-[600ms] ease-out-expo group-hover:border-paper/50 group-hover:text-paper">
                 {shortcut}
               </kbd>
             </button>

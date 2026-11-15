@@ -8,7 +8,7 @@ import { Hackathon } from '../sections/Hackathon'
 
 const KICKER = 'text-[0.65rem] uppercase tracking-[0.12em] text-accent md:text-xs'
 const BODY = 'text-xs leading-[1.9] text-paper/70 md:text-sm'
-const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper'
+const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper'
 
 type Block = NonNullable<Competition['block']>
 type WithBlock = Competition & { block: Block }

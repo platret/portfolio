@@ -43,7 +43,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
             <button
               type="button"
               onClick={() => copyText(site.email, site.copiedEmail)}
-              className="inline-flex min-h-11 items-center gap-2 transition-colors duration-[600ms] ease-out-expo hover:text-accent md:min-h-0"
+              className="inline-flex min-h-11 items-center gap-2 transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-accent md:min-h-0"
             >
               Copy email
             </button>
@@ -51,7 +51,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
           {site.links.map((link) => (
             <li key={link.label}>
               {link.href.startsWith('http') ? (
-                <a href={link.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition-colors duration-[600ms] ease-out-expo hover:text-accent md:min-h-0">
+                <a href={link.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-accent md:min-h-0">
                   {link.label}
                 </a>
               ) : (

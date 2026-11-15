@@ -9,7 +9,7 @@ export type Crumb = {
   scroll?: boolean
 }
 
-const CRUMB = 'relative -my-3 inline-block py-3 transition-colors duration-[600ms] ease-out-expo hover:text-paper'
+const CRUMB = 'relative -my-3 inline-block py-3 transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-paper'
 
 /** 'Apps / iPhone' in the label row of a page head. */
 export function Breadcrumb({ items }: { items: Crumb[] }) {
