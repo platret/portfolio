@@ -173,3 +173,120 @@ html.lenis, html.lenis body {
     opacity: 0;
   }
 }
+
+/* App icon tile. The inset ring gives near-black icons an edge on the ink page;
+   the panel shows through transparent corners. Without an icon the plate carries a serif initial. */
+.app-icon {
+  position: relative;
+  display: block;
+  flex: none;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 22%;
+  background: var(--color-panel);
+  container-type: inline-size;
+}
+
+.app-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgb(242 240 235 / 0.12);
+}
+
+.app-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-icon__monogram {
+  position: absolute;
+  left: 13cqw;
+  bottom: 12cqw;
+  font-family: var(--font-display);
+  font-size: 78cqw;
+  line-height: 0.74;
+  letter-spacing: -0.03em;
+  color: rgb(242 240 235 / 0.7);
+}
+
+/* Apps index: hovering one row dims the others. CSS only, so 26 rows never re-render. */
+@media (hover: hover) and (pointer: fine) {
+  .shelf a {
+    transition: opacity 0.6s var(--ease-out-expo);
+  }
+
+  .shelf:has(a:hover) a:not(:hover) {
+    opacity: 0.45;
+  }
+}
+
+/* Screenshot strip: native sideways scrolling that bleeds to both screen edges.
+   Two rows: frames, bottom aligned, and their captions underneath. */
+.strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  grid-template-rows: auto auto;
+  column-gap: 1.75rem;
+  justify-content: start;
+  --shot-w: min(60rem, 74vw);
+  overflow-x: auto;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  padding-bottom: 1.25rem;
+  scroll-padding-inline: var(--gutter);
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(242 240 235 / 0.25) transparent;
+}
+
+.strip > figure {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.strip > figure > :first-child {
+  align-self: end;
+}
+
+/* Frame sizes. Phones share one width. Wide frames share one width on small screens
+   and one height from 48rem, so screenshots of different proportions line up. */
+.shot--phone {
+  width: min(58vw, 248px);
+}
+
+.shot--wide {
+  width: 86vw;
+}
+
+@media (min-width: 48rem) {
+  .shot--phone {
+    width: clamp(200px, 16.5vw, 248px);
+  }
+
+  .shot--wide {
+    --shot-h: min(calc(var(--shot-w) * var(--strip-ratio, 0.625)), 40rem);
+    width: calc(var(--shot-h) * var(--shot-aspect, 1.6));
+  }
+
+  /* A strip inside a column of the page grid: it starts at the column's edge,
+     still runs off the right side of the screen, and its frames are smaller. */
+  .strip--column {
+    --shot-w: min(44rem, 46vw);
+    margin-left: 0;
+    padding-left: 0;
+    scroll-padding-left: 0;
+  }
+
+  .shot--wide.shot--alone {
+    width: min(68rem, calc(100vw - var(--gutter) * 2));
+  }
+}

@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
+import { apps } from '../content/apps'
 import { home, nav, pageTitle, type NavId } from '../content/nav'
-import { site } from '../content/site'
+import { appBySlug, shelfById, shelfTitle } from '../lib/apps'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
 
@@ -23,14 +24,33 @@ export type RouteDef = {
 
 const navHead = (id: NavId) => (): RouteHead => {
   const item = nav.find((n) => n.id === id)!
-  // Stage 2 counts apps.ts here.
-  return { title: item.title, description: item.description.replace('{n}', String(site.projects.length)) }
+  return { title: item.title, description: item.description.replace('{n}', String(apps.length)) }
+}
+
+/** The index keeps one description; a filtered view names its shelf in the tab title. */
+const appsHead = (_params: Params, search: URLSearchParams): RouteHead => {
+  const head = navHead('apps')()
+  const shelf = shelfById(search.get('kind'))
+  return shelf ? { ...head, title: pageTitle(shelfTitle(shelf)) } : head
+}
+
+const appHead = (params: Params): RouteHead => {
+  const app = appBySlug(params.slug)
+  return app ? { title: pageTitle(app.name), description: app.tagline } : { title: pageTitle('Apps') }
 }
 
 /** Home and Not found ship in the entry chunk; every other page is its own chunk. */
 export const routes: RouteDef[] = [
   { id: 'home', pattern: '/', load: () => Home, head: () => home },
-  { id: 'apps', pattern: '/apps', nav: 'apps', load: () => import('../pages/Apps').then((m) => m.default), head: navHead('apps') },
+  { id: 'apps', pattern: '/apps', nav: 'apps', load: () => import('../pages/Apps').then((m) => m.default), head: appsHead },
+  {
+    id: 'app',
+    pattern: '/apps/:slug',
+    nav: 'apps',
+    load: () => import('../pages/AppDetail').then((m) => m.default),
+    valid: (params) => Boolean(appBySlug(params.slug)),
+    head: appHead,
+  },
   { id: 'history', pattern: '/history', nav: 'history', load: () => import('../pages/History').then((m) => m.default), head: navHead('history') },
   { id: 'competitions', pattern: '/competitions', nav: 'competitions', load: () => import('../pages/Competitions').then((m) => m.default), head: navHead('competitions') },
   { id: 'about', pattern: '/about', nav: 'about', load: () => import('../pages/About').then((m) => m.default), head: navHead('about') },

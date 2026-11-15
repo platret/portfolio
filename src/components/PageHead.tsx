@@ -11,17 +11,21 @@ type Props = {
   right?: ReactNode
   /** The page heading, one string per line. Pages without it render their own h1. */
   title?: string[]
+  /** A short paragraph beside the heading from 768 px, under it on phones. Needs `title`. */
+  lead?: ReactNode
 }
 
+const TITLE = 'font-display text-[clamp(3rem,7.5vw,9rem)] leading-[0.9] tracking-[-0.03em] outline-none'
+
 /** The top of every inner page: a label row, a hairline that draws from the left, and the h1. */
-export function PageHead({ left, right, title }: Props) {
+export function PageHead({ left, right, title, lead }: Props) {
   const reduced = useReducedMotion()
 
   return (
     <div className="px-5 pt-[calc(var(--header-h)+2.5rem)] md:px-12 md:pt-[calc(var(--header-h)+10vh)]">
       <div className="flex items-end justify-between gap-6 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:text-xs">
-        <span>{left}</span>
-        {right !== undefined && <span className="text-right">{right}</span>}
+        <div>{left}</div>
+        {right !== undefined && <div className="text-right">{right}</div>}
       </div>
       <motion.div
         aria-hidden="true"
@@ -30,13 +34,19 @@ export function PageHead({ left, right, title }: Props) {
         animate={{ scaleX: 1 }}
         transition={{ duration: DUR.base, ease: EASE_OUT }}
       />
-      {title && (
-        <MaskedLines
-          as="h1"
-          tabIndex={-1}
-          lines={title}
-          className="mt-8 font-display text-[clamp(3rem,7.5vw,9rem)] leading-[0.9] tracking-[-0.03em] outline-none md:mt-12"
-        />
+      {title && !lead && <MaskedLines as="h1" tabIndex={-1} lines={title} className={`mt-8 md:mt-12 ${TITLE}`} />}
+      {title && lead && (
+        <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-8 md:mt-12 md:grid-cols-12 md:items-end">
+          <MaskedLines as="h1" tabIndex={-1} lines={title} className={`md:col-span-6 ${TITLE}`} />
+          <motion.div
+            className="md:col-span-6 md:col-start-7 md:pb-[0.6vw]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: DUR.base, ease: EASE_OUT, delay: 0.3 }}
+          >
+            {lead}
+          </motion.div>
+        </div>
       )}
     </div>
   )
