@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# iCloud sync duplicates ("Toast 2.tsx", "web 2.jpg"). Never part of the site.
+* [2-9].*
