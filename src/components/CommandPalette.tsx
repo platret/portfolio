@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { apps, KIND_LABEL } from '../content/apps'
 import { nav } from '../content/nav'
 import { site } from '../content/site'
+import { orderedApps } from '../lib/apps'
 import { lockScroll, scrollToId, scrollToTop } from '../lib/scroll'
 import { EASE_OUT } from '../lib/motion'
 import { copyText, isMac, PALETTE_EVENT, ROUTE_EVENT } from '../lib/ui'
 import { navigate } from '../router/router'
 
-const GROUPS = ['Go to', 'Projects', 'Do'] as const
+const GROUPS = ['Go to', 'Apps', 'Do'] as const
 
 type Command = {
   id: string
@@ -28,18 +30,15 @@ function buildCommands(): Command[] {
     go('contact', 'Contact', () => scrollToId('contact'), 'email say hi'),
   ]
 
-  const projects: Command[] = site.projects
-    .filter((p) => p.href)
-    .map((p) => ({
-      id: `project-${p.title}`,
-      group: 'Projects',
-      label: p.title,
-      hint: p.stack,
-      keywords: p.description,
-      run: external(p.href!),
-    }))
+  const catalogue: Command[] = orderedApps.map((app) => ({
+    id: `app-${app.slug}`,
+    group: 'Apps',
+    label: app.name,
+    hint: KIND_LABEL[app.kind],
+    keywords: `${app.tagline} ${app.stack.join(' ')}`,
+    run: () => void navigate(`/apps/${app.slug}`),
+  }))
 
-  const linked = site.projects.filter((p) => p.href)
   const actions: Command[] = [
     { id: 'copy-email', group: 'Do', label: 'Copy email address', hint: site.email, keywords: 'contact mail', run: () => copyText(site.email, 'Email copied. Talk soon.') },
     { id: 'mail', group: 'Do', label: 'Write me an email', keywords: 'contact hire', run: () => { window.location.href = `mailto:${site.email}` } },
@@ -48,17 +47,20 @@ function buildCommands(): Command[] {
       id: 'surprise',
       group: 'Do',
       label: 'Surprise me',
-      hint: 'Random project',
+      hint: 'Random app',
       keywords: 'random lucky',
       run: () => {
-        const pick = linked[Math.floor(Math.random() * linked.length)]
-        if (pick?.href) window.open(pick.href, '_blank', 'noopener,noreferrer')
+        // Never the page that is already open.
+        const here = window.location.pathname
+        const pool = apps.filter((app) => !here.endsWith(`/apps/${app.slug}`))
+        const pick = pool[Math.floor(Math.random() * pool.length)]
+        if (pick) void navigate(`/apps/${pick.slug}`)
       },
     },
     { id: 'top', group: 'Do', label: 'Back to the top', keywords: 'scroll start', run: scrollToTop },
   ]
 
-  return [...pages, ...projects, ...actions]
+  return [...pages, ...catalogue, ...actions]
 }
 
 // Every typed character must appear in order; earlier, tighter matches score higher.

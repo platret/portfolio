@@ -56,7 +56,7 @@ export const site = {
   employer: 'Apprentice at UBS',
   location: 'Zurich, CH',
   email: 'platret.alex@gmail.com',
-  status: { label: 'Now building', value: 'Sponsuno', href: 'https://sponsuno.ch' },
+  status: { label: 'Now building', value: 'Sponsuno', to: '/apps/sponsuno' },
   intro:
     'Frontend is where I spend most of my time. I build considered interfaces in React and TypeScript, and take projects from the first screen to the backend behind it. Apprentice at UBS in Zurich by day; on the side I am building a startup, shipping iOS apps and pitching hackathon prototypes.',
   projects: [
@@ -148,7 +148,7 @@ export const site = {
   portrait: { src: 'images/portrait.png', alt: 'Illustrated halftone portrait' },
   now: [
     { label: 'Location', value: 'Zurich, CH', clock: 'Europe/Zurich' },
-    { label: 'Currently', value: 'Building Sponsuno at Youngpreneurs' },
+    { label: 'Currently', value: 'Building Sponsuno at Youngpreneurs', to: '/apps/sponsuno' },
     { label: 'Day job', value: 'Apprentice at UBS' },
     { label: 'Latest', value: 'ZentralHack 2026, ROCHADE', to: '/competitions#zentralhack' },
     { label: 'Building', value: 'iOS apps & AI workflows' },

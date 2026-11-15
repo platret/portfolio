@@ -34,6 +34,7 @@ export const history: HistoryItem[] = [
     year: '2026',
     title: 'SentieroAlpino',
     detail: 'Built a hiking route API. Learned to design an API before writing it.',
+    to: '/apps/sentiero-alpino',
   },
   {
     year: '2026',
@@ -50,6 +51,7 @@ export const history: HistoryItem[] = [
     year: '2026',
     title: 'Sponsuno',
     detail: 'Started a sponsoring startup with a team of four. Built sponsuno.ch, the product preview and the pipeline that ships it.',
+    to: '/apps/sponsuno',
   },
   {
     year: '2026',

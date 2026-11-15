@@ -1,22 +1,22 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { AppIcon } from '../components/apps/AppIcon'
+import { apps } from '../content/apps'
 import { competitions } from '../content/competitions'
 import { history } from '../content/history'
 import { nav, type NavId } from '../content/nav'
 import { site } from '../content/site'
 import { useIsTouch } from '../hooks/useIsTouch'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { featuredApps } from '../lib/apps'
 import { EASE_OUT, EASE_OUT_CSS, DUR } from '../lib/motion'
-import { asset } from '../lib/paths'
 import { Link } from '../router/router'
 
-// Stage 2 reads the count and the eight featured icons from content/apps.ts.
-const icons = site.projects.flatMap((project) => (project.icon ? [project.icon] : [])).slice(0, 8)
 const result = competitions.find((competition) => !competition.upcoming)
 
 /** The first line of each row's right column, computed from the content. */
 const datum: Record<NavId, string> = {
-  apps: `${site.projects.length} apps`,
+  apps: `${apps.length} apps`,
   history: `${history[0].year} – ${history[history.length - 1].year}`,
   competitions: result ? `${result.name} ${result.figure}, ${result.note.toLowerCase()}` : '',
   about: site.location,
@@ -62,10 +62,10 @@ export function HomeDoors() {
                 >
                   <span className="block">
                     <span className="block font-display text-[9vw] leading-[0.95] tracking-[-0.02em] md:text-[clamp(2.2rem,5vw,6.5rem)]">{item.label}</span>
-                    {item.id === 'apps' && icons.length > 0 && (
-                      <span className="mt-4 flex gap-2 md:mt-5">
-                        {icons.map((icon) => (
-                          <img key={icon} src={asset(icon)} alt="" width={40} height={40} loading="lazy" decoding="async" className="h-10 w-10 rounded-[22%] bg-panel object-cover" />
+                    {item.id === 'apps' && featuredApps.length > 0 && (
+                      <span className="mt-4 flex flex-wrap gap-2 md:mt-5">
+                        {featuredApps.map((app) => (
+                          <AppIcon key={app.slug} app={app} size={40} className="w-[min(2.5rem,calc((100vw-2.5rem-3.5rem)/8))]" />
                         ))}
                       </span>
                     )}

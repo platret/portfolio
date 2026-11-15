@@ -4,6 +4,7 @@ import { MaskedLines } from '../components/MaskedLines'
 import { site } from '../content/site'
 import { EASE_OUT, DUR } from '../lib/motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { Link } from '../router/router'
 
 // The full choreography plays once per session. Coming back to Home, it runs four times faster.
 let heroPlayed = false
@@ -42,11 +43,8 @@ export function Hero() {
         transition={{ duration: DUR.base, ease: EASE_OUT, delay: 1.5 * pace }}
       >
         <p className="max-w-[26ch] text-[0.7rem] leading-[1.7] text-paper/60 md:text-xs">Interfaces first. Everything behind them, too.</p>
-        {/* Stage 2 turns this into a Link to the Sponsuno app page. */}
-        <a
-          href={site.status.href}
-          target="_blank"
-          rel="noreferrer"
+        <Link
+          to={site.status.to}
           data-cursor="hover"
           className="group inline-flex items-center gap-2.5 rounded-full border border-paper/15 bg-paper/[0.03] py-1 pl-2.5 pr-3 text-[0.65rem] text-paper/70 transition-colors hover:border-accent/60 hover:text-paper md:text-[0.7rem]"
         >
@@ -56,8 +54,7 @@ export function Hero() {
           </span>
           <span className="text-paper/50">{site.status.label}</span>
           {site.status.value}
-          <span aria-hidden="true" className="transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">↗</span>
-        </a>
+        </Link>
       </motion.div>
 
       <MaskedLines

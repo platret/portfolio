@@ -152,7 +152,7 @@ function checkLink(owner: string, to: string | undefined) {
 
 history.forEach((item) => checkLink(`history.ts, ${item.title}`, item.to))
 site.now.forEach((item) => checkLink(`site.ts, now, ${item.label}`, item.to))
-checkLink('site.ts, status', (site.status as { to?: string }).to)
+checkLink('site.ts, status', site.status.to)
 
 // Report
 

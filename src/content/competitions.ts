@@ -19,7 +19,7 @@ export type Competition = {
     /** Heading, one string per line. */
     title: string[]
     text: string
-    /** Slug of the app this produced. Renders a link to its page (and its screenshots, Stage 2). */
+    /** Slug of the app this produced. Renders a link to its page and its first screenshots. */
     app?: string
   }
 }
@@ -35,6 +35,7 @@ export const competitions: Competition[] = [
       kicker: 'ICT Skills Battle 2026 / Winner',
       title: ['First place,', 'under pressure.'],
       text: 'A Killer Sudoku desktop app in Electron, React and SQLite, built under competition time pressure.',
+      app: 'killer-sudoku',
     },
   },
   {
@@ -69,6 +70,8 @@ export type Hackathon = {
   beats: { label: string; detail: string }[]
   stack: string[]
   links: { label: string; href: string }[]
+  /** Slug of the app page that tells the rest. */
+  app: string
   /** Paths under public/. */
   shots: { web: { file: string; alt: string }; phones: { file: string; alt: string }[] }
 }
@@ -93,6 +96,7 @@ export const hackathon: Hackathon = {
     { label: 'Live site', href: 'https://roschade.alexplatret.com' },
     { label: 'Code', href: 'https://github.com/platret/ROCHADE' },
   ],
+  app: 'rochade',
   shots: {
     web: { file: 'images/rochade/web.jpg', alt: 'ROCHADE website: “Sanieren, ohne jemanden rauszuwerfen” above a live plan of three houses' },
     phones: [

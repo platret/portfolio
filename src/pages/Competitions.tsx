@@ -1,10 +1,14 @@
+import { ShotStrip } from '../components/apps/ShotStrip'
 import { FactRows } from '../components/FactRows'
 import { PageHead } from '../components/PageHead'
 import { competitions, programme, type Competition } from '../content/competitions'
+import { appBySlug } from '../lib/apps'
+import { Link } from '../router/router'
 import { Hackathon } from '../sections/Hackathon'
 
 const KICKER = 'text-[0.65rem] uppercase tracking-[0.12em] text-accent md:text-xs'
 const BODY = 'text-xs leading-[1.9] text-paper/70 md:text-sm'
+const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper'
 
 // ZentralHack has no block of its own: the Hackathon section carries its anchor.
 const hasAnchor = (competition: Competition) => Boolean(competition.block) || competition.id === 'zentralhack'
@@ -28,21 +32,37 @@ export default function Competitions() {
         <FactRows rows={results} className="md:col-span-6 md:col-start-7" />
       </div>
 
-      {past.map(({ id, block }) => (
-        <article key={id} id={id} aria-labelledby={`${id}-title`} className="px-5 pt-16 md:px-12 md:pt-[16vh]">
-          <div className="hairline border-t pt-8 md:pt-12">
-            <p className={`mb-6 ${KICKER}`}>{block!.kicker}</p>
-            <h2 id={`${id}-title`} className="font-display text-[clamp(2.7rem,5.7vw,6.8rem)] leading-[0.98] tracking-[-0.03em]">
-              {block!.title.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </h2>
-            <p className={`mt-6 max-w-[48ch] ${BODY}`}>{block!.text}</p>
-          </div>
-        </article>
-      ))}
+      {past.map(({ id, block }) => {
+        const app = block!.app ? appBySlug(block!.app) : undefined
+        const shots = app?.screenshots.filter((shot) => shot.frame !== 'phone').slice(0, 3) ?? []
+        return (
+          <article key={id} id={id} aria-labelledby={`${id}-title`} className="px-5 pt-16 md:px-12 md:pt-[16vh]">
+            <div className="hairline grid grid-cols-1 gap-x-8 gap-y-12 border-t pt-8 md:grid-cols-12 md:pt-12">
+              <div className="md:col-span-5">
+                <p className={`mb-6 ${KICKER}`}>{block!.kicker}</p>
+                <h2 id={`${id}-title`} className="font-display text-[clamp(2.7rem,5.7vw,6.8rem)] leading-[0.98] tracking-[-0.03em]">
+                  {block!.title.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </h2>
+                <p className={`mt-6 max-w-[48ch] ${BODY}`}>{block!.text}</p>
+                {app && (
+                  <Link to={`/apps/${app.slug}`} data-cursor="hover" className={`mt-6 text-xs ${LINK}`}>
+                    {app.name}, the app
+                  </Link>
+                )}
+              </div>
+              {app && shots.length > 0 && (
+                <div className="min-w-0 md:col-span-7">
+                  <ShotStrip app={app} shots={shots} column />
+                </div>
+              )}
+            </div>
+          </article>
+        )
+      })}
 
       <Hackathon />
 

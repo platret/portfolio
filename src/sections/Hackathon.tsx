@@ -7,6 +7,7 @@ import { EASE_OUT, DUR } from '../lib/motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { MaskedLines } from '../components/MaskedLines'
 import { BrowserFrame } from '../components/BrowserFrame'
+import { Link } from '../router/router'
 
 const HOURS = 24
 const pad = (n: number) => String(Math.floor(n)).padStart(2, '0')
@@ -156,7 +157,12 @@ export function Hackathon() {
                 <li key={item} className="rounded-full border border-paper/15 px-3 py-1 text-[0.65rem] text-paper/60">{item}</li>
               ))}
             </ul>
-            <ul className="flex shrink-0 gap-6 text-xs">
+            <ul className="flex shrink-0 flex-wrap gap-x-6 text-xs">
+              <li>
+                <Link to={`/apps/${hack.app}`} data-cursor="hover" className="inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper">
+                  {hack.name}, the app
+                </Link>
+              </li>
               {hack.links.map((link) => (
                 <li key={link.label}>
                   <a href={link.href} target="_blank" rel="noreferrer" data-cursor="hover" className="group inline-flex min-h-11 items-center gap-3 border-b border-paper/40">

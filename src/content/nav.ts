@@ -66,9 +66,8 @@ export const home = {
  *  '#intro' and '#contact' are not here: both still exist on '/'. */
 export const legacyHashes: Record<string, string> = {
   work: '/apps',
-  // Stage 2 points these two at '/apps/sponsuno' and '/apps/lernspur'.
-  'feature-sponsuno': '/apps#feature-sponsuno',
-  'feature-lernspur': '/apps#feature-lernspur',
+  'feature-sponsuno': '/apps/sponsuno',
+  'feature-lernspur': '/apps/lernspur',
   hackathon: '/competitions#zentralhack',
   now: '/about#now',
   about: '/about',
