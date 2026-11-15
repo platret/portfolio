@@ -12,9 +12,35 @@
   --color-ink: #0a0a0a;
   --color-paper: #f2f0eb;
   --color-accent: #ff4a17;
+  --color-panel: #141614;
   --font-display: "Instrument Serif", "Times New Roman", serif;
   --font-mono: "Departure Mono", ui-monospace, monospace;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --header-h: 3.5rem;
+  --gutter: 1.25rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --header-h: 4rem;
+    --gutter: 3rem;
+  }
+}
+
+@layer base {
+  /* One focus ring for everything. Utilities such as -outline-offset-2 still win where a row fills its container. */
+  :where(a, button, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Anchor targets land below the fixed header. Lenis reads this value too. */
+  :where([id]) {
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
 }
 
 html {
@@ -65,3 +91,85 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
+
+/* Skip link: off screen until the keyboard reaches it. */
+.skip-link {
+  position: fixed;
+  left: 1.25rem;
+  top: 1.25rem;
+  z-index: 95;
+  padding: 0.625rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-paper) 20%, transparent);
+  border-radius: 9999px;
+  background: var(--color-ink);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateY(-300%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.skip-link:focus {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+#top-sentinel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Header. The ground sits on a pseudo-element: a backdrop-filter on the header itself
+   would turn it into the containing block of the full-screen phone menu inside it. */
+.site-header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 70;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-paper) 18%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 85%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s linear;
+}
+
+.site-header[data-scrolled="true"]::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header::before {
+    transition: none;
+  }
+}
+
+/* Route change: a hard cut, then the new page fades in. RouterView re-triggers it. */
+@media (prefers-reduced-motion: no-preference) {
+  main[data-route-in] {
+    animation: route-in 0.2s var(--ease-out-expo) both;
+  }
+}
+
+@keyframes route-in {
+  from {
+    opacity: 0;
+  }
+}

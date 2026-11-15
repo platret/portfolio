@@ -1,12 +1,16 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { site, type NowItem } from '../content/site'
 import { EASE_OUT, EASE_OUT_CSS, DUR } from '../lib/motion'
 import { useClock } from '../hooks/useClock'
 import { useIsTouch } from '../hooks/useIsTouch'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { asset } from '../lib/paths'
 import { MaskedLines } from '../components/MaskedLines'
-import { PortraitCanvas } from './PortraitCanvas'
+import { Link } from '../router/router'
+import type { PortraitCanvas } from './PortraitCanvas'
+
+const portrait = asset(site.portrait.src)
 
 function Clock({ zone }: { zone: string }) {
   const time = useClock(zone)
@@ -28,7 +32,13 @@ function NowRow({ item, index }: { item: NowItem; index: number }) {
     >
       <span className="text-paper/55">{item.label}</span>
       <span className="flex items-baseline gap-3 text-right">
-        <span>{item.value}</span>
+        {item.to ? (
+          <Link to={item.to} data-cursor="hover" className="border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper">
+            {item.value}
+          </Link>
+        ) : (
+          <span>{item.value}</span>
+        )}
         {item.clock && <Clock zone={item.clock} />}
       </span>
     </motion.li>
@@ -42,10 +52,27 @@ export function Now() {
   const touch = useIsTouch()
   const reduced = useReducedMotion()
   const webgl = !touch && !reduced
+  // ogl and the shaders load only when the distortion will actually run.
+  const [Canvas, setCanvas] = useState<typeof PortraitCanvas | null>(null)
+
+  useEffect(() => {
+    if (!webgl) return
+    let live = true
+    import('./PortraitCanvas')
+      .then((module) => {
+        if (live) setCanvas(() => module.PortraitCanvas)
+      })
+      .catch(() => {
+        // The still image stays.
+      })
+    return () => {
+      live = false
+    }
+  }, [webgl])
 
   return (
     <section id="now" className="relative grid grid-cols-1 gap-x-8 px-5 py-16 md:grid-cols-12 md:px-12 md:py-[22vh]">
-      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:col-span-12 md:mb-16 md:text-xs">04 / Now</p>
+      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:col-span-12 md:mb-16 md:text-xs">Now</p>
 
       <motion.div
         className="md:col-span-5 md:-ml-12"
@@ -56,14 +83,14 @@ export function Now() {
       >
         <div ref={frameRef} className="relative aspect-[4/5] w-full overflow-hidden" data-cursor="hover">
           <img
-            src={site.portrait.src}
+            src={portrait}
             alt={site.portrait.alt}
             className="h-full w-full object-cover"
-            style={{ opacity: gl ? 0 : 1, transition: `opacity ${DUR.fast}s ${EASE_OUT_CSS}` }}
+            style={{ opacity: gl && webgl ? 0 : 1, transition: `opacity ${DUR.fast}s ${EASE_OUT_CSS}` }}
           />
-          {webgl && <PortraitCanvas frameRef={frameRef} src={site.portrait.src} onReady={onReady} />}
+          {webgl && Canvas && <Canvas frameRef={frameRef} src={portrait} onReady={onReady} />}
         </div>
-        <p className="mt-4 text-[0.7rem] text-paper/40 md:text-xs">Away from the screen: DJ sets, the gym and a good game.</p>
+        <p className="mt-4 text-[0.7rem] text-paper/50 md:pl-12 md:text-xs">Away from the screen: DJ sets, the gym and a good game.</p>
       </motion.div>
 
       <div className="mt-16 md:col-span-6 md:col-start-7 md:mt-[18vh]">

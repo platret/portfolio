@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { gsap, ScrollTrigger } from '../lib/gsap'
+import { gsap, requestRefresh } from '../lib/gsap'
 import { site } from '../content/site'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useIsMobile, useIsTouch } from '../hooks/useIsTouch'
@@ -42,15 +42,12 @@ export function Intro() {
 
     return () => {
       ctx.revert()
-      ScrollTrigger.refresh()
+      requestRefresh()
     }
   }, [staticText])
 
   return (
-    <section id="intro" className="relative px-5 py-16 md:px-12 md:py-[28vh]">
-      <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:absolute md:left-12 md:top-[28vh] md:mb-0 md:text-xs">
-        01 / Intro
-      </p>
+    <section id="intro" className="relative px-5 py-16 md:px-12 md:pb-[16vh] md:pt-[28vh]">
       <p
         ref={ref}
         className="max-w-[60ch] font-display text-[clamp(1.75rem,3.4vw,3.6rem)] leading-[1.12] tracking-[-0.01em] md:ml-[26vw]"

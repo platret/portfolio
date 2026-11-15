@@ -3,8 +3,9 @@ import { BrowserFrame } from '../components/BrowserFrame'
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import type { Feature } from '../content/site'
+import { asset } from '../lib/paths'
 
-const src = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
+const src = (file: string) => asset(`images/${file}`)
 
 export function FeaturedProject({ feature, flip = false }: { feature: Feature; flip?: boolean }) {
   const [active, setActive] = useState(0)

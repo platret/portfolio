@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import type { Project } from '../content/site'
 import { EASE_OUT, EASE_OUT_CSS, DUR } from '../lib/motion'
+import { asset } from '../lib/paths'
 
 type Props = {
   project: Project
@@ -65,7 +66,7 @@ export function WorkRow({ project, index, order, hovered, interactive, compact =
             style={{ color: isHover ? 'var(--color-accent)' : 'rgba(242,240,235,0.5)', transition: `color ${DUR.fast}s ${EASE_OUT_CSS}` }}
           >
             {project.icon ? (
-              <img src={project.icon} alt="" width={80} height={80} loading="lazy" decoding="async" className="aspect-square w-12 rounded-[22%] object-cover md:w-20" />
+              <img src={asset(project.icon)} alt="" width={80} height={80} loading="lazy" decoding="async" className="aspect-square w-12 rounded-[22%] object-cover md:w-20" />
             ) : String(index + 1).padStart(2, '0')}
           </span>
           <span className={titleClass}>{project.title}</span>

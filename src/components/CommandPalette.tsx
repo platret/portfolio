@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { nav } from '../content/nav'
 import { site } from '../content/site'
-import { scroll, scrollToId } from '../lib/scroll'
+import { lockScroll, scrollToId, scrollToTop } from '../lib/scroll'
 import { EASE_OUT } from '../lib/motion'
-import { copyText, isMac, PALETTE_EVENT } from '../lib/ui'
+import { copyText, isMac, PALETTE_EVENT, ROUTE_EVENT } from '../lib/ui'
+import { navigate } from '../router/router'
 
 const GROUPS = ['Go to', 'Projects', 'Do'] as const
 
@@ -19,13 +21,12 @@ type Command = {
 const external = (href: string) => () => window.open(href, '_blank', 'noopener,noreferrer')
 
 function buildCommands(): Command[] {
-  const sections: Command[] = site.sections.map((s, i) => ({
-    id: `go-${s.id}`,
-    group: 'Go to',
-    label: s.label,
-    hint: String(i + 1).padStart(2, '0'),
-    run: () => scrollToId(s.id),
-  }))
+  const go = (id: string, label: string, run: () => void, keywords?: string): Command => ({ id: `go-${id}`, group: 'Go to', label, keywords, run })
+  const pages: Command[] = [
+    go('home', 'Home', () => void navigate('/'), 'start hero'),
+    ...nav.map((item) => go(item.id, item.label, () => void navigate(item.to), item.blurb)),
+    go('contact', 'Contact', () => scrollToId('contact'), 'email say hi'),
+  ]
 
   const projects: Command[] = site.projects
     .filter((p) => p.href)
@@ -54,10 +55,10 @@ function buildCommands(): Command[] {
         if (pick?.href) window.open(pick.href, '_blank', 'noopener,noreferrer')
       },
     },
-    { id: 'top', group: 'Do', label: 'Back to the top', keywords: 'scroll start home', run: () => (scroll.lenis ? scroll.lenis.scrollTo(0, { duration: 1.6 }) : window.scrollTo({ top: 0, behavior: 'smooth' })) },
+    { id: 'top', group: 'Do', label: 'Back to the top', keywords: 'scroll start', run: scrollToTop },
   ]
 
-  return [...sections, ...projects, ...actions]
+  return [...pages, ...projects, ...actions]
 }
 
 // Every typed character must appear in order; earlier, tighter matches score higher.
@@ -130,11 +131,18 @@ export function CommandPalette() {
   }, [open, show, hide])
 
   useEffect(() => {
-    if (open) {
-      scroll.lenis?.stop()
-      inputRef.current?.focus()
-    } else {
-      scroll.lenis?.start()
+    if (!open) return
+    lockScroll(true)
+    inputRef.current?.focus()
+    // A page change under the open palette closes it; focus then belongs to the new page.
+    const onRoute = () => {
+      returnFocus.current = null
+      setOpen(false)
+    }
+    window.addEventListener(ROUTE_EVENT, onRoute)
+    return () => {
+      window.removeEventListener(ROUTE_EVENT, onRoute)
+      lockScroll(false)
       returnFocus.current?.focus?.()
     }
   }, [open])
@@ -208,7 +216,7 @@ export function CommandPalette() {
                   setActive(0)
                 }}
                 onKeyDown={onKeyDown}
-                placeholder="Jump to a section, open a project…"
+                placeholder="Jump to a page, find an app…"
                 spellCheck={false}
                 autoComplete="off"
                 className="h-14 w-full bg-transparent text-sm text-paper outline-none placeholder:text-paper/35"
@@ -217,7 +225,7 @@ export function CommandPalette() {
             </div>
 
             <ul ref={listRef} id="palette-list" role="listbox" aria-label="Commands" className="max-h-[min(52vh,420px)] overflow-y-auto overscroll-contain py-2" data-lenis-prevent>
-              {results.length === 0 && <li className="px-4 py-6 text-center text-xs text-paper/45">Nothing for “{query}”. Try “work” or “email”.</li>}
+              {results.length === 0 && <li className="px-4 py-6 text-center text-xs text-paper/45">Nothing for “{query}”. Try “apps” or “email”.</li>}
               {results.map((c, i) => {
                 const header = c.group !== results[i - 1]?.group ? c.group : null
                 const on = i === active

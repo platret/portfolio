@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 export function BrowserFrame({ domain, children }: { domain?: string; children: ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-[10px] border border-paper/10 bg-[#141614] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
+    <div className="overflow-hidden rounded-[10px] border border-paper/10 bg-panel shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
       <div className="flex items-center gap-3 border-b border-paper/10 px-4 py-2.5">
         <span aria-hidden="true" className="flex gap-1.5">
           <span className="h-2 w-2 rounded-full bg-paper/20" />

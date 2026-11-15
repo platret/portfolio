@@ -12,13 +12,8 @@ export type NowItem = {
   label: string
   value: string
   clock?: string
-}
-
-export type PathItem = {
-  year: string
-  title: string
-  detail: string
-  upcoming?: boolean
+  /** App path that turns the value into a link: '/competitions#zentralhack'. */
+  to?: string
 }
 
 export type Screen = {
@@ -46,16 +41,13 @@ export type Feature = {
 
 export type Fact = {
   label: string
-  value?: number
-  note?: string
-  list?: string[]
+  list: string[]
 }
 
 export const GITHUB_URL = 'https://github.com/platret'
 export const LINKEDIN_URL = 'https://ch.linkedin.com/in/alex-platret-087b2b351'
 
-const repo = (slug: string) => `${GITHUB_URL}/${slug}`
-const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`
+// Image paths are relative to public/ and resolved in components with asset().
 
 export const site = {
   name: 'Alex',
@@ -70,50 +62,50 @@ export const site = {
   projects: [
     {
       title: 'Sponsuno',
-      icon: asset('images/apps/sponsuno.png'),
+      icon: 'images/apps/sponsuno.png',
       year: '2026',
       stack: 'Startup · React, Vite, Cloudflare',
-      image: asset('images/sponsuno/home.jpg'),
+      image: 'images/sponsuno/home.jpg',
       description: 'Matching athletes and clubs in sport and culture with sponsors from their own region.',
       href: 'https://sponsuno.ch',
     },
     {
       title: 'ROCHADE',
-      icon: asset('images/apps/rochade.png'),
+      icon: 'images/apps/rochade.png',
       year: '2026',
       stack: 'ZentralHack · Expo, Supabase',
-      image: asset('images/rochade/web.jpg'),
+      image: 'images/rochade/web.jpg',
       description: 'Built in 24 hours: temporary-flat planning for housing cooperatives that renovate.',
       href: 'https://roschade.alexplatret.com',
     },
     {
       title: 'Lernspur',
-      icon: asset('images/apps/lernspur.png'),
+      icon: 'images/apps/lernspur.png',
       year: '2026',
       stack: 'SwiftUI · Local learning journal',
-      image: asset('images/lernspur.png'),
+      image: 'images/lernspur.png',
       description: 'A local learning journal for capturing progress and turning it into reports.',
       href: 'https://lernspur.alexplatret.com',
     },
     {
       title: 'What Was That?',
-      icon: asset('images/apps/whatwasthat.png'),
+      icon: 'images/apps/whatwasthat.png',
       year: '2026',
       stack: 'SwiftUI · Recommendations & widgets',
-      image: asset('images/whatwasthat.svg'),
+      image: 'images/whatwasthat.svg',
       description: 'Keep recommendations and remember who shared them, with quick access through widgets.',
       href: 'https://whatwasthat.alexplatret.com',
     },
     {
       title: 'Is it raining on me?',
-      icon: asset('images/apps/isitraining.png'),
+      icon: 'images/apps/isitraining.png',
       year: '2026',
       stack: 'SwiftUI · Rain radar & widgets',
-      image: asset('images/isitraining.png'),
+      image: 'images/isitraining.png',
       description: 'A focused answer to one question: will it rain here in the next 90 minutes?',
       href: 'https://isitraining.alexplatret.com',
     },
-    { title: 'SentieroAlpino', year: '2026', stack: 'Hiking route API', image: asset('images/preview-2.png'), description: 'A hiking project that taught me to design the API before writing the implementation.', href: repo('sentiero-alpino') },
+    { title: 'SentieroAlpino', year: '2026', stack: 'Hiking route API', image: 'images/preview-2.png', description: 'A hiking project that taught me to design the API before writing the implementation.', href: 'https://github.com/platret/sentiero-alpino' },
   ] as Project[],
   features: [
     {
@@ -153,42 +145,14 @@ export const site = {
       ],
     },
   ] as Feature[],
-  hackathon: {
-    event: 'ZentralHack 2026',
-    track: 'EntrepreneurSkills Challenge · SDG 11',
-    month: 'October 2026',
-    team: 'With Francesco Rocca',
-    name: 'ROCHADE',
-    title: ['Renovate without', 'evicting anyone.'],
-    text: 'When a housing cooperative renovates, residents move into temporary flats for months. ROCHADE works out who moves where and when, rebuilds the plan the moment a construction phase shifts, and says exactly what is missing when no plan fits.',
-    beats: [
-      { label: 'Problem', detail: 'Renovations push tenants out. Cooperatives juggle the temporary flats by hand.' },
-      { label: 'Solver', detail: 'An allocation solver that replans in place and explains every conflict.' },
-      { label: 'Two apps', detail: 'An iPhone app for residents and a web dashboard for the cooperative.' },
-      { label: 'Live sync', detail: 'Shift a phase on the dashboard; about two seconds later the resident’s phone updates.' },
-      { label: 'Pitch', detail: 'Two minutes on stage, a working MVP, and 24 passing tests behind it.' },
-    ],
-    stack: ['Expo', 'React 19', 'Supabase realtime', 'TypeScript', 'Vite 8'],
-    links: [
-      { label: 'Live site', href: 'https://roschade.alexplatret.com' },
-      { label: 'Code', href: `${GITHUB_URL}/ROCHADE` },
-    ],
-    shots: {
-      web: { file: 'rochade/web.jpg', alt: 'ROCHADE website: “Sanieren, ohne jemanden rauszuwerfen” above a live plan of three houses' },
-      phones: [
-        { file: 'rochade/mein-umzug.jpg', alt: 'ROCHADE iPhone app: a resident’s move with status, dates and checklist' },
-        { file: 'rochade/siedlung.jpg', alt: 'ROCHADE iPhone app: the estate view with the renovation phases as a timeline' },
-      ],
-    },
-  },
-  portrait: { src: asset('images/portrait.png'), alt: 'Illustrated halftone portrait' },
+  portrait: { src: 'images/portrait.png', alt: 'Illustrated halftone portrait' },
   now: [
     { label: 'Location', value: 'Zurich, CH', clock: 'Europe/Zurich' },
     { label: 'Currently', value: 'Building Sponsuno at Youngpreneurs' },
     { label: 'Day job', value: 'Apprentice at UBS' },
-    { label: 'Latest', value: 'ZentralHack 2026, ROCHADE' },
+    { label: 'Latest', value: 'ZentralHack 2026, ROCHADE', to: '/competitions#zentralhack' },
     { label: 'Building', value: 'iOS apps & AI workflows' },
-    { label: 'Next', value: 'ICT Skills national final, 2027' },
+    { label: 'Next', value: 'ICT Skills national final, 2027', to: '/competitions#national-final' },
     { label: 'Off hours', value: 'Gym, gaming, DJ sets' },
   ] as NowItem[],
   about: {
@@ -196,65 +160,9 @@ export const site = {
     text: 'I care about how an interface feels, down to the easing curve and the empty state. I also dabble in full-stack: Java backends, native iOS apps, AI agent pipelines and automated workflows. I like building the whole application and figuring out how the pieces fit together. Off hours I play records.',
   },
   facts: [
-    { label: 'ICT Skills Battle', value: 2026, note: 'Winner' },
-    { label: 'National finalist', value: 2027, note: 'ICT Skills' },
-    { label: 'ZentralHack', value: 24, note: 'hours to an MVP' },
     { label: 'Languages', list: ['TypeScript', 'Java', 'Swift'] },
     { label: 'Tools', list: ['React', 'Spring Boot', 'SwiftUI'] },
-    { label: 'Off hours', list: ['Gym', 'Gaming', 'DJ'] },
   ] as Fact[],
-  path: [
-    {
-      year: '2022',
-      title: 'Foundations',
-      detail: 'First real code. Programming basics, HTML and CSS, then JavaScript. Enough small projects to know this was the direction.',
-    },
-    {
-      year: '2024',
-      title: 'Apprenticeship at UBS',
-      detail: 'Started the application development apprenticeship in Zurich. Frontend work in React and TypeScript, backend in Java and Spring Boot, real teams, real reviews.',
-    },
-    {
-      year: '2026',
-      title: 'SentieroAlpino',
-      detail: 'Built a hiking route API. Learned to design an API before writing it.',
-    },
-    {
-      year: '2026',
-      title: 'ICT Skills Battle, winner',
-      detail: 'First place. A Killer Sudoku desktop app in Electron, React and SQLite built under competition time pressure.',
-    },
-    {
-      year: '2026',
-      title: 'Youngpreneurs',
-      detail: 'Joined Youngpreneurs as an entrepreneur. Scoping products, pricing them, pitching them.',
-    },
-    {
-      year: '2026',
-      title: 'Sponsuno',
-      detail: 'Started a sponsoring startup with a team of four. Built sponsuno.ch, the product preview and the pipeline that ships it.',
-    },
-    {
-      year: '2026',
-      title: 'ZentralHack, ROCHADE',
-      detail: '24 hours, one housing problem. Shipped a solver, an iPhone app and a live dashboard, then pitched it in two minutes.',
-    },
-    {
-      year: '2027',
-      title: 'National final',
-      detail: 'ICT Skills national finalist. Up next.',
-      upcoming: true,
-    },
-  ] as PathItem[],
-  sections: [
-    { id: 'intro', label: 'Intro' },
-    { id: 'work', label: 'Work' },
-    { id: 'hackathon', label: 'Hackathon' },
-    { id: 'now', label: 'Now' },
-    { id: 'about', label: 'About' },
-    { id: 'path', label: 'Path' },
-    { id: 'contact', label: 'Contact' },
-  ],
   links: [
     { label: 'GitHub', href: GITHUB_URL },
     { label: 'LinkedIn', href: LINKEDIN_URL },
