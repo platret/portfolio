@@ -6,8 +6,9 @@ import { existsSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { apps, SHOT_DEFAULT_SIZE } from '../src/content/apps.ts'
-import { competitions, programme } from '../src/content/competitions.ts'
+import { competitions, hackathon, programme } from '../src/content/competitions.ts'
 import { history } from '../src/content/history.ts'
+import { nav } from '../src/content/nav.ts'
 import { site } from '../src/content/site.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -135,18 +136,33 @@ for (const competition of competitions) {
   if (app && !slugs.has(app)) errors.push(`competitions.ts, ${competition.id}: block.app "${app}" is not a slug in apps.ts.`)
 }
 
-// Internal links written in the content files
+// Other images named in the content files
 
-const anchors = new Set<string>([...competitionIds, programme.id])
+checkFile('competitions.ts, hackathon', 'shots.web.file', hackathon.shots.web.file)
+hackathon.shots.phones.forEach((phone, i) => checkFile('competitions.ts, hackathon', `shots.phones[${i}].file`, phone.file))
+checkFile('site.ts', 'portrait.src', site.portrait.src)
+
+// Internal links written in the content files. A typo would quietly render the Not found page.
+
+const pages = new Set<string>(['/', ...nav.map((item) => item.to)])
+/** Anchors each page has, besides #main and #contact, which every page has. */
+const anchors: Record<string, Set<string>> = {
+  '/': new Set(['intro']),
+  '/competitions': new Set<string>([...competitionIds, programme.id]),
+  '/about': new Set(['now']),
+}
 
 function checkLink(owner: string, to: string | undefined) {
   if (!to) return
   const [path, hash] = to.split('#')
-  if (path.startsWith('/apps/') && !slugs.has(path.slice('/apps/'.length))) {
-    errors.push(`${owner}: link "${to}" points at an app that is not in apps.ts.`)
+  if (path.startsWith('/apps/')) {
+    if (!slugs.has(path.slice('/apps/'.length))) errors.push(`${owner}: link "${to}" points at an app that is not in apps.ts.`)
+  } else if (!pages.has(path)) {
+    errors.push(`${owner}: link "${to}" is not a page. Pages: ${[...pages].join(', ')}, /apps/<slug>.`)
+    return
   }
-  if (path === '/competitions' && hash && !anchors.has(hash)) {
-    errors.push(`${owner}: link "${to}" points at an anchor that is not in competitions.ts.`)
+  if (hash && hash !== 'main' && hash !== 'contact' && !anchors[path]?.has(hash)) {
+    errors.push(`${owner}: link "${to}" points at an anchor that does not exist on ${path}.`)
   }
 }
 
