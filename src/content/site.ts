@@ -23,6 +23,8 @@ export const site = {
   employer: 'Apprentice at UBS',
   location: 'Zurich, CH',
   email: 'platret.alex@gmail.com',
+  /** The toast after copying the email address. */
+  copiedEmail: 'Email copied. Talk soon.',
   status: { label: 'Now building', value: 'Sponsuno', to: '/apps/sponsuno' },
   intro:
     'Frontend is where I spend most of my time. I build considered interfaces in React and TypeScript, and take projects from the first screen to the backend behind it. Apprentice at UBS in Zurich by day; on the side I am building a startup, shipping iOS apps and pitching hackathon prototypes.',
@@ -34,11 +36,10 @@ export const site = {
     { label: 'Latest', value: 'ZentralHack 2026, ROCHADE', to: '/competitions#zentralhack' },
     { label: 'Building', value: 'iOS apps & AI workflows' },
     { label: 'Next', value: 'ICT Skills national final, 2027', to: '/competitions#national-final' },
-    { label: 'Off hours', value: 'Gym, gaming, DJ sets' },
   ] as NowItem[],
   about: {
     heading: ['Frontend,', 'mostly.'],
-    text: 'I care about how an interface feels, down to the easing curve and the empty state. I also dabble in full-stack: Java backends, native iOS apps, AI agent pipelines and automated workflows. I like building the whole application and figuring out how the pieces fit together. Off hours I play records.',
+    text: 'I care about how an interface feels, down to the easing curve and the empty state. I also dabble in full-stack: Java backends, native iOS apps, AI agent pipelines and automated workflows. I like building the whole application and figuring out how the pieces fit together.',
   },
   facts: [
     { label: 'Languages', list: ['TypeScript', 'Java', 'Swift'] },

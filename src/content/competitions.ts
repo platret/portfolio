@@ -14,8 +14,10 @@ export type Competition = {
   /** The block under the results. ZentralHack has none: the Hackathon section is its block.
    *  A competition with nothing more to say than its result has none either. */
   block?: {
-    /** Accent label above the heading: 'ICT Skills Battle 2026 / Winner'. */
-    kicker: string
+    /** The label row that opens the block, left and right: ['ICT Skills Battle', '2026']. */
+    label: [string, string]
+    /** Accent label above the heading. Leave out when the label row already says it all. */
+    kicker?: string
     /** Heading, one string per line. */
     title: string[]
     text: string
@@ -32,7 +34,8 @@ export const competitions: Competition[] = [
     figure: 2026,
     note: 'Winner',
     block: {
-      kicker: 'ICT Skills Battle 2026 / Winner',
+      label: ['ICT Skills Battle', '2026'],
+      kicker: 'Winner, Application Development',
       title: ['First place,', 'under pressure.'],
       text: 'A Killer Sudoku desktop app in Electron, React and SQLite, built under competition time pressure.',
       app: 'killer-sudoku',
@@ -52,9 +55,9 @@ export const competitions: Competition[] = [
     note: 'ICT Skills',
     upcoming: true,
     block: {
-      kicker: 'ICT Skills / 2027',
+      label: ['Up next', '2027'],
       title: ['National final.'],
-      text: 'Qualified for the ICT Skills national final. Up next.',
+      text: 'Qualified for the ICT Skills national final.',
     },
   },
 ]
@@ -123,6 +126,6 @@ export const programme: Programme = {
   id: 'youngpreneurs',
   kicker: 'Youngpreneurs Zurich 2026/27',
   title: ['Sponsuno,', 'at Youngpreneurs.'],
-  text: 'Youngpreneurs is a startup programme, not a contest, so there is no result to report here. I am building Sponsuno in it with a team of four, and I look after the technology. Sponsuno matches athletes and clubs in sport and culture with sponsors from their own region. The platform is not live yet. The site is up and the waitlist is open.',
+  text: 'Youngpreneurs is a startup programme, not a contest, so there is no result to report here. I am building Sponsuno in it with a team of four, and I look after the technology. Sponsuno matches athletes and clubs in sport and culture with sponsors from their own region. The platform is not live yet. The website is.',
   link: { label: 'Visit sponsuno.ch', href: 'https://sponsuno.ch' },
 }

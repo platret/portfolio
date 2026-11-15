@@ -10,8 +10,13 @@ const KICKER = 'text-[0.65rem] uppercase tracking-[0.12em] text-accent md:text-x
 const BODY = 'text-xs leading-[1.9] text-paper/70 md:text-sm'
 const LINK = 'inline-flex min-h-11 items-center border-b border-paper/40 transition-colors duration-[600ms] ease-out-expo hover:border-paper'
 
+type Block = NonNullable<Competition['block']>
+type WithBlock = Competition & { block: Block }
+
+const withBlock = (competition: Competition): competition is WithBlock => Boolean(competition.block)
+
 // ZentralHack has no block of its own: the Hackathon section carries its anchor.
-const hasAnchor = (competition: Competition) => Boolean(competition.block) || competition.id === 'zentralhack'
+const hasAnchor = (competition: Competition) => withBlock(competition) || competition.id === 'zentralhack'
 
 const results = competitions.map((competition) => ({
   label: competition.name,
@@ -20,8 +25,18 @@ const results = competitions.map((competition) => ({
   to: hasAnchor(competition) ? `/competitions#${competition.id}` : undefined,
 }))
 
-const past = competitions.filter((competition) => competition.block && !competition.upcoming)
-const upcoming = competitions.filter((competition) => competition.block && competition.upcoming)
+const past = competitions.filter(withBlock).filter((competition) => !competition.upcoming)
+const upcoming = competitions.filter(withBlock).filter((competition) => competition.upcoming)
+
+/** The two-sided label row that opens every block on the page, as on the Hackathon section. */
+function LabelRow({ left, right }: { left: string; right: string }) {
+  return (
+    <div className="mb-10 flex items-end justify-between gap-6 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-16 md:text-xs">
+      <span>{left}</span>
+      <span className="text-right">{right}</span>
+    </div>
+  )
+}
 
 export default function Competitions() {
   return (
@@ -33,21 +48,22 @@ export default function Competitions() {
       </div>
 
       {past.map(({ id, block }) => {
-        const app = block!.app ? appBySlug(block!.app) : undefined
+        const app = block.app ? appBySlug(block.app) : undefined
         const shots = app?.screenshots.filter((shot) => shot.frame !== 'phone').slice(0, 3) ?? []
         return (
           <article key={id} id={id} aria-labelledby={`${id}-title`} className="px-5 pt-16 md:px-12 md:pt-[16vh]">
+            <LabelRow left={block.label[0]} right={block.label[1]} />
             <div className="hairline grid grid-cols-1 gap-x-8 gap-y-12 border-t pt-8 md:grid-cols-12 md:pt-12">
               <div className="md:col-span-5">
-                <p className={`mb-6 ${KICKER}`}>{block!.kicker}</p>
+                {block.kicker && <p className={`mb-6 ${KICKER}`}>{block.kicker}</p>}
                 <h2 id={`${id}-title`} className="font-display text-[clamp(2.7rem,5.7vw,6.8rem)] leading-[0.98] tracking-[-0.03em]">
-                  {block!.title.map((line) => (
+                  {block.title.map((line) => (
                     <span key={line} className="block">
                       {line}
                     </span>
                   ))}
                 </h2>
-                <p className={`mt-6 max-w-[48ch] ${BODY}`}>{block!.text}</p>
+                <p className={`mt-6 max-w-[48ch] ${BODY}`}>{block.text}</p>
                 {app && (
                   <Link to={`/apps/${app.slug}`} data-cursor="hover" className={`mt-6 text-xs ${LINK}`}>
                     {app.name}, the app
@@ -67,27 +83,24 @@ export default function Competitions() {
       <Hackathon />
 
       {upcoming.map(({ id, block, figure }) => (
-        <section key={id} id={id} aria-labelledby={`${id}-title`} className="px-5 py-10 md:px-12 md:py-[8vh]">
-          <p className="mb-8 text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-12 md:text-xs">Up next</p>
+        <section key={id} id={id} aria-labelledby={`${id}-title`} className="px-5 pt-16 md:px-12 md:pt-[12vh]">
+          <LabelRow left={block.label[0]} right={block.label[1]} />
           <div className="relative grid grid-cols-1 gap-x-10 border-l border-paper/15 py-8 pl-8 md:ml-[12vw] md:grid-cols-[minmax(0,10vw)_1fr] md:py-12 md:pl-12">
             <span aria-hidden="true" className="absolute left-0 top-[2.6rem] h-2 w-2 -translate-x-[calc(50%+0.5px)] rounded-full border border-accent bg-ink md:top-[3.7rem]" />
             <span className="font-display text-[clamp(2.4rem,5vw,6rem)] leading-none tracking-[-0.03em] text-paper/40">{figure}</span>
             <div className="mt-4 md:mt-2">
-              <p className={`mb-2 ${KICKER}`}>{block!.kicker}</p>
+              {block.kicker && <p className={`mb-2 ${KICKER}`}>{block.kicker}</p>}
               <h2 id={`${id}-title`} className="text-[0.85rem] md:text-base">
-                {block!.title.join(' ')}
+                {block.title.join(' ')}
               </h2>
-              <p className="mt-2 max-w-[46ch] text-[0.7rem] leading-[1.7] text-paper/55 md:text-xs">{block!.text}</p>
+              <p className="mt-2 max-w-[46ch] text-[0.7rem] leading-[1.7] text-paper/55 md:text-xs">{block.text}</p>
             </div>
           </div>
         </section>
       ))}
 
       <section id={programme.id} aria-labelledby={`${programme.id}-title`} className="px-5 pb-8 pt-16 md:px-12 md:pb-[4vh] md:pt-[12vh]">
-        <div className="mb-10 flex items-end justify-between text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-16 md:text-xs">
-          <span>Programme</span>
-          <span>Not a competition</span>
-        </div>
+        <LabelRow left="Programme" right="Not a competition" />
         <div className="hairline grid grid-cols-1 gap-x-8 border-t pt-8 md:grid-cols-12 md:pt-12">
           <div className="md:col-span-6">
             <p className={`mb-6 ${KICKER}`}>{programme.kicker}</p>

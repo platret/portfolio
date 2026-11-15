@@ -32,15 +32,15 @@ export const history: HistoryItem[] = [
   },
   {
     year: '2026',
-    title: 'SentieroAlpino',
-    detail: 'Built a hiking route API. Learned to design an API before writing it.',
-    to: '/apps/sentiero-alpino',
-  },
-  {
-    year: '2026',
     title: 'ICT Skills Battle, winner',
     detail: 'First place. A Killer Sudoku desktop app in Electron, React and SQLite built under competition time pressure.',
     to: '/competitions#ict-skills-battle',
+  },
+  {
+    year: '2026',
+    title: 'SentieroAlpino',
+    detail: 'Built a frontend for a course hiking API in plain JavaScript, with every business rule checked in the browser.',
+    to: '/apps/sentiero-alpino',
   },
   {
     year: '2026',

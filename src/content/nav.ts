@@ -26,7 +26,7 @@ export const nav: NavItem[] = [
     id: 'apps',
     label: 'Apps',
     to: '/apps',
-    blurb: 'iPhone apps, web apps, browser games and developer tools.',
+    blurb: 'iPhone, web and desktop apps, browser games and developer tools.',
     title: pageTitle('Apps'),
     description: '{n} apps by Alex: iPhone apps, web apps, browser games, desktop apps and developer tools.',
   },
