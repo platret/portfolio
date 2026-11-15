@@ -122,11 +122,13 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
                   href={asset(shot.file)}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Open the full-size screenshot: ${shot.alt}`}
                   data-cursor="hover"
-                  className={`shot--wide block ${alone ? 'shot--alone' : ''}`}
+                  className={`shot--wide relative block ${alone ? 'shot--alone' : ''}`}
                   style={{ '--shot-aspect': width / height } as CSSProperties}
                 >
+                  {/* The link is named by this prefix and the image's alt text. The link is positioned
+                      so the hidden prefix stays inside the strip and cannot widen the page. */}
+                  <span className="sr-only">Open the full-size screenshot: </span>
                   {shot.frame === 'none' ? (
                     <div className="overflow-hidden rounded-[10px] border border-paper/[0.12]">{image}</div>
                   ) : shot.frame === 'desktop' ? (
