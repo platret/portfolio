@@ -67,7 +67,7 @@ Rules the check cannot see:
 - `src/components/apps`: icon tile, index row, kind filter, link ledger, screenshot strip, phone frame, previous and next
 - `src/hooks`: Lenis, media queries, count-up, in-view, fit-text, the easter eggs
 - `src/lib`: paths, head tags, scroll helpers, catalogue helpers (`apps.ts`), GSAP registration, motion constants, GLSL shaders
-- `scripts/check-content.ts`: the content check. Node runs it directly, without a build step (Node 22.18 or later)
+- `scripts/check-content.ts`: the content check. Node runs it directly, without a build step (Node 22.18 or later). `.node-version` pins Node 24 for the Cloudflare build and the Pages workflow, and `engines` in `package.json` states the minimum
 
 Internal links use `Link` from `src/router/router.tsx` or `href()` from `src/lib/paths.ts`, never a hand-written `/path`, so the site works at `/` and at `/portfolio/`.
 
