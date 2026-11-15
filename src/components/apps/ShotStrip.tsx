@@ -64,20 +64,23 @@ export function ShotStrip({ app, shots, label, priority = false, column = false 
   const buttons = edges.overflow && !touch
 
   return (
-    <div>
-      {(label || buttons) && (
-        <div className="mb-5 flex min-h-11 items-center justify-between gap-6">
-          <p className="text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:text-xs">{label}</p>
-          {buttons && (
-            <div className="flex gap-2">
-              <button type="button" aria-label="Previous screenshot" disabled={edges.start} onClick={() => step(-1)} data-cursor="hover" className={BUTTON}>
-                <span aria-hidden="true">←</span>
-              </button>
-              <button type="button" aria-label="Next screenshot" disabled={edges.end} onClick={() => step(1)} data-cursor="hover" className={BUTTON}>
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
-          )}
+    <div className="relative">
+      {/* The label row takes its space from the first render. The buttons arrive once the strip has been
+          measured, so they are placed out of flow and never push the page down. A strip in a column
+          keeps the row even when it is empty, because nothing above it leaves room for the buttons. */}
+      {(label || column) && (
+        <div className={`mb-5 min-h-11 items-center ${label ? 'flex' : 'hidden md:flex'}`}>
+          {label && <p className="text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:text-xs">{label}</p>}
+        </div>
+      )}
+      {buttons && (
+        <div className={`absolute right-0 hidden gap-2 md:flex ${label || column ? 'top-0' : '-top-16'}`}>
+          <button type="button" aria-label="Previous screenshot" disabled={edges.start} onClick={() => step(-1)} data-cursor="hover" className={BUTTON}>
+            <span aria-hidden="true">←</span>
+          </button>
+          <button type="button" aria-label="Next screenshot" disabled={edges.end} onClick={() => step(1)} data-cursor="hover" className={BUTTON}>
+            <span aria-hidden="true">→</span>
+          </button>
         </div>
       )}
 

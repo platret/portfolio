@@ -108,7 +108,7 @@ export const apps: App[] = [
     name: 'Lernspur',
     tagline: 'A local learning journal for apprentices, from quick note to report.',
     description:
-      'An apprenticeship is full of small things worth remembering. Lernspur is a native iPhone app that gives them a home: save a note, photo or voice memo first, and sort it into modules and competences later. From those entries come weekly goals, reviews and learning reports structured after IPERKA, with PDF export.\n\nThe journal is stored locally in SQLite, with no server account. The app is not on the App Store yet. The preview website shows the real screens with example content.',
+      'An apprenticeship is full of small things worth remembering. Lernspur is a native iPhone app that gives them a home: save a note, photo or voice memo first, and sort it into modules and competences later. From those entries come weekly goals, reviews and learning reports structured after IPERKA, with PDF export.\n\nThe app is not on the App Store yet. The preview website shows the real screens with example content.',
     year: '2026',
     kind: 'ios',
     platforms: ['iPhone', 'Web preview'],
@@ -304,7 +304,7 @@ export const apps: App[] = [
     name: 'Sponsuno',
     tagline: 'Matching athletes and clubs with sponsors from their own region.',
     description:
-      'Sponsuno is the startup I am building with a team of four in the Youngpreneurs Zürich programme. The planned platform pairs athletes, sport clubs and culture clubs with sponsors from their region, starting in German-speaking Switzerland.\n\nI built the public side: the landing page, a clickable product preview that runs on example data in the browser, topic and guide pages, and the deploy pipeline on Cloudflare. The product itself is not live yet, so every preview screen is labelled as example data.',
+      'Sponsuno is the startup I am building with a team of four in the Youngpreneurs Zürich programme. The planned platform pairs athletes, sport clubs and culture clubs with sponsors from their region, starting in German-speaking Switzerland.\n\nThe product itself is not live yet. What is public so far is the website and a clickable preview of the product.',
     year: '2026',
     kind: 'web',
     platforms: ['Web'],
@@ -322,7 +322,7 @@ export const apps: App[] = [
     icon: 'images/apps/sponsuno/icon.png',
     featured: 2,
     story: {
-      built: 'The whole public side: sponsuno.ch, a clickable product preview, the AI sponsoring-manager concept, guide pages and the deploy pipeline on Cloudflare.',
+      built: 'The whole public side: sponsuno.ch, a clickable product preview that runs on example data in the browser, the AI sponsoring-manager concept, topic and guide pages, and the deploy pipeline on Cloudflare.',
       choice: 'Honest by design. The platform is not live yet, so every preview screen is labelled as example data.',
     },
     screenshots: [

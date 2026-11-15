@@ -97,7 +97,7 @@ export default function AppDetail({ params }: { params: Params }) {
         </div>
 
         {gallery.length > 0 && (
-          <div className="mt-16 space-y-12 md:mt-[10vh] md:space-y-16">
+          <div className="mt-16 space-y-12 md:mt-[max(10vh,6rem)] md:space-y-16">
             {gallery.map((group, i) => (
               <ShotStrip key={group.label} app={app} shots={group.shots} label={gallery.length > 1 ? group.label : undefined} priority={i === 0} />
             ))}

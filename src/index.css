@@ -204,10 +204,10 @@ html.lenis, html.lenis body {
 
 .app-icon__monogram {
   position: absolute;
-  left: 13cqw;
-  bottom: 12cqw;
+  left: 14cqw;
+  bottom: 21cqw;
   font-family: var(--font-display);
-  font-size: 78cqw;
+  font-size: 72cqw;
   line-height: 0.74;
   letter-spacing: -0.03em;
   color: rgb(242 240 235 / 0.7);
