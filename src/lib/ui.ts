@@ -1,6 +1,8 @@
-// Small cross-component events: toasts and the command palette.
+// Small cross-component events: toasts, the command palette and route changes.
 export const TOAST_EVENT = 'portfolio:toast'
 export const PALETTE_EVENT = 'portfolio:palette'
+/** Fired on window after every page change, once the new page is on screen. */
+export const ROUTE_EVENT = 'portfolio:route'
 
 export const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
 
