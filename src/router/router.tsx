@@ -3,9 +3,10 @@ import { legacyHashes } from '../content/nav'
 import { requestRefresh, ScrollTrigger } from '../lib/gsap'
 import { setHead } from '../lib/head'
 import { BASE, href } from '../lib/paths'
-import { jumpTo, scroll, scrollToId, scrollToTop, topOf } from '../lib/scroll'
+import { focusTarget, jumpTo, scroll, scrollToId, scrollToTop, topOf } from '../lib/scroll'
 import { ROUTE_EVENT } from '../lib/ui'
-import { match, type PageComponent, type Params, type RouteDef } from './routes'
+import LoadError from '../pages/LoadError'
+import { decode, match, type PageComponent, type Params, type RouteDef } from './routes'
 
 // A small router that owns the moment a page changes: load the chunk first, then swap,
 // then restore scroll through Lenis, refresh ScrollTrigger, move focus and set the head.
@@ -70,7 +71,8 @@ function parse(to: string) {
   return { pathname, search: url.search, hash: url.hash }
 }
 
-const hashTarget = (hash: string) => (hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null)
+/** The element a '#hash' points at. A malformed hash ('#%E0') is looked up as written instead of throwing. */
+const hashTarget = (hash: string) => (hash.length > 1 ? document.getElementById(decode(hash.slice(1))) : null)
 
 function rememberScroll() {
   if (state) scrollMemory.set(state.key, window.scrollY)
@@ -79,7 +81,9 @@ function rememberScroll() {
 /** Old one-page anchors ('/#work') land on the page that replaced them. */
 function legacyTarget() {
   if (appPath(window.location.pathname) !== '/') return null
-  return legacyHashes[window.location.hash.slice(1)] ?? null
+  const key = window.location.hash.slice(1)
+  // Own keys only: '#toString' or '#constructor' must not find Object.prototype.
+  return Object.hasOwn(legacyHashes, key) ? legacyHashes[key] : null
 }
 
 async function load(route: RouteDef, id: number) {
@@ -115,7 +119,13 @@ export async function initRouter(): Promise<void> {
 
   const pathname = appPath(window.location.pathname)
   const { route, params } = match(pathname)
-  const Component = await route.load()
+  // A first visit to an inner page needs its chunk before anything renders. If it does not arrive
+  // (a flaky network, a blocked file, a deploy in between), try once more, then draw an error page
+  // instead of leaving the screen empty.
+  const Component = await Promise.resolve()
+    .then(route.load)
+    .catch(route.load)
+    .catch(() => LoadError)
   state = {
     route,
     params,
@@ -181,7 +191,8 @@ async function onPop() {
   try {
     Component = await load(route, id)
   } catch {
-    window.location.reload()
+    // Only the newest navigation may act on a failure: an older one has already been left behind.
+    if (id === navigation) window.location.reload()
     return
   }
   if (id !== navigation) return
@@ -214,7 +225,7 @@ export async function navigate(to: string, opts: { replace?: boolean; scroll?: b
         history.pushState({ key }, '', url)
         setState({ ...state, hash, key, action: 'push' })
       }
-      scrollToId(decodeURIComponent(hash.slice(1)))
+      scrollToId(decode(hash.slice(1)))
       return
     }
 
@@ -233,8 +244,9 @@ export async function navigate(to: string, opts: { replace?: boolean; scroll?: b
   try {
     Component = await load(route, id)
   } catch {
-    // The chunk did not arrive (offline, or a deploy replaced it): let the browser load the page.
-    window.location.assign(url)
+    // The chunk did not arrive (offline, or a deploy replaced it): let the browser load the page,
+    // unless the visitor has already moved on to a newer navigation.
+    if (id === navigation) window.location.assign(url)
     return
   }
   if (id !== navigation) return
@@ -352,8 +364,11 @@ export function RouterView() {
   useEffect(() => {
     requestRefresh()
     if (state.action !== 'load') {
-      const heading = document.querySelector<HTMLElement>('#main h1') ?? document.getElementById('main')
-      heading?.focus({ preventScroll: true })
+      // A link to an anchor hands focus to the anchor, so the next Tab continues from there.
+      // Otherwise the new page is announced by its heading.
+      const target = state.action !== 'pop' ? hashTarget(state.hash) : null
+      const heading = target ?? document.querySelector<HTMLElement>('#main h1') ?? document.getElementById('main')
+      if (heading) focusTarget(heading)
     }
     window.dispatchEvent(new Event(ROUTE_EVENT))
   }, [commit])

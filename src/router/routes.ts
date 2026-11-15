@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import { apps } from '../content/apps'
-import { home, nav, pageTitle, type NavId } from '../content/nav'
+import { home, nav, pageTitle, type NavId, type NavItem } from '../content/nav'
 import { appBySlug, shelfById, shelfTitle } from '../lib/apps'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
@@ -22,9 +22,15 @@ export type RouteDef = {
   head: (params: Params, search: URLSearchParams) => RouteHead
 }
 
-const navHead = (id: NavId) => (): RouteHead => {
-  const item = nav.find((n) => n.id === id)!
-  return { title: item.title, description: item.description.replace('{n}', String(apps.length)) }
+const navItem = (id: NavId): NavItem => {
+  const item = nav.find((n) => n.id === id)
+  if (!item) throw new Error(`No nav item "${id}" in content/nav.ts`)
+  return item
+}
+
+const navHead = (id: NavId) => {
+  const item = navItem(id)
+  return (): RouteHead => ({ title: item.title, description: item.description.replace('{n}', String(apps.length)) })
 }
 
 /** The index keeps one description; a filtered view names its shelf in the tab title. */
@@ -65,7 +71,8 @@ export const notFound: RouteDef = {
 
 const segments = (path: string) => path.split('/').filter(Boolean)
 
-function decode(value: string) {
+/** decodeURIComponent that keeps a malformed value ('%E0') as it is instead of throwing. */
+export function decode(value: string) {
   try {
     return decodeURIComponent(value)
   } catch {

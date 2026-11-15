@@ -4,6 +4,7 @@ import { CommandPalette } from './components/CommandPalette'
 import { Cursor } from './components/Cursor'
 import { Grain } from './components/Grain'
 import { Header } from './components/Header'
+import { PageBoundary } from './components/PageBoundary'
 import { Toaster } from './components/Toast'
 import { useEasterEggs } from './hooks/useEasterEggs'
 import { useIsTouch } from './hooks/useIsTouch'
@@ -36,7 +37,9 @@ export default function App() {
       {!touch && <Cursor />}
       <Header />
       <main id="main" tabIndex={-1} className="outline-none">
-        <RouterView />
+        <PageBoundary key={route.commit}>
+          <RouterView />
+        </PageBoundary>
       </main>
       <Footer compact={route.route.id !== 'home'} />
       <CommandPalette />
