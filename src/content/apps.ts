@@ -116,7 +116,7 @@ export const apps: App[] = [
     status: 'Preview, not yet on the App Store',
     highlights: [
       'Capture a note, photo or voice memo and organise it later',
-      'Weekly goals and practice cards for what I want to come back to',
+      'Weekly goals and reviews of what I learned',
       'Learning reports structured after IPERKA, exported as PDF',
       'Stored locally in SQLite: no account, no tracking, no cloud sync',
     ],
@@ -150,15 +150,7 @@ export const apps: App[] = [
         frame: 'phone',
         width: 1206,
         height: 2622,
-        caption: 'Turn what you learn into cards you can come back to.',
-      },
-      {
-        file: 'images/apps/lernspur/03-report.png',
-        alt: 'Lernspur learning report with reflection sections and a PDF export button',
-        frame: 'phone',
-        width: 1206,
-        height: 2622,
-        caption: 'Reflect on the work, then export a structured learning report.',
+        caption: 'Practice cards, part of an optional Plus subscription that is not on sale yet.',
       },
     ],
   },
@@ -189,7 +181,6 @@ export const apps: App[] = [
       { file: 'images/apps/what-was-that/02-detail.jpg', alt: "Detail view of a film recommendation with the friend's note", frame: 'phone' },
       { file: 'images/apps/what-was-that/03-pick-for-me.jpg', alt: 'Pick for me screen that draws a random untried idea', frame: 'phone' },
       { file: 'images/apps/what-was-that/04-collections.jpg', alt: 'Collections screen with two example collections', frame: 'phone' },
-      { file: 'images/apps/what-was-that/05-website.jpg', alt: 'Product website for What Was That? with the app shown in a phone', frame: 'browser' },
     ],
   },
   {
@@ -217,34 +208,6 @@ export const apps: App[] = [
     screenshots: [
       { file: 'images/apps/is-it-raining-on-me/01-dry.jpg', alt: 'Dry state: a large No and the line Dry for the next 90 minutes', frame: 'phone' },
       { file: 'images/apps/is-it-raining-on-me/02-rain.jpg', alt: 'Rain state: a large Yes with a bar timeline showing rain easing in about 40 minutes', frame: 'phone' },
-      { file: 'images/apps/is-it-raining-on-me/03-website.jpg', alt: 'Website for Is it raining on me? with an interactive preview of the app', frame: 'browser' },
-    ],
-  },
-  {
-    slug: 'pullup',
-    name: 'PULL UP',
-    tagline: 'A social iPhone app that rewards friends for actually showing up.',
-    description:
-      'PULL UP is a native SwiftUI iPhone app built around one behaviour: physically showing up. Friends broadcast that they are outside, others tap to pull up, and every check-in feeds a public reliability score, a streak, XP and a photo album that stays locked for anyone who flaked.\n\nThe design started as an interactive HTML prototype, which I rebuilt screen by screen in SwiftUI over two days in June 2026. It runs as a complete demo on sample data, with a Supabase backend and Google sign-in wired in. Real GPS verification of arrivals is still open. The project is private, and the screenshots show the built-in demo data.',
-    year: '2026',
-    kind: 'ios',
-    platforms: ['iPhone'],
-    stack: ['Swift', 'SwiftUI', 'MapKit', 'CoreLocation', 'AVFoundation', 'UserNotifications', 'Supabase', 'XcodeGen'],
-    status: 'Private, in progress',
-    highlights: [
-      'Six-step onboarding and five tabs: Now, Album, Squads, Board, Me',
-      'Reliability score, streaks, XP tiers and sticker badges',
-      'Proof-of-presence album that stays locked if you did not show up',
-      'Custom design system with bundled Baloo 2 and Nunito fonts',
-    ],
-    isPrivateRepo: true,
-    icon: 'images/apps/pullup/icon.png',
-    screenshots: [
-      { file: 'images/apps/pullup/01-welcome.jpg', alt: "PULL UP welcome screen with the lime wordmark and the line nobody's outside, let's fix that", frame: 'phone' },
-      { file: 'images/apps/pullup/02-now.jpg', alt: "The Now feed showing friends who are outside, countdown timers and the I'm outside button", frame: 'phone' },
-      { file: 'images/apps/pullup/03-arrival.jpg', alt: 'Arrival celebration screen reading You showed up with XP, level up, streak and a new sticker', frame: 'phone' },
-      { file: 'images/apps/pullup/04-album.jpg', alt: 'Album tab with an unlocked proof photo card and a locked card for a missed pull-up', frame: 'phone' },
-      { file: 'images/apps/pullup/05-profile.jpg', alt: 'Profile tab with a 91 percent reliability dial, streak, level progress and sticker shelf', frame: 'phone' },
     ],
   },
   {
@@ -261,7 +224,7 @@ export const apps: App[] = [
     highlights: [
       'A Today view with a seven-day strip and an Agenda view, day by day',
       'Import through .ics calendar links or pasted lists',
-      'Date parsing in English, German and Polish',
+      'Understands typed dates in several languages',
       'Morning and evening check-ins as local notifications',
     ],
     isPrivateRepo: false,
@@ -304,7 +267,7 @@ export const apps: App[] = [
     name: 'Sponsuno',
     tagline: 'Matching athletes and clubs with sponsors from their own region.',
     description:
-      'Sponsuno is the startup I am building with a team of four in the Youngpreneurs Zürich programme. The planned platform pairs athletes, sport clubs and culture clubs with sponsors from their region, starting in German-speaking Switzerland.\n\nThe product itself is not live yet. What is public so far is the website and a clickable preview of the product.',
+      'Sponsuno is the startup I am building with a team of four in the Youngpreneurs Zurich programme. The planned platform pairs athletes, sport clubs and culture clubs with sponsors from their region, starting in German-speaking Switzerland.\n\nThe product itself is not live yet. What is public so far is the website and a clickable preview of the product.',
     year: '2026',
     kind: 'web',
     platforms: ['Web'],
@@ -410,10 +373,15 @@ export const apps: App[] = [
     isPrivateRepo: false,
     screenshots: [
       { file: 'images/apps/github-unwrapped-2025/01-home.jpg', alt: 'GitHub Unwrapped home screen: Your year in commits, with a profile input, year chips for 2025, 2024 and 2023 and example profiles', frame: 'browser' },
-      { file: 'images/apps/github-unwrapped-2025/02-contributions.jpg', alt: 'Total contributions slide on a green background showing 2,694 contributions on GitHub', frame: 'browser' },
-      { file: 'images/apps/github-unwrapped-2025/03-streak.jpg', alt: 'Streak slide with a contribution grid, an 82 day longest streak and 289 active days', frame: 'browser' },
-      { file: 'images/apps/github-unwrapped-2025/04-busiest-month.jpg', alt: 'Most active month slide: September highlighted in a bar chart of the twelve months', frame: 'browser' },
-      { file: 'images/apps/github-unwrapped-2025/05-archetype.jpg', alt: 'Developer archetype slide on green: The Marathoner, with tags for top language, busiest weekday and streak', frame: 'browser' },
+      {
+        file: 'images/apps/github-unwrapped-2025/02-contributions.jpg',
+        alt: 'Total contributions slide for an example profile on a green background showing 2,694 contributions on GitHub',
+        frame: 'browser',
+        caption: 'The slides show one of the public example profiles built into the app, not my own year.',
+      },
+      { file: 'images/apps/github-unwrapped-2025/03-streak.jpg', alt: 'Streak slide for an example profile with a contribution grid, an 82 day longest streak and 289 active days', frame: 'browser' },
+      { file: 'images/apps/github-unwrapped-2025/04-busiest-month.jpg', alt: 'Most active month slide for an example profile: September highlighted in a bar chart of the twelve months', frame: 'browser' },
+      { file: 'images/apps/github-unwrapped-2025/05-archetype.jpg', alt: 'Developer archetype slide for an example profile on green: The Marathoner, with tags for top language, busiest weekday and streak', frame: 'browser' },
     ],
   },
   {
@@ -436,7 +404,6 @@ export const apps: App[] = [
     repoUrl: 'https://github.com/platret/quarkdive',
     liveUrl: 'https://quarkdive.vercel.app',
     isPrivateRepo: false,
-    icon: 'images/apps/quarkdive/icon.png',
     screenshots: [
       { file: 'images/apps/quarkdive/01-human.jpg', alt: 'Quarkdive start screen: a stylised human figure at 1.7 m with the caption You. and a hint to scroll inward', frame: 'browser' },
       { file: 'images/apps/quarkdive/02-cells.jpg', alt: 'Quarkdive at 30 micrometres: a cluster of pink cells with dark nuclei', frame: 'browser' },
@@ -565,7 +532,7 @@ export const apps: App[] = [
     isPrivateRepo: false,
     screenshots: [
       { file: 'images/apps/quotecard/01-editor-midnight-square.jpg', alt: 'QuoteCard editor with the Midnight style in square format', frame: 'browser' },
-      { file: 'images/apps/quotecard/02-sunset-portrait.jpg', alt: 'Centered quote on the Sunset gradient in portrait format', frame: 'browser' },
+      { file: 'images/apps/quotecard/02-sunset-portrait.jpg', alt: 'Centred quote on the Sunset gradient in portrait format', frame: 'browser' },
       { file: 'images/apps/quotecard/03-paper-landscape.jpg', alt: 'Italic serif quote on the Paper style in landscape format', frame: 'browser' },
       { file: 'images/apps/quotecard/04-noir-story.jpg', alt: 'Noir style in the tall story format', frame: 'browser' },
     ],
@@ -658,10 +625,9 @@ export const apps: App[] = [
     liveUrl: 'https://platret.github.io/afterdrop/',
     isPrivateRepo: false,
     icon: 'images/apps/afterdrop/icon.png',
-    featured: 7,
+    featured: 8,
     screenshots: [
       { file: 'images/apps/afterdrop/01-menu.jpg', alt: 'Afterdrop start screen with the headline Find your flow, an isometric block sculpture and the four game modes', frame: 'browser' },
-      { file: 'images/apps/afterdrop/02-marathon.jpg', alt: 'A Marathon run in progress with hold piece, score, level, timer and three upcoming pieces', frame: 'browser' },
       { file: 'images/apps/afterdrop/03-zen-neon-palette.jpg', alt: 'Zen mode with the Neon nights block palette', frame: 'browser' },
       { file: 'images/apps/afterdrop/04-customize.jpg', alt: 'Customize dialog with block palette, 3D blocks, landing ghost, ambient motion and volume sliders', frame: 'browser' },
       { file: 'images/apps/afterdrop/05-mobile.jpg', alt: 'Afterdrop on a phone-sized screen with the board, statistics and touch controls', frame: 'phone', width: 780, height: 1688 },
@@ -689,16 +655,8 @@ export const apps: App[] = [
     isPrivateRepo: false,
     icon: 'images/apps/caldera-minesweeper/icon.png',
     screenshots: [
-      {
-        file: 'images/apps/caldera-minesweeper/01-dark-intermediate.jpg',
-        alt: 'Caldera in the dark theme with an Intermediate no-guess board half solved and flags placed',
-        frame: 'browser',
-        width: 1440,
-        height: 980,
-      },
-      { file: 'images/apps/caldera-minesweeper/02-light-expert.jpg', alt: 'Caldera in the light theme with an Expert board in progress', frame: 'browser' },
-      { file: 'images/apps/caldera-minesweeper/04-settings.jpg', alt: 'Settings dialog with theme palette, chording, safe first click, no-guess boards, sound and high contrast', frame: 'browser' },
       { file: 'images/apps/caldera-minesweeper/05-mobile.jpg', alt: 'Caldera on a phone-sized screen with a Beginner board, flags and the toolbar', frame: 'phone', width: 860, height: 1800 },
+      { file: 'images/apps/caldera-minesweeper/04-settings.jpg', alt: 'Settings dialog with theme palette, chording, safe first click, no-guess boards, sound and high contrast', frame: 'browser' },
     ],
   },
   {
@@ -723,7 +681,6 @@ export const apps: App[] = [
     isPrivateRepo: false,
     icon: 'images/apps/chipstack/icon.png',
     screenshots: [
-      { file: 'images/apps/chipstack/02-tetris.jpg', alt: 'The block-stacking game in progress with hold, score, level, combo, timer and next queue', frame: 'browser' },
       { file: 'images/apps/chipstack/03-slots.jpg', alt: 'Neon Reels, a five-reel slot machine with paytable and line bet controls', frame: 'browser' },
       { file: 'images/apps/chipstack/04-roulette.jpg', alt: 'European roulette with chips placed on the betting board and the list of active bets', frame: 'browser' },
       { file: 'images/apps/chipstack/05-blackjack.jpg', alt: 'Blackjack hand in progress with hit, stand, double and split actions', frame: 'browser' },
@@ -780,7 +737,7 @@ export const apps: App[] = [
     repoUrl: 'https://github.com/platret/killer-sudoku',
     isPrivateRepo: false,
     icon: 'images/apps/killer-sudoku/icon.png',
-    featured: 8,
+    featured: 7,
     competition: 'ict-skills-battle',
     screenshots: [
       { file: 'images/apps/killer-sudoku/01-start.jpg', alt: 'KillerSudoku start screen with the wordmark, Start playing and four cards explaining the rules', frame: 'desktop' },
@@ -795,7 +752,7 @@ export const apps: App[] = [
     name: 'Smartii for Mac',
     tagline: 'A native macOS menu bar assistant that answers from a screenshot of your screen.',
     description:
-      'Smartii for Mac is the desktop sibling of my Smartii browser extension, written in Swift with AppKit. A global hotkey captures the main display with ScreenCaptureKit, sends it to the AI provider I chose, and shows the answer in a floating panel that is also copied to the clipboard.\n\nIt lives in the menu bar without a Dock icon, keeps API keys in the macOS Keychain and uses only system frameworks. The release build is unsigned, so macOS asks for confirmation on first launch. The screenshots show the product page, not the running app.',
+      'Smartii for Mac is the desktop sibling of my Smartii browser extension, written in Swift with AppKit. A global hotkey captures the main display with ScreenCaptureKit, sends it to the AI provider I chose, and shows the answer in a floating panel that is also copied to the clipboard.\n\nIt lives in the menu bar without a Dock icon, keeps API keys in the macOS Keychain and uses only system frameworks. The release build is unsigned, so macOS asks for confirmation on first launch. The screenshot shows the product page, not the running app.',
     year: '2026',
     kind: 'mac',
     platforms: ['macOS 14+'],
@@ -803,7 +760,7 @@ export const apps: App[] = [
     status: 'Open source, v1.0.7 (unsigned build)',
     highlights: [
       'Menu bar only, no Dock icon',
-      'Four global hotkeys: summon, solve screen, Godmode, panic',
+      'Four global hotkeys: summon, solve the screen, read the whole screen, hide the panel',
       'Seven AI providers with your own key, stored in the Keychain',
       'No third-party dependencies, only system frameworks',
       'Updates itself from GitHub Releases',
@@ -815,14 +772,6 @@ export const apps: App[] = [
     isPrivateRepo: false,
     icon: 'images/apps/smartii-mac/icon.png',
     screenshots: [
-      { file: 'images/apps/smartii-mac/01-website-hero.jpg', alt: 'Smartii for Mac product page: hero with an illustration of the menu bar panel and the four hotkeys', frame: 'browser' },
-      {
-        file: 'images/apps/smartii-mac/02-website-features.jpg',
-        alt: 'Smartii for Mac product page: feature cards for menu bar, screen capture, Keychain and providers',
-        frame: 'browser',
-        width: 1440,
-        height: 1010,
-      },
       { file: 'images/apps/smartii-mac/03-website-hotkeys.jpg', alt: 'Smartii for Mac product page: the four global hotkeys', frame: 'browser' },
     ],
   },
@@ -834,12 +783,12 @@ export const apps: App[] = [
     name: 'Switchboard',
     tagline: 'One place to run, watch and approve Claude agents, on Mac and iPhone.',
     description:
-      'Switchboard is my control center for Claude agents. A small host runs on my Mac with my own Claude Code login, and I give it project folders and agents with names and roles. Every command, edit and web request an agent wants to make waits for my answer, on the Mac or on the phone, and the first answer wins.\n\nI built the host, the web app and native apps for Mac and iPhone that all stay in sync. The screenshots show demo projects and demo agents.',
+      'Switchboard is my control centre for Claude agents. A small host runs on my Mac with my own Claude Code login, and I give it project folders and agents with names and roles. Every command, edit and web request an agent wants to make waits for my answer, on the Mac or on the phone, and the first answer wins.\n\nI built the host, the web app and native apps for Mac and iPhone that all stay in sync. The screenshots show demo projects and demo agents.',
     year: '2026',
     kind: 'tool',
     platforms: ['macOS', 'iPhone', 'Web'],
     stack: ['TypeScript', 'Node', 'Claude Agent SDK', 'SQLite', 'WebSocket', 'React', 'Tailwind', 'SwiftUI'],
-    status: 'Open source, v2.0.0',
+    status: 'Source on GitHub, v2.0.0',
     highlights: [
       'Approval gate: nothing runs, edits or goes online until I allow that exact action',
       'One board for every agent across all projects, with live status',
@@ -922,7 +871,6 @@ export const apps: App[] = [
     isPrivateRepo: false,
     icon: 'images/apps/smartii/icon.png',
     screenshots: [
-      { file: 'images/apps/smartii/01-assistant-bar.jpg', alt: 'The Smartii assistant bar summoned at the bottom of a web page, with Solve, God and Send buttons', frame: 'browser' },
       { file: 'images/apps/smartii/02-settings-providers.jpg', alt: 'Smartii settings page: pick a provider and add an API key', frame: 'desktop', width: 1440, height: 900 },
     ],
   },
@@ -946,11 +894,8 @@ export const apps: App[] = [
     isPrivateRepo: false,
     icon: 'images/apps/daily-terminal/icon.png',
     screenshots: [
-      { file: 'images/apps/daily-terminal/01-home.jpg', alt: 'Daily Terminal home in dark mode with greeting, activity heatmap, last sessions and the memory stream', frame: 'browser', width: 1600, height: 1000, domain: 'localhost:37780' },
-      { file: 'images/apps/daily-terminal/02-memory-detail.jpg', alt: 'Detail drawer open on one memory entry with its full narrative', frame: 'browser', width: 1600, height: 1000, domain: 'localhost:37780' },
       { file: 'images/apps/daily-terminal/03-search.jpg', alt: 'Search palette showing memory results for the query minesweeper', frame: 'browser', width: 1600, height: 1000, domain: 'localhost:37780' },
       { file: 'images/apps/daily-terminal/04-daily-note.jpg', alt: 'Daily note panel with a capture, the vault panel and the Slack and Trello panels in their not connected state', frame: 'browser', width: 1600, height: 1000, domain: 'localhost:37780' },
-      { file: 'images/apps/daily-terminal/05-home-light.jpg', alt: 'Daily Terminal home in light mode', frame: 'browser', width: 1600, height: 1000, domain: 'localhost:37780' },
     ],
   },
 ]
