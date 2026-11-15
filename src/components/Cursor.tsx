@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from '../lib/gsap'
 import { EASE_OUT_CSS } from '../lib/motion'
+import { ROUTE_EVENT } from '../lib/ui'
 
 const HOVER_SELECTOR = 'a, button, [data-cursor="hover"]'
 
@@ -29,11 +30,14 @@ export function Cursor() {
       visible = false
       el.style.opacity = '0'
     }
-    const onOver = (e: PointerEvent) => {
-      const hit = (e.target as Element | null)?.closest?.(HOVER_SELECTOR)
+    const paint = (under: Element | null) => {
+      const hit = under?.closest?.(HOVER_SELECTOR)
       inner.style.transform = hit ? 'scale(3.2)' : 'scale(1)'
       inner.style.opacity = hit ? '0.9' : '1'
     }
+    const onOver = (e: PointerEvent) => paint(e.target as Element | null)
+    // The link under the pointer is gone after a page change: look again at what is there now.
+    const onRoute = () => paint(visible ? document.elementFromPoint(target.x, target.y) : null)
 
     const tick = () => {
       pos.x += (target.x - pos.x) * 0.16
@@ -44,12 +48,14 @@ export function Cursor() {
     window.addEventListener('pointermove', onMove, { passive: true })
     document.addEventListener('pointerover', onOver, { passive: true })
     document.documentElement.addEventListener('mouseleave', onLeave)
+    window.addEventListener(ROUTE_EVENT, onRoute)
     gsap.ticker.add(tick)
 
     return () => {
       window.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerover', onOver)
       document.documentElement.removeEventListener('mouseleave', onLeave)
+      window.removeEventListener(ROUTE_EVENT, onRoute)
       gsap.ticker.remove(tick)
     }
   }, [])

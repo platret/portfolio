@@ -21,10 +21,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # The build runs scripts/check-content.ts directly, which needs Node 22.18 or later.
+          node-version-file: .node-version
           cache: npm
       - run: npm ci
       - run: npm run build -- --base=/portfolio/
+      # Pages serves 404.html at the requested URL, so deep links reach the router.
+      - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

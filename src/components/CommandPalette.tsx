@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { apps, KIND_LABEL } from '../content/apps'
+import { nav } from '../content/nav'
 import { site } from '../content/site'
-import { scroll, scrollToId } from '../lib/scroll'
+import { orderedApps } from '../lib/apps'
+import { useIsTouch } from '../hooks/useIsTouch'
+import { goToContact, lockScroll, scrollToTop } from '../lib/scroll'
 import { EASE_OUT } from '../lib/motion'
-import { copyText, isMac, PALETTE_EVENT } from '../lib/ui'
+import { copyText, isMac, PALETTE_EVENT, ROUTE_EVENT } from '../lib/ui'
+import { navigate } from '../router/router'
 
-const GROUPS = ['Go to', 'Projects', 'Do'] as const
+const GROUPS = ['Go to', 'Apps', 'Do'] as const
 
 type Command = {
   id: string
@@ -19,45 +24,44 @@ type Command = {
 const external = (href: string) => () => window.open(href, '_blank', 'noopener,noreferrer')
 
 function buildCommands(): Command[] {
-  const sections: Command[] = site.sections.map((s, i) => ({
-    id: `go-${s.id}`,
-    group: 'Go to',
-    label: s.label,
-    hint: String(i + 1).padStart(2, '0'),
-    run: () => scrollToId(s.id),
+  const go = (id: string, label: string, run: () => void, keywords?: string): Command => ({ id: `go-${id}`, group: 'Go to', label, keywords, run })
+  const pages: Command[] = [
+    go('home', 'Home', () => void navigate('/'), 'start hero'),
+    ...nav.map((item) => go(item.id, item.label, () => void navigate(item.to), item.blurb)),
+    go('contact', 'Contact', goToContact, 'email say hi'),
+  ]
+
+  const catalogue: Command[] = orderedApps.map((app) => ({
+    id: `app-${app.slug}`,
+    group: 'Apps',
+    label: app.name,
+    hint: KIND_LABEL[app.kind],
+    keywords: `${app.tagline} ${app.stack.join(' ')}`,
+    run: () => void navigate(`/apps/${app.slug}`),
   }))
 
-  const projects: Command[] = site.projects
-    .filter((p) => p.href)
-    .map((p) => ({
-      id: `project-${p.title}`,
-      group: 'Projects',
-      label: p.title,
-      hint: p.stack,
-      keywords: p.description,
-      run: external(p.href!),
-    }))
-
-  const linked = site.projects.filter((p) => p.href)
   const actions: Command[] = [
-    { id: 'copy-email', group: 'Do', label: 'Copy email address', hint: site.email, keywords: 'contact mail', run: () => copyText(site.email, 'Email copied. Talk soon.') },
+    { id: 'copy-email', group: 'Do', label: 'Copy email address', hint: site.email, keywords: 'contact mail', run: () => copyText(site.email, site.copiedEmail) },
     { id: 'mail', group: 'Do', label: 'Write me an email', keywords: 'contact hire', run: () => { window.location.href = `mailto:${site.email}` } },
     ...site.links.map((l) => ({ id: `link-${l.label}`, group: 'Do' as const, label: `Open ${l.label}`, run: external(l.href) })),
     {
       id: 'surprise',
       group: 'Do',
       label: 'Surprise me',
-      hint: 'Random project',
+      hint: 'Random app',
       keywords: 'random lucky',
       run: () => {
-        const pick = linked[Math.floor(Math.random() * linked.length)]
-        if (pick?.href) window.open(pick.href, '_blank', 'noopener,noreferrer')
+        // Never the page that is already open.
+        const here = window.location.pathname
+        const pool = apps.filter((app) => !here.endsWith(`/apps/${app.slug}`))
+        const pick = pool[Math.floor(Math.random() * pool.length)]
+        if (pick) void navigate(`/apps/${pick.slug}`)
       },
     },
-    { id: 'top', group: 'Do', label: 'Back to the top', keywords: 'scroll start home', run: () => (scroll.lenis ? scroll.lenis.scrollTo(0, { duration: 1.6 }) : window.scrollTo({ top: 0, behavior: 'smooth' })) },
+    { id: 'top', group: 'Do', label: 'Back to the top', keywords: 'scroll start', run: scrollToTop },
   ]
 
-  return [...sections, ...projects, ...actions]
+  return [...pages, ...catalogue, ...actions]
 }
 
 // Every typed character must appear in order; earlier, tighter matches score higher.
@@ -87,6 +91,8 @@ export function CommandPalette() {
   const listRef = useRef<HTMLUListElement>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
   const commands = useMemo(() => buildCommands(), [])
+  // On touch the keyboard hints mean nothing: a tappable Close takes the place of the esc key.
+  const touch = useIsTouch()
 
   const results = useMemo(() => {
     const scored = commands.map((c) => ({ c, s: score(c, query) })).filter((r) => r.s > 0)
@@ -130,11 +136,18 @@ export function CommandPalette() {
   }, [open, show, hide])
 
   useEffect(() => {
-    if (open) {
-      scroll.lenis?.stop()
-      inputRef.current?.focus()
-    } else {
-      scroll.lenis?.start()
+    if (!open) return
+    lockScroll(true)
+    inputRef.current?.focus()
+    // A page change under the open palette closes it; focus then belongs to the new page.
+    const onRoute = () => {
+      returnFocus.current = null
+      setOpen(false)
+    }
+    window.addEventListener(ROUTE_EVENT, onRoute)
+    return () => {
+      window.removeEventListener(ROUTE_EVENT, onRoute)
+      lockScroll(false)
       returnFocus.current?.focus?.()
     }
   }, [open])
@@ -208,22 +221,28 @@ export function CommandPalette() {
                   setActive(0)
                 }}
                 onKeyDown={onKeyDown}
-                placeholder="Jump to a section, open a project…"
+                placeholder="Jump to a page, find an app…"
                 spellCheck={false}
                 autoComplete="off"
-                className="h-14 w-full bg-transparent text-sm text-paper outline-none placeholder:text-paper/35"
+                className="h-14 w-full bg-transparent text-sm text-paper outline-none placeholder:text-paper/55"
               />
-              <kbd className="rounded border border-paper/15 px-1.5 py-0.5 text-[0.6rem] text-paper/45">esc</kbd>
+              {touch ? (
+                <button type="button" onClick={hide} className="-mr-2 inline-flex min-h-11 flex-none items-center px-2 text-[0.65rem] uppercase tracking-[0.08em] text-paper/70">
+                  Close
+                </button>
+              ) : (
+                <kbd className="rounded border border-paper/15 px-1.5 py-0.5 text-[0.6rem] text-paper/55">esc</kbd>
+              )}
             </div>
 
             <ul ref={listRef} id="palette-list" role="listbox" aria-label="Commands" className="max-h-[min(52vh,420px)] overflow-y-auto overscroll-contain py-2" data-lenis-prevent>
-              {results.length === 0 && <li className="px-4 py-6 text-center text-xs text-paper/45">Nothing for “{query}”. Try “work” or “email”.</li>}
+              {results.length === 0 && <li className="px-4 py-6 text-center text-xs text-paper/55">Nothing for “{query}”. Try “apps” or “email”.</li>}
               {results.map((c, i) => {
                 const header = c.group !== results[i - 1]?.group ? c.group : null
                 const on = i === active
                 return (
                   <li key={c.id} role="presentation">
-                    {header && <p className="px-4 pb-1 pt-3 text-[0.6rem] uppercase tracking-[0.12em] text-paper/35">{header}</p>}
+                    {header && <p className="px-4 pb-1 pt-3 text-[0.6rem] uppercase tracking-[0.12em] text-paper/55">{header}</p>}
                     <div
                       id={`palette-${c.id}`}
                       role="option"
@@ -237,19 +256,21 @@ export function CommandPalette() {
                         <span aria-hidden="true" className={`h-1 w-1 rounded-full ${on ? 'bg-accent' : 'bg-transparent'}`} />
                         {c.label}
                       </span>
-                      {c.hint && <span className="truncate text-[0.65rem] text-paper/35">{c.hint}</span>}
+                      {c.hint && <span className="truncate text-[0.65rem] text-paper/55">{c.hint}</span>}
                     </div>
                   </li>
                 )
               })}
             </ul>
 
-            <div className="flex items-center justify-between border-t border-paper/10 px-4 py-2.5 text-[0.6rem] text-paper/35">
-              <span>
-                <kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>↵</kbd> to run
-              </span>
-              <span>{isMac ? '⌘' : 'Ctrl'} K anywhere</span>
-            </div>
+            {!touch && (
+              <div className="flex items-center justify-between border-t border-paper/10 px-4 py-2.5 text-[0.6rem] text-paper/55">
+                <span>
+                  <kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>↵</kbd> to run
+                </span>
+                <span>{isMac ? '⌘' : 'Ctrl'} K anywhere</span>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}

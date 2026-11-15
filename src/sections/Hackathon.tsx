@@ -1,21 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { site } from '../content/site'
-import { ScrollTrigger } from '../lib/gsap'
+import { hackathon as hack } from '../content/competitions'
+import { ScrollTrigger, requestRefresh } from '../lib/gsap'
+import { asset } from '../lib/paths'
+import { appBySlug, linkLabel } from '../lib/apps'
 import { EASE_OUT, DUR } from '../lib/motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { MaskedLines } from '../components/MaskedLines'
 import { BrowserFrame } from '../components/BrowserFrame'
+import { Link } from '../router/router'
 
-const hack = site.hackathon
 const HOURS = 24
-const src = (file: string) => `${import.meta.env.BASE_URL}images/${file}`
 const pad = (n: number) => String(Math.floor(n)).padStart(2, '0')
 
 function formatElapsed(progress: number) {
   const total = Math.round(progress * HOURS * 3600)
   return `${pad(total / 3600)}:${pad((total % 3600) / 60)}:${pad(total % 60)}`
 }
+
+// The address in the browser frame comes from the app's record, so it is written in one place.
+const liveUrl = appBySlug(hack.app)?.liveUrl
 
 // Beat i lights up once the clock passes its share of the 24 hours.
 const beatAt = (i: number) => (i + 0.5) / hack.beats.length
@@ -55,19 +59,19 @@ export function Hackathon() {
 
     return () => {
       trigger.kill()
-      ScrollTrigger.refresh()
+      requestRefresh()
     }
   }, [reduced])
 
   return (
-    <section ref={sectionRef} id="hackathon" aria-label={`${hack.event}: ${hack.name}`} className="relative px-5 py-16 md:px-12 md:pb-[10vh] md:pt-[20vh]">
+    <section ref={sectionRef} id="zentralhack" aria-label={`${hack.event}: ${hack.name}`} className="relative px-5 py-16 md:px-12 md:pb-[10vh] md:pt-[20vh]">
       <div className="mb-10 flex items-end justify-between text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-16 md:text-xs">
-        <span>03 / Hackathon</span>
+        <span>Hackathon</span>
         <span>{hack.month}</span>
       </div>
 
       <div className="grid grid-cols-1 gap-x-8 md:grid-cols-12">
-        <div className="md:sticky md:top-[14vh] md:col-span-5 md:self-start">
+        <div className="md:sticky md:top-[max(14vh,calc(var(--header-h)+1.5rem))] md:col-span-5 md:self-start">
           <p className="mb-3 text-[0.65rem] uppercase tracking-[0.12em] text-accent md:text-xs">{hack.event}</p>
           <p aria-hidden="true" className="font-mono text-[clamp(3rem,6.4vw,7.6rem)] leading-none tracking-[-0.04em] tabular-nums">
             <span ref={clockRef}>{reduced ? '24:00:00' : '00:00:00'}</span>
@@ -76,7 +80,7 @@ export function Hackathon() {
           <div className="relative mt-5 h-px w-full bg-paper/15" aria-hidden="true">
             <div ref={barRef} className="absolute inset-0 origin-left bg-accent" style={{ transform: reduced ? 'scaleX(1)' : 'scaleX(0)' }} />
           </div>
-          <div aria-hidden="true" className="mt-2 flex justify-between text-[0.6rem] text-paper/35 md:text-[0.65rem]">
+          <div aria-hidden="true" className="mt-2 flex justify-between text-[0.6rem] text-paper/50 md:text-[0.65rem]">
             <span>Kick-off</span>
             <span>Pitch</span>
           </div>
@@ -87,13 +91,13 @@ export function Hackathon() {
               const current = i === lit - 1
               return (
                 <li key={beat.label} className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-x-3 text-[0.75rem] leading-[1.6] md:text-xs">
-                  <span className={`pt-px tabular-nums transition-colors duration-500 ${on ? 'text-accent' : 'text-paper/30'}`}>{String(i + 1).padStart(2, '0')}</span>
-                  <span className={`transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-35'}`}>
+                  <span className={`pt-px tabular-nums transition-colors duration-500 ${on ? 'text-accent' : 'text-paper/50'}`}>{String(i + 1).padStart(2, '0')}</span>
+                  <span className={`transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-75'}`}>
                     <span className="flex items-center gap-2 text-paper">
                       {beat.label}
                       {current && !reduced && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent motion-safe:animate-pulse" />}
                     </span>
-                    <span className="mt-0.5 block max-w-[40ch] text-paper/55">{beat.detail}</span>
+                    <span className="mt-0.5 block max-w-[40ch] text-paper/70">{beat.detail}</span>
                   </span>
                 </li>
               )
@@ -132,14 +136,14 @@ export function Hackathon() {
             viewport={{ once: true, margin: '0px 0px -10% 0px' }}
             transition={{ duration: DUR.slow, ease: EASE_OUT }}
           >
-            <BrowserFrame domain="roschade.alexplatret.com">
-              <img src={src(hack.shots.web.file)} alt={hack.shots.web.alt} width={1440} height={900} loading="lazy" decoding="async" className="block h-auto w-full" />
+            <BrowserFrame domain={liveUrl ? linkLabel(liveUrl) : undefined}>
+              <img src={asset(hack.shots.web.file)} alt={hack.shots.web.alt} width={1440} height={900} loading="lazy" decoding="async" className="block h-auto w-full" />
             </BrowserFrame>
             <div className="absolute -bottom-2 right-3 flex gap-3 md:right-6 md:gap-4">
               {hack.shots.phones.map((phone, i) => (
                 <img
                   key={phone.file}
-                  src={src(phone.file)}
+                  src={asset(phone.file)}
                   alt={phone.alt}
                   width={603}
                   height={1311}
@@ -157,10 +161,15 @@ export function Hackathon() {
                 <li key={item} className="rounded-full border border-paper/15 px-3 py-1 text-[0.65rem] text-paper/60">{item}</li>
               ))}
             </ul>
-            <ul className="flex shrink-0 gap-6 text-xs">
+            <ul className="flex shrink-0 flex-wrap gap-x-6 text-xs">
+              <li>
+                <Link to={`/apps/${hack.app}`} data-cursor="hover" className="inline-flex min-h-11 items-center border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper">
+                  {hack.name}, the app
+                </Link>
+              </li>
               {hack.links.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} target="_blank" rel="noreferrer" data-cursor="hover" className="group inline-flex min-h-11 items-center gap-3 border-b border-paper/40 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                  <a href={link.href} target="_blank" rel="noreferrer" data-cursor="hover" className="group inline-flex min-h-11 items-center gap-3 border-b border-paper/40">
                     {link.label} <span aria-hidden="true" className="transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">↗</span>
                   </a>
                 </li>

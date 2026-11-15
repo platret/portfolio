@@ -5,15 +5,16 @@ import { EASE_OUT, DUR } from '../lib/motion'
 import { useFitText } from '../hooks/useFitText'
 import { copyText } from '../lib/ui'
 
-export function Footer() {
+/** The contact block that closes every page. `compact` trims the top space on inner pages. */
+export function Footer({ compact = false }: { compact?: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLAnchorElement>(null)
   useFitText(containerRef, textRef, site.email)
 
   return (
-    <footer id="contact" className="relative overflow-hidden px-5 pb-6 pt-16 md:px-12 md:pb-10 md:pt-[24vh]">
+    <footer id="contact" className={`relative overflow-hidden px-5 pb-6 pt-16 md:px-12 md:pb-10 ${compact ? 'md:pt-[14vh]' : 'md:pt-[24vh]'}`}>
       <div className="mb-10 flex items-end justify-between text-[0.7rem] uppercase tracking-[0.08em] text-paper/50 md:mb-14 md:text-xs">
-        <span>07 / Contact</span>
+        <span>Contact</span>
         <span>Say hi</span>
       </div>
 
@@ -27,8 +28,9 @@ export function Footer() {
           <a
             ref={textRef}
             href={`mailto:${site.email}`}
-            className="flex min-h-11 w-max items-center origin-left whitespace-nowrap font-display leading-[0.85] tracking-[-0.03em] transition-transform duration-[800ms] ease-out-expo hover:-skew-x-6 hover:translate-x-[1vw]"
+            className="flex min-h-11 w-max items-center origin-left whitespace-nowrap font-display leading-[0.85] tracking-[-0.03em] transition-transform duration-[800ms] ease-out-expo motion-safe:hover:-skew-x-6 motion-safe:hover:translate-x-[1vw]"
             data-cursor="hover"
+            data-contact-link
           >
             {site.email}
           </a>
@@ -40,8 +42,8 @@ export function Footer() {
           <li>
             <button
               type="button"
-              onClick={() => copyText(site.email, 'Email copied. Talk soon.')}
-              className="inline-flex min-h-11 items-center gap-2 transition-colors duration-[600ms] ease-out-expo hover:text-accent md:min-h-0"
+              onClick={() => copyText(site.email, site.copiedEmail)}
+              className="inline-flex min-h-11 items-center gap-2 transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-accent md:min-h-0"
             >
               Copy email
             </button>
@@ -49,7 +51,7 @@ export function Footer() {
           {site.links.map((link) => (
             <li key={link.label}>
               {link.href.startsWith('http') ? (
-                <a href={link.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition-colors duration-[600ms] ease-out-expo hover:text-accent md:min-h-0">
+                <a href={link.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition-[color,border-color] duration-[600ms] ease-out-expo hover:text-accent md:min-h-0">
                   {link.label}
                 </a>
               ) : (
@@ -59,7 +61,7 @@ export function Footer() {
           ))}
         </ul>
         <span className="text-paper/50">
-          © 2026 {site.name} — {site.location}
+          © 2026 {site.name} · {site.location}
         </span>
       </div>
     </footer>

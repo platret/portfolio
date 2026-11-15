@@ -19,9 +19,16 @@ export function useEasterEggs() {
     }
 
     // Tab title nudges you back when you wander off.
-    const original = document.title
+    // The title is read when the tab is hidden, so each page gets its own title back.
+    const NUDGE = 'Still here when you are ↩'
+    let saved = document.title
     const onVisibility = () => {
-      document.title = document.hidden ? 'Still here when you are ↩' : original
+      if (document.hidden) {
+        if (document.title !== NUDGE) saved = document.title
+        document.title = NUDGE
+      } else if (document.title === NUDGE) {
+        document.title = saved
+      }
     }
     document.addEventListener('visibilitychange', onVisibility)
 
@@ -42,7 +49,6 @@ export function useEasterEggs() {
     return () => {
       document.removeEventListener('visibilitychange', onVisibility)
       window.removeEventListener('keydown', onKey)
-      document.title = original
     }
   }, [])
 }

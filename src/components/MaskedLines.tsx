@@ -10,9 +10,11 @@ type Props = {
   delay?: number
   once?: boolean
   inView?: boolean
+  id?: string
+  tabIndex?: number
 }
 
-export function MaskedLines({ lines, as = 'div', className, lineClassName, delay = 0, once = true, inView = false }: Props) {
+export function MaskedLines({ lines, as = 'div', className, lineClassName, delay = 0, once = true, inView = false, id, tabIndex }: Props) {
   const reduced = useReducedMotion()
   const Tag = motion[as]
 
@@ -22,6 +24,8 @@ export function MaskedLines({ lines, as = 'div', className, lineClassName, delay
 
   return (
     <Tag
+      id={id}
+      tabIndex={tabIndex}
       className={className}
       initial="hidden"
       animate={inView ? undefined : 'shown'}
