@@ -186,7 +186,7 @@ export function Header() {
             Contact
           </a>
           {!touch && (
-            <button type="button" onClick={openPalette} aria-label={`Open command menu (${shortcut})`} className="group inline-flex min-h-11 items-center">
+            <button type="button" onClick={openPalette} aria-label={`Open command menu, ${shortcut}`} className="group inline-flex min-h-11 items-center">
               <kbd className="rounded border border-paper/20 px-1.5 py-0.5 text-[0.65rem] text-paper/80 transition-colors duration-[600ms] ease-out-expo group-hover:border-paper/50 group-hover:text-paper">
                 {shortcut}
               </kbd>
