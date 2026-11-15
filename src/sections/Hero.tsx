@@ -18,7 +18,9 @@ export function Hero() {
   }, [])
 
   return (
-    <section className="relative h-[60svh] min-h-[400px] max-h-[480px] overflow-hidden md:h-[100svh] md:min-h-[540px] md:max-h-none">
+    // The minimum heights grow with the width because the name does: on a short, wide window
+    // (a laptop at 200 % zoom) the giant name would otherwise cover the tagline and its link.
+    <section className="relative h-[60svh] min-h-[max(400px,calc(11rem+78vw))] max-h-[max(480px,calc(11rem+78vw))] overflow-hidden md:h-[100svh] md:min-h-[max(540px,calc(16rem+36vw))] md:max-h-none">
       <div className="absolute right-5 top-14 text-right md:right-12 md:top-[56%] md:mt-4">
         <MaskedLines
           as="p"
@@ -61,7 +63,7 @@ export function Hero() {
         as="h1"
         tabIndex={-1}
         lines={site.nameLines}
-        className="absolute bottom-0 left-[-0.045em] font-display text-[62vw] leading-[0.78] md:text-[clamp(15vw,18vw,20vw)] tracking-[-0.03em] text-paper outline-none"
+        className="pointer-events-none absolute bottom-0 left-[-0.045em] font-display text-[62vw] leading-[0.78] md:text-[clamp(15vw,18vw,20vw)] tracking-[-0.03em] text-paper outline-none"
         delay={0.2 * pace}
       />
     </section>

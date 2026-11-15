@@ -85,6 +85,9 @@ export function Now() {
           <img
             src={portrait}
             alt={site.portrait.alt}
+            width={800}
+            height={1000}
+            decoding="async"
             className="h-full w-full object-cover"
             style={{ opacity: gl && webgl ? 0 : 1, transition: `opacity ${DUR.fast}s ${EASE_OUT_CSS}` }}
           />

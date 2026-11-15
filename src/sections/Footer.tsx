@@ -28,7 +28,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
           <a
             ref={textRef}
             href={`mailto:${site.email}`}
-            className="flex min-h-11 w-max items-center origin-left whitespace-nowrap font-display leading-[0.85] tracking-[-0.03em] transition-transform duration-[800ms] ease-out-expo hover:-skew-x-6 hover:translate-x-[1vw]"
+            className="flex min-h-11 w-max items-center origin-left whitespace-nowrap font-display leading-[0.85] tracking-[-0.03em] transition-transform duration-[800ms] ease-out-expo motion-safe:hover:-skew-x-6 motion-safe:hover:translate-x-[1vw]"
             data-cursor="hover"
             data-contact-link
           >
@@ -42,7 +42,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
           <li>
             <button
               type="button"
-              onClick={() => copyText(site.email, 'Email copied. Talk soon.')}
+              onClick={() => copyText(site.email, site.copiedEmail)}
               className="inline-flex min-h-11 items-center gap-2 transition-colors duration-[600ms] ease-out-expo hover:text-accent md:min-h-0"
             >
               Copy email
@@ -61,7 +61,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
           ))}
         </ul>
         <span className="text-paper/50">
-          © 2026 {site.name} — {site.location}
+          © 2026 {site.name} · {site.location}
         </span>
       </div>
     </footer>

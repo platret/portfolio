@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { hackathon as hack } from '../content/competitions'
 import { ScrollTrigger, requestRefresh } from '../lib/gsap'
 import { asset } from '../lib/paths'
+import { appBySlug, linkLabel } from '../lib/apps'
 import { EASE_OUT, DUR } from '../lib/motion'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { MaskedLines } from '../components/MaskedLines'
@@ -16,6 +17,9 @@ function formatElapsed(progress: number) {
   const total = Math.round(progress * HOURS * 3600)
   return `${pad(total / 3600)}:${pad((total % 3600) / 60)}:${pad(total % 60)}`
 }
+
+// The address in the browser frame comes from the app's record, so it is written in one place.
+const liveUrl = appBySlug(hack.app)?.liveUrl
 
 // Beat i lights up once the clock passes its share of the 24 hours.
 const beatAt = (i: number) => (i + 0.5) / hack.beats.length
@@ -87,8 +91,8 @@ export function Hackathon() {
               const current = i === lit - 1
               return (
                 <li key={beat.label} className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-x-3 text-[0.75rem] leading-[1.6] md:text-xs">
-                  <span className={`pt-px tabular-nums transition-colors duration-500 ${on ? 'text-accent' : 'text-paper/30'}`}>{String(i + 1).padStart(2, '0')}</span>
-                  <span className={`transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-35'}`}>
+                  <span className={`pt-px tabular-nums transition-colors duration-500 ${on ? 'text-accent' : 'text-paper/50'}`}>{String(i + 1).padStart(2, '0')}</span>
+                  <span className={`transition-opacity duration-500 ${on ? 'opacity-100' : 'opacity-60'}`}>
                     <span className="flex items-center gap-2 text-paper">
                       {beat.label}
                       {current && !reduced && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent motion-safe:animate-pulse" />}
@@ -132,7 +136,7 @@ export function Hackathon() {
             viewport={{ once: true, margin: '0px 0px -10% 0px' }}
             transition={{ duration: DUR.slow, ease: EASE_OUT }}
           >
-            <BrowserFrame domain="roschade.alexplatret.com">
+            <BrowserFrame domain={liveUrl ? linkLabel(liveUrl) : undefined}>
               <img src={asset(hack.shots.web.file)} alt={hack.shots.web.alt} width={1440} height={900} loading="lazy" decoding="async" className="block h-auto w-full" />
             </BrowserFrame>
             <div className="absolute -bottom-2 right-3 flex gap-3 md:right-6 md:gap-4">

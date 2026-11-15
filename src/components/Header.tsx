@@ -5,7 +5,7 @@ import { site } from '../content/site'
 import { useIsTouch } from '../hooks/useIsTouch'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { EASE_OUT } from '../lib/motion'
-import { lockScroll, scrollToId } from '../lib/scroll'
+import { goToContact, lockScroll } from '../lib/scroll'
 import { copyText, isMac, openPalette, ROUTE_EVENT } from '../lib/ui'
 import { Link, usePending, useRoute } from '../router/router'
 
@@ -15,21 +15,17 @@ const ITEM = 'inline-flex min-h-11 items-center transition-colors duration-[600m
 const AFTER_CLOSE = 60
 const shortcut = `${isMac ? '⌘' : 'Ctrl'} K`
 
-/** The accent dot that marks the current item. Its slot is always reserved, so nothing shifts. */
-function Dot({ on, large = false }: { on: boolean; large?: boolean }) {
+/** The accent dot that marks the current item. Its slot is always reserved, so nothing shifts.
+ *  `hang` puts it in the margin left of the text instead, so the word itself sits on the page edge. */
+function Dot({ on, large = false, hang = false }: { on: boolean; large?: boolean; hang?: boolean }) {
+  const size = large ? 'mr-3 h-2 w-2' : 'mr-2 h-1.5 w-1.5'
   return (
     <span
       aria-hidden="true"
-      className={`shrink-0 rounded-full bg-accent transition-opacity duration-[600ms] ease-out-expo ${large ? 'mr-3 h-2 w-2' : 'mr-2 h-1.5 w-1.5'}`}
+      className={`shrink-0 rounded-full bg-accent transition-opacity duration-[600ms] ease-out-expo ${size} ${hang ? 'absolute right-full top-1/2 -translate-y-1/2' : ''}`}
       style={{ opacity: on ? 1 : 0 }}
     />
   )
-}
-
-/** Contact is the footer of every page, not a page: scroll there and hand focus to the email link. */
-function goToContact() {
-  scrollToId('contact')
-  document.querySelector<HTMLElement>('[data-contact-link]')?.focus({ preventScroll: true })
 }
 
 /** The 1 px accent line on the header's bottom edge, shown while a page chunk is slow to arrive. */
@@ -157,8 +153,8 @@ export function Header() {
     >
       <div className={`relative z-10 flex h-[var(--header-h)] items-center justify-between px-5 md:px-12 ${LABEL}`}>
         {/* Read out as "Alex, home". The visible word stays part of the name, so voice control can target it. */}
-        <Link to="/" aria-current={isHome ? 'page' : undefined} onClick={() => open && close()} className={`${ITEM} text-paper`}>
-          <Dot on={isHome} />
+        <Link to="/" aria-current={isHome ? 'page' : undefined} onClick={() => open && close()} className={`${ITEM} relative text-paper`}>
+          <Dot on={isHome} hang />
           Alex<span className="sr-only">, home</span>
           <span aria-hidden="true" className="ml-4 hidden text-paper/50 lg:inline">
             Portfolio 2026
@@ -212,9 +208,6 @@ export function Header() {
         <motion.div
           ref={panel}
           id="site-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu"
           data-lenis-prevent
           className="fixed inset-0 flex flex-col overflow-y-auto overscroll-contain bg-ink px-5 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] pt-[calc(var(--header-h)+env(safe-area-inset-top,0px))] md:hidden"
           initial={{ opacity: 0 }}
@@ -255,7 +248,7 @@ export function Header() {
               </button>
             </li>
             <li>
-              <button type="button" onClick={() => copyText(site.email, 'Email copied. Talk soon.')} className="inline-flex min-h-11 items-center uppercase tracking-[0.08em]">
+              <button type="button" onClick={() => copyText(site.email, site.copiedEmail)} className="inline-flex min-h-11 items-center uppercase tracking-[0.08em]">
                 Copy email
               </button>
             </li>

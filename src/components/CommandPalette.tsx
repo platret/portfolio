@@ -4,7 +4,8 @@ import { apps, KIND_LABEL } from '../content/apps'
 import { nav } from '../content/nav'
 import { site } from '../content/site'
 import { orderedApps } from '../lib/apps'
-import { lockScroll, scrollToId, scrollToTop } from '../lib/scroll'
+import { useIsTouch } from '../hooks/useIsTouch'
+import { goToContact, lockScroll, scrollToTop } from '../lib/scroll'
 import { EASE_OUT } from '../lib/motion'
 import { copyText, isMac, PALETTE_EVENT, ROUTE_EVENT } from '../lib/ui'
 import { navigate } from '../router/router'
@@ -27,7 +28,7 @@ function buildCommands(): Command[] {
   const pages: Command[] = [
     go('home', 'Home', () => void navigate('/'), 'start hero'),
     ...nav.map((item) => go(item.id, item.label, () => void navigate(item.to), item.blurb)),
-    go('contact', 'Contact', () => scrollToId('contact'), 'email say hi'),
+    go('contact', 'Contact', goToContact, 'email say hi'),
   ]
 
   const catalogue: Command[] = orderedApps.map((app) => ({
@@ -40,7 +41,7 @@ function buildCommands(): Command[] {
   }))
 
   const actions: Command[] = [
-    { id: 'copy-email', group: 'Do', label: 'Copy email address', hint: site.email, keywords: 'contact mail', run: () => copyText(site.email, 'Email copied. Talk soon.') },
+    { id: 'copy-email', group: 'Do', label: 'Copy email address', hint: site.email, keywords: 'contact mail', run: () => copyText(site.email, site.copiedEmail) },
     { id: 'mail', group: 'Do', label: 'Write me an email', keywords: 'contact hire', run: () => { window.location.href = `mailto:${site.email}` } },
     ...site.links.map((l) => ({ id: `link-${l.label}`, group: 'Do' as const, label: `Open ${l.label}`, run: external(l.href) })),
     {
@@ -90,6 +91,8 @@ export function CommandPalette() {
   const listRef = useRef<HTMLUListElement>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
   const commands = useMemo(() => buildCommands(), [])
+  // On touch the keyboard hints mean nothing: a tappable Close takes the place of the esc key.
+  const touch = useIsTouch()
 
   const results = useMemo(() => {
     const scored = commands.map((c) => ({ c, s: score(c, query) })).filter((r) => r.s > 0)
@@ -221,19 +224,25 @@ export function CommandPalette() {
                 placeholder="Jump to a page, find an app…"
                 spellCheck={false}
                 autoComplete="off"
-                className="h-14 w-full bg-transparent text-sm text-paper outline-none placeholder:text-paper/35"
+                className="h-14 w-full bg-transparent text-sm text-paper outline-none placeholder:text-paper/55"
               />
-              <kbd className="rounded border border-paper/15 px-1.5 py-0.5 text-[0.6rem] text-paper/45">esc</kbd>
+              {touch ? (
+                <button type="button" onClick={hide} className="-mr-2 inline-flex min-h-11 flex-none items-center px-2 text-[0.65rem] uppercase tracking-[0.08em] text-paper/70">
+                  Close
+                </button>
+              ) : (
+                <kbd className="rounded border border-paper/15 px-1.5 py-0.5 text-[0.6rem] text-paper/55">esc</kbd>
+              )}
             </div>
 
             <ul ref={listRef} id="palette-list" role="listbox" aria-label="Commands" className="max-h-[min(52vh,420px)] overflow-y-auto overscroll-contain py-2" data-lenis-prevent>
-              {results.length === 0 && <li className="px-4 py-6 text-center text-xs text-paper/45">Nothing for “{query}”. Try “apps” or “email”.</li>}
+              {results.length === 0 && <li className="px-4 py-6 text-center text-xs text-paper/55">Nothing for “{query}”. Try “apps” or “email”.</li>}
               {results.map((c, i) => {
                 const header = c.group !== results[i - 1]?.group ? c.group : null
                 const on = i === active
                 return (
                   <li key={c.id} role="presentation">
-                    {header && <p className="px-4 pb-1 pt-3 text-[0.6rem] uppercase tracking-[0.12em] text-paper/35">{header}</p>}
+                    {header && <p className="px-4 pb-1 pt-3 text-[0.6rem] uppercase tracking-[0.12em] text-paper/55">{header}</p>}
                     <div
                       id={`palette-${c.id}`}
                       role="option"
@@ -247,19 +256,21 @@ export function CommandPalette() {
                         <span aria-hidden="true" className={`h-1 w-1 rounded-full ${on ? 'bg-accent' : 'bg-transparent'}`} />
                         {c.label}
                       </span>
-                      {c.hint && <span className="truncate text-[0.65rem] text-paper/35">{c.hint}</span>}
+                      {c.hint && <span className="truncate text-[0.65rem] text-paper/55">{c.hint}</span>}
                     </div>
                   </li>
                 )
               })}
             </ul>
 
-            <div className="flex items-center justify-between border-t border-paper/10 px-4 py-2.5 text-[0.6rem] text-paper/35">
-              <span>
-                <kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>↵</kbd> to run
-              </span>
-              <span>{isMac ? '⌘' : 'Ctrl'} K anywhere</span>
-            </div>
+            {!touch && (
+              <div className="flex items-center justify-between border-t border-paper/10 px-4 py-2.5 text-[0.6rem] text-paper/55">
+                <span>
+                  <kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>↵</kbd> to run
+                </span>
+                <span>{isMac ? '⌘' : 'Ctrl'} K anywhere</span>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}

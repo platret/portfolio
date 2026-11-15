@@ -24,7 +24,7 @@ export function Intro() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         spans,
-        { opacity: 0.15 },
+        { opacity: 0.4 },
         {
           opacity: 1,
           ease: 'power2.inOut',
@@ -53,7 +53,7 @@ export function Intro() {
         className="max-w-[60ch] font-display text-[clamp(1.75rem,3.4vw,3.6rem)] leading-[1.12] tracking-[-0.01em] md:ml-[26vw]"
       >
         {words.map((word, i) => (
-          <span key={i} data-word className="inline-block" style={{ opacity: staticText ? 1 : 0.15 }}>
+          <span key={i} data-word className="inline-block" style={{ opacity: staticText ? 1 : 0.4 }}>
             {word}
             {i < words.length - 1 ? ' ' : ''}
           </span>
