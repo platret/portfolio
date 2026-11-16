@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { AppRow } from '../components/apps/AppRow'
 import { Breadcrumb } from '../components/Breadcrumb'
 import { KindFilter } from '../components/apps/KindFilter'
+import { NotableApps } from '../components/apps/NotableApps'
 import { PageHead } from '../components/PageHead'
 import { apps } from '../content/apps'
 import { appsOf, orderedApps, shelfById, shelves } from '../lib/apps'
@@ -46,6 +47,7 @@ export default function Apps() {
       />
 
       <div className="px-5 pb-16 pt-12 md:px-12 md:pb-[10vh] md:pt-[8vh]">
+        {!current && <NotableApps />}
         <KindFilter current={current} />
 
         <div className="mt-12 space-y-[4.5rem]">

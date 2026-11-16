@@ -5,7 +5,7 @@
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { apps, SHOT_DEFAULT_SIZE } from '../src/content/apps.ts'
+import { apps, NOTABLE, SHOT_DEFAULT_SIZE } from '../src/content/apps.ts'
 import { competitions, hackathon, programme } from '../src/content/competitions.ts'
 import { history } from '../src/content/history.ts'
 import { nav } from '../src/content/nav.ts'
@@ -127,6 +127,10 @@ for (const app of apps) {
   })
 }
 
+for (const slug of NOTABLE) {
+  if (!slugs.has(slug)) errors.push(`apps.ts: NOTABLE lists "${slug}", which is not the slug of an app.`)
+}
+if (new Set(NOTABLE).size !== NOTABLE.length) errors.push('apps.ts: NOTABLE lists an app twice.')
 if (ranks.size > MAX_FEATURED) errors.push(`apps.ts: ${ranks.size} apps are featured, the home page shows ${MAX_FEATURED}.`)
 
 // Competitions

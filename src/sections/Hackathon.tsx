@@ -72,7 +72,7 @@ export function Hackathon() {
 
       <div className="grid grid-cols-1 gap-x-8 md:grid-cols-12">
         <div className="md:sticky md:top-[max(14vh,calc(var(--header-h)+1.5rem))] md:col-span-5 md:self-start">
-          <p className="mb-3 text-[0.65rem] uppercase tracking-[0.12em] text-accent md:text-xs">{hack.event}</p>
+          <p className="mb-3 text-[0.7rem] uppercase tracking-[0.12em] text-accent md:text-xs">{hack.event}</p>
           <p aria-hidden="true" className="font-mono text-[clamp(3rem,6.4vw,7.6rem)] leading-none tracking-[-0.04em] tabular-nums">
             <span ref={clockRef}>{reduced ? '24:00:00' : '00:00:00'}</span>
           </p>
@@ -80,7 +80,7 @@ export function Hackathon() {
           <div className="relative mt-5 h-px w-full bg-paper/15" aria-hidden="true">
             <div ref={barRef} className="absolute inset-0 origin-left bg-accent" style={{ transform: reduced ? 'scaleX(1)' : 'scaleX(0)' }} />
           </div>
-          <div aria-hidden="true" className="mt-2 flex justify-between text-[0.6rem] text-paper/50 md:text-[0.65rem]">
+          <div aria-hidden="true" className="mt-2 flex justify-between text-[0.65rem] text-paper/50">
             <span>Kick-off</span>
             <span>Pitch</span>
           </div>
@@ -106,7 +106,7 @@ export function Hackathon() {
         </div>
 
         <div className="mt-16 min-w-0 md:col-span-7 md:mt-0">
-          <p className="mb-6 flex flex-wrap gap-x-3 gap-y-1 text-[0.65rem] uppercase tracking-[0.12em] text-paper/50 md:text-xs">
+          <p className="mb-6 flex flex-wrap gap-x-3 gap-y-1 text-[0.7rem] uppercase tracking-[0.12em] text-paper/50 md:text-xs">
             <span className="text-paper">{hack.name}</span>
             <span aria-hidden="true">/</span>
             <span>{hack.track}</span>
@@ -139,7 +139,7 @@ export function Hackathon() {
             <BrowserFrame domain={liveUrl ? linkLabel(liveUrl) : undefined}>
               <img src={asset(hack.shots.web.file)} alt={hack.shots.web.alt} width={1440} height={900} loading="lazy" decoding="async" className="block h-auto w-full" />
             </BrowserFrame>
-            <div className="absolute -bottom-2 right-3 flex gap-3 md:right-6 md:gap-4">
+            <div className="absolute -bottom-2 right-2 flex gap-2 md:right-6 md:gap-4">
               {hack.shots.phones.map((phone, i) => (
                 <img
                   key={phone.file}
@@ -149,7 +149,7 @@ export function Hackathon() {
                   height={1311}
                   loading="lazy"
                   decoding="async"
-                  className={`w-[24vw] max-w-[150px] rounded-[18px] border border-paper/15 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)] md:w-[11vw] md:max-w-[170px] md:rounded-[22px] ${i === 0 ? 'translate-y-6' : ''}`}
+                  className={`w-[19vw] max-w-[150px] rounded-[12px] border border-paper/15 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)] md:w-[11vw] md:max-w-[170px] md:rounded-[22px] ${i === 0 ? 'translate-y-4 md:translate-y-6' : ''}`}
                 />
               ))}
             </div>
@@ -158,7 +158,7 @@ export function Hackathon() {
           <div className="hairline mt-10 flex flex-col gap-6 border-t pt-6 sm:flex-row sm:items-start sm:justify-between">
             <ul className="flex flex-wrap gap-2" aria-label="Stack">
               {hack.stack.map((item) => (
-                <li key={item} className="rounded-full border border-paper/15 px-3 py-1 text-[0.65rem] text-paper/60">{item}</li>
+                <li key={item} className="rounded-full border border-paper/15 px-3 py-1 text-[0.7rem] text-paper/60">{item}</li>
               ))}
             </ul>
             <ul className="flex shrink-0 flex-wrap gap-x-6 text-xs">

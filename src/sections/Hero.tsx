@@ -48,7 +48,7 @@ export function Hero() {
         <Link
           to={site.status.to}
           data-cursor="hover"
-          className="group inline-flex items-center gap-2.5 rounded-full border border-paper/15 bg-paper/[0.03] py-1 pl-2.5 pr-3 text-[0.65rem] text-paper/70 transition-colors hover:border-accent/60 hover:text-paper md:text-[0.7rem]"
+          className="hit group inline-flex min-h-9 items-center gap-2.5 rounded-full border border-paper/15 bg-paper/[0.03] py-1.5 pl-3 pr-3.5 text-[0.7rem] text-paper/70 transition-colors hover:border-accent/60 hover:text-paper md:min-h-0 md:py-1 md:pl-2.5 md:pr-3"
         >
           <span aria-hidden="true" className="relative flex h-1.5 w-1.5">
             <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
