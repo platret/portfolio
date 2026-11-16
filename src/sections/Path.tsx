@@ -79,7 +79,7 @@ export function Path() {
                   <span className="block text-[0.85rem] md:text-base">
                     {!first && <span className="sr-only">{item.year}: </span>}
                     {item.to ? (
-                      <Link to={item.to} data-cursor="hover" className="border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper">
+                      <Link to={item.to} data-cursor="hover" className="hit border-b border-paper/40 transition-[color,border-color] duration-[600ms] ease-out-expo hover:border-paper">
                         {item.title}
                       </Link>
                     ) : (

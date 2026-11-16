@@ -91,6 +91,9 @@ export const SHELVES = [
 
 export type ShelfId = (typeof SHELVES)[number]['id']
 
+/** Slugs of the apps shown large at the top of the Apps page, in this order. */
+export const NOTABLE: readonly string[] = ['sponsuno', 'switchboard', 'lernspur']
+
 /** Pixel size a screenshot is assumed to have when it declares none. */
 export const SHOT_DEFAULT_SIZE: Record<ShotFrame, { width: number; height: number } | null> = {
   phone: { width: 900, height: 1956 },

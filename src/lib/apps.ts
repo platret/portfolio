@@ -1,4 +1,4 @@
-import { apps, SHELVES, SHOT_DEFAULT_SIZE, type App, type AppShot } from '../content/apps'
+import { apps, NOTABLE, SHELVES, SHOT_DEFAULT_SIZE, type App, type AppShot } from '../content/apps'
 
 // Helpers around the catalogue in content/apps.ts. No React, no DOM.
 
@@ -23,6 +23,9 @@ export const featuredApps: App[] = apps
   .filter((app) => app.featured !== undefined)
   .sort((a, b) => (a.featured ?? 0) - (b.featured ?? 0))
   .slice(0, 8)
+
+/** The apps shown large at the top of the Apps page. The content check rejects unknown slugs. */
+export const notableApps: App[] = NOTABLE.map(appBySlug).filter((app): app is App => app !== undefined)
 
 /** The apps before and after this one in index order. Wraps around at both ends. */
 export function neighbours(slug: string): { prev: App; next: App } {

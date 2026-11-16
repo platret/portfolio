@@ -129,7 +129,7 @@ export default function AppDetail({ params }: { params: Params }) {
             <div className="hairline border-t pb-10 pt-6">
               <ul aria-label="Stack" className="flex flex-wrap gap-2">
                 {app.stack.map((item) => (
-                  <li key={item} className="rounded-full border border-paper/15 px-3 py-1 text-[0.65rem] text-paper/60">
+                  <li key={item} className="rounded-full border border-paper/15 px-3 py-1 text-[0.7rem] text-paper/60">
                     {item}
                   </li>
                 ))}
