@@ -50,7 +50,7 @@ export const history: HistoryItem[] = [
   {
     year: '2026',
     title: 'Sponsuno',
-    detail: 'Started a sponsoring startup with a team of four. Built sponsuno.ch, the product preview and the pipeline that ships it.',
+    detail: 'Started a sponsoring startup with a team of four. Built sponsuno.ch, its design system and the pipeline that ships it.',
     to: '/apps/sponsuno',
   },
   {
